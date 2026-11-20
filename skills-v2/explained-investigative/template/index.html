@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><title>investigative explainer</title>
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face{font-family:"Inter";font-weight:100 900;src:url(assets/fonts/Inter.ttf)}
+:root{--bg:#252525;--lime:#CCF53C;--kraft:#D8C8A9;--cream:#EFE9DC;--asphalt:#32323A;--red:#E3202E;--ink:#111}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;font-family:"Inter",Arial,sans-serif}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
+#bg{position:absolute;inset:0;background:
+ radial-gradient(ellipse at 50% 45%,rgba(255,255,255,.05),transparent 60%),
+ linear-gradient(rgba(255,255,255,.045) 2px,transparent 2px) 0 0/90px 90px,
+ linear-gradient(90deg,rgba(255,255,255,.045) 2px,transparent 2px) 0 0/90px 90px,var(--bg)}
+#sat{position:absolute;inset:-80px;background:radial-gradient(ellipse at 60% 40%,#2a3a2c,transparent 55%),radial-gradient(ellipse at 20% 80%,#1c2630,transparent 50%),#111;opacity:.95}
+.beat{position:absolute;inset:0}
+/* nhãn giấy kraft / lime: chữ ExtraBold in hoa, xoay nhẹ */
+.lab{position:absolute;font-weight:800;font-size:52px;line-height:1;text-transform:uppercase;padding:14px 26px;color:var(--ink);background:var(--kraft);transform:rotate(-2deg);box-shadow:0 6px 0 rgba(0,0,0,.35);clip-path:polygon(0 8%,6% 0,30% 6%,55% 0,80% 7%,100% 0,100% 92%,94% 100%,70% 94%,45% 100%,20% 93%,0 100%)}
+.lab.lime{background:var(--lime)}
+.lab.red{background:var(--red);color:#fff}
+.lab.white{background:#fff}
+.lab.sm{font-size:36px;padding:10px 20px}
+/* băng giấy rách */
+.torn{position:absolute;left:0;right:0;height:var(--h);background:var(--c)}
+.dots{position:absolute;border-left:9px dashed var(--lime)}
+.card{position:absolute;background:#fff;color:#222;padding:18px 18px 54px;box-shadow:0 24px 60px rgba(0,0,0,.6);transform:rotate(-3deg)}
+.card .ph{width:100%;height:100%;background:linear-gradient(135deg,#8a7a5a,#3c3a30)}
+.card b{position:absolute;left:0;right:0;bottom:14px;text-align:center;font-weight:800;font-size:28px;text-transform:uppercase}
+/* tháp tiền */
+#tower{position:absolute;left:300px;width:240px;bottom:900px;height:0;overflow:hidden;background:repeating-linear-gradient(#8aa27a 0 10px,#c9d9b8 10px 14px)}
+#cash8{position:absolute;left:640px;bottom:900px;width:120px;height:18px;background:repeating-linear-gradient(90deg,#8aa27a 0 10px,#c9d9b8 10px 14px)}
+.baseline{position:absolute;left:100px;right:100px;bottom:890px;height:6px;background:#eee}
+.limit{position:absolute;left:150px;right:150px;border-top:4px dashed rgba(255,255,255,.75)}
+.plane{position:absolute;width:640px;height:200px}
+.doc{position:absolute;left:190px;width:700px;height:860px;background:#fff;color:#444;padding:50px;font-size:24px;line-height:1.5;box-shadow:0 30px 80px rgba(0,0,0,.65);transform:rotate(-2deg)}
+.doc h4{margin:0 0 30px;text-align:center;font-size:34px;color:#222}
+.doc i{display:block;height:14px;margin:14px 0;background:#d8d8d8}
+.stamp{position:absolute;left:190px;width:640px;text-align:center;border:12px solid #C21A1A;color:#C21A1A;font-weight:900;font-size:88px;transform:rotate(-8deg);background:rgba(255,255,255,.12)}
+.receipt{position:absolute;width:300px;height:520px;background:var(--red);color:#fff;border-radius:6px 6px 0 0;padding:30px;font-weight:800;font-size:34px;box-shadow:0 20px 50px rgba(0,0,0,.5);transform:rotate(6deg)}
+</style></head><body>
+<div id="root" data-composition-id="root" data-start="0" data-duration="30" data-width="1080" data-height="1920">
+  <div id="bg" class="clip" data-start="0" data-duration="30" data-track-index="0"></div>
+
+  <!-- B1 0-5s: bản đồ vệ tinh tối + thẻ ảnh có ngày + đường lime dọc -->
+  <div id="b1" class="beat clip" data-start="0" data-duration="5" data-track-index="1">
+    <div id="sat"></div>
+    <div class="dots" id="b1line" style="left:540px;top:1060px;height:0"></div>
+    <div class="card" id="b1card" style="left:240px;top:560px;width:600px;height:440px"><div class="ph"></div><b>Tòa án London · 15/10</b></div>
+  </div>
+
+  <!-- B2 5-12s: tháp tiền 250 triệu vs 8 triệu -->
+  <div id="b2" class="beat clip" data-start="5" data-duration="7" data-track-index="1">
+    <div class="limit" id="b2lim" style="top:380px"></div>
+    <div class="lab lime" id="b2l1" style="left:200px;top:300px">Hơn 250 triệu USD</div>
+    <div id="tower"></div><div id="cash8"></div><div class="baseline"></div>
+    <div class="lab red sm" id="b2l2" style="left:610px;bottom:1010px">8 triệu USD</div>
+    <div class="lab sm" id="b2l3" style="left:600px;bottom:800px">Trả chậm</div>
+    <div class="lab sm" id="b2l4" style="left:270px;bottom:800px">Khoản đòi</div>
+  </div>
+
+  <!-- B3 12-19s: 2 cột đối chiếu trên băng giấy rách + máy bay -->
+  <div id="b3" class="beat clip" data-start="12" data-duration="7" data-track-index="1">
+    <div class="lab" id="b3a" style="left:90px;top:480px">Hãng bay</div>
+    <div class="lab lime" id="b3b" style="left:560px;top:470px">Bên cho thuê</div>
+    <div class="torn tornA" style="--h:520px;--c:var(--asphalt);top:900px"></div>
+    <svg class="plane" id="b3plane" viewBox="0 0 640 200" style="left:200px;top:1130px"><path d="M10 120 Q300 70 600 105 Q640 112 630 130 Q300 150 10 130Z" fill="#f2f2f2"/><path d="M40 118 L20 40 L110 118Z" fill="#D9342B"/><path d="M300 120 L240 190 L330 190 L380 125Z" fill="#d6d6d6"/></svg>
+    <div class="lab sm" id="b3c" style="left:380px;top:1000px">Giấy sở hữu</div>
+  </div>
+
+  <!-- B4 19-25s: hợp đồng + dấu TERMINATED -->
+  <div id="b4" class="beat clip" data-start="19" data-duration="6" data-track-index="1">
+    <div class="doc" id="b4doc" style="top:300px"><h4>AIRCRAFT LEASE AGREEMENT</h4><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="stamp" id="b4stamp" style="top:760px">TERMINATED</div>
+    <div class="lab red" id="b4lab" style="left:300px;top:1050px">Tháng 10/2021</div>
+  </div>
+
+  <!-- B5 25-30s: câu hỏi chốt -->
+  <div id="b5" class="beat clip" data-start="25" data-duration="5" data-track-index="1">
+    <div class="lab lime" id="b5q" style="left:200px;top:400px;font-size:64px">Bị đòi 2 lần?</div>
+    <div class="receipt" id="b5r" style="left:660px;top:620px">HÓA ĐƠN<br>250 TRIỆU $</div>
+    <div class="lab" id="b5a" style="left:100px;top:1200px">1. Mất máy bay</div>
+    <div class="lab white" id="b5b" style="left:100px;top:1360px">2. Vẫn trả 250 triệu $</div>
+  </div>
+
+  <audio id="s1" src="assets/sfx_whoosh.wav" data-start="0.3" data-duration="0.8" data-track-index="10" data-volume="0.5"></audio>
+  <audio id="s2" src="assets/sfx_ping.wav" data-start="6.5" data-duration="0.6" data-track-index="11" data-volume="0.5"></audio>
+  <audio id="s3" src="assets/sfx_click.wav" data-start="13" data-duration="0.2" data-track-index="12" data-volume="0.4"></audio>
+  <audio id="s4" src="assets/sfx_hit.wav" data-start="20.6" data-duration="1.5" data-track-index="13" data-volume="0.7"></audio>
+  <audio id="s5" src="assets/sfx_ping.wav" data-start="25.4" data-duration="0.6" data-track-index="14" data-volume="0.5"></audio>
+</div>
+<script>
+/* mép giấy rách: zigzag xác định (không random) */
+document.querySelectorAll('.torn').forEach(el=>{
+  const n=36,p=['0 0'];for(let i=0;i<=n;i++){p.push((i/n*100).toFixed(2)+'% '+(2+Math.abs(Math.sin(i*2.7))*2.2).toFixed(2)+'%');}
+  p.push('100% 100%','0 100%');el.style.clipPath='polygon('+p.join(',')+')';
+});
+const tl=gsap.timeline({paused:true});
+/* B1 */
+tl.from('#sat',{scale:1.25,duration:5,ease:'power1.out'},0)
+  .from('#b1card',{y:-80,opacity:0,rotation:-12,duration:.5,ease:'back.out(1.6)'},.3)
+  .to('#b1line',{height:520,duration:.8,ease:'power2.out'},.8);
+/* B2: tháp mọc 1.6s, nhãn 8 triệu nhỏ xíu so với tháp */
+tl.from('#b2lim',{scaleX:0,transformOrigin:'0 50%',duration:.5},5.2)
+  .to("#tower",{height:640,duration:1.6,ease:'power2.out'},5.4)
+  .from('#b2l1',{scale:.6,opacity:0,duration:.35,ease:'back.out(2)'},6.8)
+  .from('#cash8',{scaleX:0,transformOrigin:'0 50%',duration:.4},8)
+  .from('#b2l2',{y:20,opacity:0,duration:.3},8.3)
+  .from('#b2l3,#b2l4',{opacity:0,y:20,duration:.3,stagger:.3},9);
+/* B3 */
+tl.from('#b3a',{x:-120,opacity:0,duration:.35,ease:'power3.out'},12.2)
+  .from('#b3b',{x:120,opacity:0,duration:.35,ease:'power3.out'},12.7)
+  .from('.tornA',{y:300,duration:.6,ease:'power3.out'},13.2)
+  .from('#b3plane',{x:-700,duration:.9,ease:'power3.out'},13.6)
+  .from('#b3c',{scale:.5,opacity:0,duration:.35,ease:'back.out(2)'},15.2);
+/* B4 */
+tl.from('#b4doc',{y:200,opacity:0,duration:.5,ease:'power3.out'},19.1)
+  .from('#b4stamp',{scale:2.4,opacity:0,duration:.25,ease:'power4.in'},20.6)
+  .from('#b4lab',{y:40,opacity:0,duration:.35},21.2);
+/* B5 */
+tl.from('#b5q',{scale:.5,opacity:0,duration:.45,ease:'back.out(2.2)'},25.2)
+  .from('#b5r',{y:300,opacity:0,duration:.6,ease:'power3.out'},25.8)
+  .from('#b5a',{x:-200,opacity:0,duration:.35,ease:'power3.out'},26.6)
+  .from('#b5b',{x:-200,opacity:0,duration:.35,ease:'power3.out'},27.4);
+window.__timelines=window.__timelines||{};window.__timelines['root']=tl;
+</script></body></html>
