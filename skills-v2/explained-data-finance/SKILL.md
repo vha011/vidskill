@@ -6,7 +6,7 @@ description: Video phân tích doanh nghiệp / tài chính / điều tra số l
 # explained-data-finance
 
 Trích từ video tham chiếu `pnj-tai-chinh.mp4` (720×1280 → dựng lại 1080×1920, 30 fps, 225 s, −14,1 LUFS, không có khoảng lặng >0,4 s). Có 19 lần đổi cảnh cứng (ngưỡng cảnh 0,25) trong 225 s, mỗi chart giữ 6–12 s, giữa các chart xen b-roll và thẻ báo.
-Ảnh tham chiếu: `reference/pnj-sheet-01..04.png` (1 khung / 5 s), `reference/pnj-frame-*.png` (khung chi tiết chart), `reference/template-snapshot.jpg`.
+Ảnh tham chiếu: `reference/pnj-sheet-01..04.jpg` (1 khung / 5 s), `reference/pnj-frame-*.jpg` (khung chi tiết chart), `reference/template-snapshot.jpg`.
 
 ## Khi nào dùng
 Phân tích cổ phiếu, báo cáo tài chính, vụ việc doanh nghiệp, so sánh số liệu theo thời gian. Không có phụ đề đốt cứng: chữ trên màn hình là tiêu đề chart, nhãn số liệu, trích báo.

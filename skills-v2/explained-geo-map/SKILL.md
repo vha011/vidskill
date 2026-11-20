@@ -6,7 +6,7 @@ description: Video giải thích địa chính trị / kinh tế quốc gia trê
 # explained-geo-map
 
 Trích từ video tham chiếu `singapore.mp4` (720×1280 → dựng lại ở 1080×1920, 30 fps, 118,5 s, −14,1 LUFS, chỉ 3 khoảng lặng >0,4 s trong cả video → lời đọc liên tục, gần như không nghỉ).
-Ảnh tham chiếu: `reference/singapore-sheet-*.png` (1 khung / 5 s), `reference/singapore-frame-45s.png` (khung chi tiết), `reference/template-snapshot.jpg` (template dựng lại).
+Ảnh tham chiếu: `reference/singapore-sheet-*.jpg` (1 khung / 5 s), `reference/singapore-frame-45s.jpg` (khung chi tiết), `reference/template-snapshot.jpg` (template dựng lại).
 
 ## Khi nào dùng
 Câu chuyện xoay quanh địa điểm: "vì sao X giàu/nghèo", tuyến thương mại, so sánh quốc gia, lịch sử một vùng. Không dùng cho số liệu dài (→ `explained-data-finance`).
