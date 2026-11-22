@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><title>timeline policy explainer</title>
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face{font-family:"Inter";font-weight:100 900;src:url(assets/fonts/Inter.ttf)}
+:root{--bg:#0D0B0C;--lime:#CBF73E;--orange:#F59A23;--red:#E5202E;--ink:#fff;--mut:rgba(255,255,255,.7)}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;font-family:"Inter",Arial,sans-serif;color:var(--ink)}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
+#bg{position:absolute;inset:-60px;background:radial-gradient(ellipse at 65% 35%,#1d2a22 0,transparent 55%),radial-gradient(ellipse at 20% 85%,#10202c 0,transparent 55%),
+ linear-gradient(rgba(255,255,255,.035) 2px,transparent 2px) 0 0/80px 80px,linear-gradient(90deg,rgba(255,255,255,.035) 2px,transparent 2px) 0 0/80px 80px,var(--bg)}
+.beat{position:absolute;inset:0}
+/* TimelineRunner cố định trên đỉnh */
+#tl{position:absolute;left:70px;right:70px;top:90px;height:150px}
+#tl .rule{position:absolute;left:0;right:0;top:70px;height:4px;background:#fff;opacity:.9}
+#tl .fill{position:absolute;left:0;top:70px;height:4px;width:0;background:var(--lime)}
+#tl .tk{position:absolute;top:56px;width:4px;height:32px;background:#fff}
+#tl .y{position:absolute;top:100px;font-weight:800;font-style:italic;font-size:36px}
+#tl .y.a{left:0;color:var(--lime)}#tl .y.b{right:0}
+#tl .cal{position:absolute;left:0;top:10px;width:60px;height:54px;background:#fff;border-top:16px solid var(--red);border-radius:8px}
+.h1{position:absolute;left:60px;right:60px;text-align:center;font-weight:800;font-size:72px;line-height:1.1}
+.h1 em{font-style:normal;color:var(--lime)}.h1 small{display:block;font-size:44px;margin-top:10px;color:var(--lime)}
+/* thùng hàng */
+.crate{width:230px;height:92px;margin-top:-2px;background:linear-gradient(#caa26e,#b98a52);border:6px solid #8c6532;border-radius:6px;position:relative}
+.crate:after{content:"";position:absolute;left:0;right:0;top:36px;height:10px;background:rgba(0,0,0,.18)}
+.col{position:absolute;bottom:380px;display:flex;flex-direction:column-reverse;align-items:center}
+.col .yr{margin-top:22px;background:#EDEDED;color:#111;font-weight:800;font-size:34px;padding:6px 18px;transform:rotate(-2deg);order:-1}
+.top{position:absolute;left:100px;right:100px;border-top:4px dashed rgba(255,255,255,.7)}
+/* sơ đồ chính sách */
+.node{position:absolute;left:230px;width:620px;height:210px;border:7px solid var(--lime);border-radius:30px;background:#0b0b0b;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;font-size:54px;box-shadow:0 0 40px rgba(203,247,62,.45),inset 0 0 30px rgba(203,247,62,.15)}
+.node.ok{color:var(--lime)}.node small{font-size:30px;font-weight:700;color:var(--mut);margin-top:8px}
+.chk{position:absolute;right:-26px;top:-26px;width:76px;height:76px;border-radius:50%;background:var(--lime);color:#111;font-size:50px;line-height:76px;text-align:center}
+.arrow{position:absolute;left:530px;width:8px;background:var(--lime);height:90px}
+.arrow:after{content:"";position:absolute;left:-16px;bottom:-14px;border:20px solid transparent;border-top:28px solid var(--lime);border-bottom:0}
+.alab{position:absolute;left:580px;font-weight:800;font-style:italic;font-size:38px;color:var(--lime)}
+/* ảnh + dấu + donut */
+.photo{position:absolute;left:120px;top:420px;width:760px;height:520px;background:linear-gradient(160deg,#6b7b6a,#3c2a26 70%);border:14px solid #f2f2f2;transform:rotate(-4deg);box-shadow:0 30px 70px rgba(0,0,0,.6)}
+.stamp{position:absolute;left:560px;top:760px;border:10px solid #C21A1A;color:#C21A1A;font-weight:900;font-size:96px;padding:0 24px;transform:rotate(-10deg);background:rgba(0,0,0,.35)}
+.tag{position:absolute;left:0;right:0;top:300px;text-align:center;font-weight:800;font-size:60px;color:var(--lime)}
+.donut{position:absolute;left:290px;top:1050px;width:500px;height:500px}
+.donut text{font-family:Inter;font-weight:800;fill:#fff}
+</style></head><body>
+<div id="root" data-composition-id="root" data-start="0" data-duration="30" data-width="1080" data-height="1920">
+  <div id="bg" class="clip" data-start="0" data-duration="30" data-track-index="0"></div>
+
+  <div id="tl" class="clip" data-start="0" data-duration="30" data-track-index="9">
+    <div class="rule"></div><div class="fill" id="tlfill"></div>
+    <div class="tk" style="left:0"></div><div class="tk" style="left:330px"></div><div class="tk" style="left:660px"></div><div class="tk" style="right:0"></div>
+    <div class="cal" id="tlcal"></div>
+    <div class="y a">1961</div><div class="y b">2026</div>
+  </div>
+
+  <div id="b1" class="beat clip" data-start="0" data-duration="6" data-track-index="1">
+    <div class="h1" id="b1h" style="top:760px">HYUNDAI<small>ĐƯỢC TẠO RA THẾ NÀO?</small></div>
+  </div>
+
+  <div id="b2" class="beat clip" data-start="6" data-duration="8" data-track-index="1">
+    <div class="h1" id="b2h" style="top:330px;font-size:48px">DỰ TRỮ NGOẠI HỐI <em>−50% TRONG 9 THÁNG</em></div>
+    <div class="top" id="b2top" style="top:760px"></div>
+    <div class="col" id="c1" style="left:150px"><div class="crate"></div><div class="crate"></div><div class="crate"></div><div class="yr">1962</div></div>
+    <div class="col" id="c2" style="left:420px"><div class="crate"></div><div class="crate"></div><div class="crate"></div><div class="crate"></div><div class="crate"></div><div class="yr">1963</div></div>
+    <div class="col" id="c3" style="left:690px"><div class="crate"></div><div class="crate"></div><div class="crate"></div><div class="crate"></div><div class="crate"></div><div class="crate"></div><div class="crate"></div><div class="yr">1964</div></div>
+  </div>
+
+  <div id="b3" class="beat clip" data-start="14" data-duration="8" data-track-index="1">
+    <div class="node" id="n1" style="top:340px">TỪNG BỘ<small>chỉ tiêu xuất khẩu</small></div>
+    <div class="arrow" id="a1" style="top:560px"></div>
+    <div class="node ok" id="n2" style="top:670px">ĐẠT<span class="chk">✓</span></div>
+    <div class="arrow" id="a2" style="top:890px"></div><div class="alab" id="al" style="top:910px">Thưởng</div>
+    <div class="node" id="n3" style="top:1000px">VỐN RẺ<small>vốn ưu đãi</small></div>
+    <div class="arrow" id="a3" style="top:1220px"></div>
+    <div class="node" id="n4" style="top:1330px">TÍN DỤNG XUẤT KHẨU</div>
+  </div>
+
+  <div id="b4" class="beat clip" data-start="22" data-duration="8" data-track-index="1">
+    <div class="photo" id="ph"></div>
+    <div class="stamp" id="st">ĐÃ BÁN</div>
+    <div class="tag" id="tg">HYUNDAI EXCEL, MỸ 1986</div>
+    <svg class="donut" id="dn" viewBox="0 0 200 200"><circle cx="100" cy="100" r="70" fill="none" stroke="#3a3a3a" stroke-width="34"/><circle id="arc" cx="100" cy="100" r="70" fill="none" stroke="#CBF73E" stroke-width="34" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" transform="rotate(-90 100 100)"/><text x="100" y="108" text-anchor="middle" font-size="26">GẦN 1/2</text></svg>
+  </div>
+
+  <audio id="s1" src="assets/sfx_whoosh.wav" data-start="0.3" data-duration="0.8" data-track-index="10" data-volume="0.5"></audio>
+  <audio id="s2" src="assets/sfx_click.wav" data-start="7.2" data-duration="0.2" data-track-index="11" data-volume="0.4"></audio>
+  <audio id="s3" src="assets/sfx_ping.wav" data-start="16" data-duration="0.6" data-track-index="12" data-volume="0.5"></audio>
+  <audio id="s4" src="assets/sfx_hit.wav" data-start="25.5" data-duration="1.5" data-track-index="13" data-volume="0.7"></audio>
+</div>
+<script>
+const arc=document.getElementById('arc'),ARC={p:1};
+const tl=gsap.timeline({paused:true});
+tl.from('#bg',{scale:1.15,duration:30,ease:'none'},0);
+/* TimelineRunner: lịch trượt dọc thanh theo tiến trình câu chuyện (0→940 px trong 30 s) */
+tl.to('#tlcal',{x:940,duration:30,ease:'none'},0).to('#tlfill',{width:940,duration:30,ease:'none'},0)
+  .from('#tl',{y:-60,opacity:0,duration:.5},.2);
+/* B1 */
+tl.from('#b1h',{scale:.7,opacity:0,duration:.6,ease:'power3.out'},.4);
+/* B2: thùng xếp tầng, back.out(1.4), cột sau 0.35 s */
+tl.from('#b2h',{opacity:0,y:30,duration:.5},6.2)
+  .from('#c1 .crate',{y:-700,opacity:0,duration:.5,ease:'back.out(1.4)',stagger:.12},7)
+  .from('#c2 .crate',{y:-900,opacity:0,duration:.5,ease:'back.out(1.4)',stagger:.12},8.2)
+  .from('#c3 .crate',{y:-1100,opacity:0,duration:.5,ease:'back.out(1.4)',stagger:.12},9.6)
+  .from('#b2top',{scaleX:0,transformOrigin:'0 50%',duration:.6},11);
+/* B3: sơ đồ, mỗi hộp vào lần lượt, mũi tên vẽ xuống */
+tl.from('#n1',{scale:.8,opacity:0,duration:.4,ease:'back.out(1.6)'},14.2)
+  .from('#a1',{scaleY:0,transformOrigin:'50% 0',duration:.3},15)
+  .from('#n2',{scale:.8,opacity:0,duration:.4,ease:'back.out(1.6)'},15.4)
+  .from('#a2,#al',{opacity:0,duration:.3},16.4)
+  .from('#n3',{scale:.8,opacity:0,duration:.4,ease:'back.out(1.6)'},17)
+  .from('#a3',{scaleY:0,transformOrigin:'50% 0',duration:.3},18)
+  .from('#n4',{scale:.8,opacity:0,duration:.4,ease:'back.out(1.6)'},18.4)
+  .to('#n4',{boxShadow:'0 0 70px rgba(203,247,62,.9)',duration:.5,yoyo:true,repeat:1},19);
+/* B4: ảnh xoay + dấu + donut */
+tl.from('#ph',{x:-900,rotation:-20,duration:.7,ease:'power3.out'},22.2)
+  .from('#tg',{opacity:0,y:-30,duration:.4},23)
+  .from('#st',{scale:2.4,opacity:0,duration:.25,ease:'power4.in'},25.5)
+  .from('#dn',{opacity:0,scale:.6,duration:.4,ease:'back.out(1.6)'},26.2)
+  .to(ARC,{p:.5,duration:1.2,ease:'power2.out',onUpdate:()=>arc.setAttribute('stroke-dashoffset',ARC.p)},26.6);
+window.__timelines=window.__timelines||{};window.__timelines['root']=tl;
+</script></body></html>

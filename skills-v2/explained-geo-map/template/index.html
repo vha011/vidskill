@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><title>geo-map explainer</title>
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face{font-family:"Be Vietnam Pro";font-weight:700;src:url(assets/fonts/BeVietnamPro-Bold.ttf)}
+@font-face{font-family:"Be Vietnam Pro";font-weight:800;src:url(assets/fonts/BeVietnamPro-ExtraBold.ttf)}
+:root{
+  --sea:#6B9AA0; --red:#C61F2E; --orange:#E0882F; --sand:#E8D3A4; --blue:#2B4EA8;
+  --yellow:#FFD708; --kw:#FADD0E; --outline:#111;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;font-family:"Be Vietnam Pro","Be Vietnam Pro",Arial,sans-serif}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--sea)}
+#map{position:absolute;left:-270px;top:-480px;width:1620px;height:2880px;transform-origin:50% 50%}
+#map svg{position:absolute;inset:0;width:100%;height:100%}
+.land{stroke:var(--outline);stroke-width:5;stroke-linejoin:round}
+.beat{position:absolute;inset:0}
+.card{position:absolute;background:#fff;color:#2b2b2b;border-radius:22px;padding:26px 40px;font-weight:800;font-size:54px;line-height:1.15;text-align:center;box-shadow:0 8px 0 rgba(0,0,0,.18),0 18px 40px rgba(0,0,0,.25)}
+.card small{display:block;font-weight:700;font-size:34px;color:#666;margin-top:6px}
+.tag{position:absolute;background:var(--yellow);color:#111;border-radius:12px;padding:10px 26px;font-weight:800;font-size:40px;box-shadow:0 6px 0 rgba(0,0,0,.25)}
+.dark{position:absolute;background:rgba(22,22,22,.88);color:#fff;border-radius:14px;padding:12px 30px;font-weight:700;font-size:42px}
+.chip{position:absolute;left:60px;display:flex;gap:14px;align-items:center;background:#fff;color:#222;border-radius:16px;padding:14px 28px;font-weight:800;font-size:44px;box-shadow:0 6px 0 rgba(0,0,0,.2)}
+.chip b{color:#E11D2E}
+.year{position:absolute;left:0;right:0;top:110px;text-align:center;font-weight:800;font-size:190px;color:var(--yellow);-webkit-text-stroke:6px #7a5a00;paint-order:stroke fill}
+.ring{position:absolute;width:420px;height:420px;overflow:visible}
+.ring circle{fill:none;stroke:var(--yellow);stroke-width:9;stroke-linecap:round}
+.follow{position:absolute;left:300px;width:480px;text-align:center;top:560px;background:#E11D2E;color:#fff;border-radius:40px;padding:14px 0;font-weight:800;font-size:46px}
+.q{position:absolute;left:0;right:0;top:300px;text-align:center;color:var(--yellow);font-weight:800;font-size:128px;-webkit-text-stroke:4px #111;paint-order:stroke fill}
+.hint{position:absolute;left:0;right:0;top:220px;text-align:center;color:#fff;font-weight:700;font-size:46px;-webkit-text-stroke:4px #111;paint-order:stroke fill}
+#caps{position:absolute;left:0;right:0;top:1180px;height:240px}
+.cap{position:absolute;left:60px;right:60px;top:0;text-align:center;font-weight:800;font-size:56px;line-height:1.2;color:#fff;-webkit-text-stroke:8px #000;paint-order:stroke fill;opacity:0}
+.cap .w{display:inline-block;margin:0 .13em}
+.cap .w.k{color:var(--kw)}
+.credit{position:absolute;left:22px;top:22px;font-weight:700;font-size:20px;color:#fff;background:rgba(0,0,0,.55);padding:3px 10px;border-radius:5px}
+</style></head><body>
+<div id="root" data-composition-id="root" data-start="0" data-duration="24" data-width="1080" data-height="1920">
+
+  <div id="map" class="clip" data-start="0" data-duration="24" data-track-index="0">
+    <svg viewBox="0 0 1620 2880">
+      <!-- THAY bằng ảnh nền thật (vệ tinh / bản đồ phẳng) hoặc vẽ lại polygon quốc gia -->
+      <polygon class="land" fill="var(--sand)" points="0,0 1620,0 1620,700 900,820 0,640"/>
+      <polygon class="land" fill="var(--red)" points="640,820 980,760 1060,1120 940,1560 820,1500 760,1180"/>
+      <polygon class="land" fill="var(--orange)" points="0,1500 620,1380 1100,1700 1620,1900 1620,2880 0,2880"/>
+      <polygon class="land" fill="var(--blue)" points="900,1500 990,1480 1030,1530 940,1560"/>
+    </svg>
+  </div>
+
+  <div id="b1" class="beat clip" data-start="0" data-duration="4" data-track-index="1">
+    <svg class="ring" style="left:330px;top:600px" viewBox="0 0 420 420"><circle id="ring1" cx="210" cy="210" r="196" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+    <div id="b1tag" class="tag" style="left:300px;top:520px">Nhỏ hơn cả Sài Gòn</div>
+  </div>
+
+  <div id="b2" class="beat clip" data-start="4" data-duration="4" data-track-index="1">
+    <div id="b2year" class="year">1965</div>
+    <div id="b2card" class="card" style="left:150px;right:150px;top:420px">Bản tin 1965<small>Lý Quang Diệu khóc trên truyền hình</small></div>
+  </div>
+
+  <div id="b3" class="beat clip" data-start="8" data-duration="5" data-track-index="1">
+    <div class="chip b3c" style="top:520px">Đất: <b>ít ✕</b></div>
+    <div class="chip b3c" style="top:640px">Tài nguyên: <b>không ✕</b></div>
+    <div class="chip b3c" style="top:760px">Dân: <b>nghèo ✕</b></div>
+  </div>
+
+  <div id="b4" class="beat clip" data-start="13" data-duration="5" data-track-index="1">
+    <svg style="position:absolute;inset:0" viewBox="0 0 1080 1920"><path id="route" d="M-20 1100 C 300 1000, 700 1250, 1100 800" fill="none" stroke="#FFD708" stroke-width="9" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+    <div id="b4dark" class="dark" style="left:380px;top:760px;transform:rotate(-24deg)">Eo biển Malacca</div>
+  </div>
+
+  <div id="b5" class="beat clip" data-start="18" data-duration="6" data-track-index="1">
+    <div id="b5hint" class="hint">Comment cho tui biết nha</div>
+    <div id="b5q" class="q">VÌ SAO GIÀU?</div>
+    <div id="b5follow" class="follow">+ Theo dõi</div>
+  </div>
+
+  <div id="caps" class="clip" data-start="0" data-duration="24" data-track-index="2"></div>
+  <div id="credit" class="credit clip" data-start="0" data-duration="24" data-track-index="3">Ảnh vệ tinh: Esri, Maxar, Earthstar Geographics</div>
+</div>
+
+<script>
+/* PHỤ ĐỀ: [bắt đầu, kết thúc (giây), "câu", ["từ khóa", ...]] — lấy từ thời lượng audio thật */
+const CAPTIONS=[
+  [0.0,2.0,"Singapore nhỏ hơn cả Sài Gòn",["Singapore","Sài Gòn"]],
+  [2.0,4.0,"nhưng thu nhập đầu người ngang Mỹ.",["thu nhập","Mỹ"]],
+  [4.0,6.5,"Năm 1965 bị tách khỏi Malaysia.",["1965"]],
+  [6.5,9.0,"Đất ít, tài nguyên không, dân nghèo.",["ít","không","nghèo"]],
+  [9.0,13.0,"Nói chung là toang.",["toang"]],
+  [13.0,18.0,"Vậy mà nó nằm ngay eo biển Malacca.",["Malacca"]],
+  [18.0,24.0,"Vì sao giàu? Comment cho tui biết nha.",["giàu"]]
+];
+const tl=gsap.timeline({paused:true});
+
+tl.fromTo('#map',{scale:1.55,x:0,y:0},{scale:1.0,x:-40,y:30,duration:13,ease:'power1.inOut'},0)
+  .to('#map',{scale:1.25,x:80,y:-120,duration:11,ease:'power1.inOut'},13);
+
+tl.from('#b1tag',{scale:.6,opacity:0,y:20,duration:.35,ease:'back.out(2)'},.3)
+  .to('#ring1',{strokeDashoffset:0,duration:.6,ease:'power2.out'},.5);
+tl.from('#b2year',{scale:.4,opacity:0,duration:.45,ease:'back.out(2.2)'},4.1)
+  .from('#b2card',{y:60,opacity:0,duration:.4,ease:'power3.out'},4.6);
+tl.from('.b3c',{x:-300,opacity:0,duration:.35,ease:'power3.out',stagger:.5},8.2);
+tl.to('#route',{strokeDashoffset:0,duration:1.4,ease:'power1.inOut'},13.2)
+  .from('#b4dark',{opacity:0,scale:.7,duration:.3,ease:'back.out(2)'},13.8);
+tl.from('#b5hint',{opacity:0,y:-20,duration:.3},18.1)
+  .from('#b5q',{scale:.5,opacity:0,duration:.5,ease:'back.out(2.4)'},18.4)
+  .from('#b5follow',{scale:.5,opacity:0,duration:.35,ease:'back.out(3)'},19.2)
+  .to('#b5follow',{scale:1.06,duration:.4,yoyo:true,repeat:3,ease:'sine.inOut'},19.8);
+
+const caps=document.querySelector('#caps');
+CAPTIONS.forEach(([a,b,text,kw],i)=>{
+  const el=document.createElement('div');el.className='cap';el.id='cap'+i;
+  el.innerHTML=text.split(' ').map(w=>{
+    const k=kw.some(x=>x.split(' ').includes(w.replace(/[.,?!]/g,'')));
+    return '<span class="w'+(k?' k':'')+'">'+w+'</span>';}).join('');
+  caps.appendChild(el);
+  tl.set(el,{opacity:1},a).from(el,{y:14,duration:.12,ease:'power2.out'},a).set(el,{opacity:0},b-0.001);
+});
+
+window.__timelines=window.__timelines||{};window.__timelines['root']=tl;
+</script></body></html>

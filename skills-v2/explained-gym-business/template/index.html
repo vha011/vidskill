@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><title>business investigation explainer</title>
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face{font-family:"Inter";font-weight:100 900;src:url(assets/fonts/Inter.ttf)}
+:root{--bg:#0E1114;--lime:#CBF73E;--red:#C5202B;--legend-red:#951A22;--legend-green:#7E9434;--ink:#fff;--mut:rgba(255,255,255,.72)}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;font-family:"Inter",Arial,sans-serif;color:var(--ink)}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
+/* nền "vệ tinh" tối: lưới phố + mảng mây; THAY bằng ảnh vệ tinh thật + lớp tối .55 */
+#sat{position:absolute;inset:-100px;background:
+ repeating-linear-gradient(35deg,rgba(255,255,255,.05) 0 3px,transparent 3px 70px),
+ repeating-linear-gradient(-55deg,rgba(255,255,255,.04) 0 2px,transparent 2px 46px),
+ radial-gradient(ellipse at 75% 20%,rgba(255,255,255,.08),transparent 40%),
+ radial-gradient(ellipse at 20% 75%,#1b2a22,transparent 50%),#0f1214}
+#dim{position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.beat{position:absolute;inset:0}
+.ttl{position:absolute;left:60px;right:60px;text-align:center;font-weight:800;font-size:60px;line-height:1.1}
+.ttl .l{color:var(--lime)}.ttl small{display:block;font-size:34px;font-weight:500;font-style:italic;color:var(--mut);margin-top:12px}
+.hint{position:absolute;left:0;right:0;text-align:center;font-weight:600;font-size:30px;color:var(--mut)}
+.hero{position:absolute;left:40px;right:40px;text-align:center;font-weight:900;font-size:112px;line-height:1.05}
+.hero .l{color:var(--lime)}
+/* bảng giá: chỉ viền trắng mảnh, không nền */
+.tbl{position:absolute;left:150px;right:150px;border-collapse:collapse;font-size:34px}
+.tbl th,.tbl td{border:2px solid #fff;padding:16px 20px;text-align:center}
+.tbl th{font-weight:700}.tbl td:first-child{text-align:left;font-weight:600}
+.cap{position:absolute;left:150px;font-weight:800;font-style:italic;font-size:44px;color:var(--lime)}
+/* thẻ báo */
+.news{position:absolute;left:50px;right:50px;background:#fff;color:#111;padding:36px 40px;font-weight:700;font-size:44px;line-height:1.25;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.news mark{background:var(--lime);padding:0 8px}
+.news .src{font-size:26px;color:#C01818;font-weight:800;margin-bottom:12px}
+/* biểu đồ */
+.ax{stroke:#fff;stroke-width:2.5;fill:none}.gl{stroke:rgba(255,255,255,.25);stroke-width:2;stroke-dasharray:8 8}
+.tk{font-family:Inter;font-size:30px;font-weight:600;fill:#fff}
+.v{font-family:Inter;font-size:34px;font-weight:700;fill:#fff}
+.legend{position:absolute;left:70px;bottom:520px;background:rgba(40,40,40,.7);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:18px 26px;font-style:italic;font-size:38px;font-weight:600}
+.legend i{display:inline-block;width:42px;height:34px;margin-right:18px;vertical-align:-4px}
+.dot{position:absolute;width:20px;height:20px;border-radius:50%;background:#E22B2B}
+.dot.g{background:var(--lime);box-shadow:0 0 0 10px rgba(203,247,62,.3)}
+.pcard{position:absolute;left:70px;right:70px;background:#0A0A0A;border:2px solid #333;padding:30px 36px;font-size:34px}
+.pcard h5{margin:0 0 16px;font-size:40px;font-weight:800;color:var(--lime)}
+.pcard div{display:flex;justify-content:space-between;padding:10px 0;border-bottom:2px solid #333}
+.thumb{position:absolute;width:150px;height:96px;border-radius:4px;background:linear-gradient(135deg,#6b1a20,#222)}
+.big{position:absolute;left:0;right:0;text-align:center;font-weight:900;color:var(--lime)}
+</style></head><body>
+<div id="root" data-composition-id="root" data-start="0" data-duration="32" data-width="1080" data-height="1920">
+  <div id="sat" class="clip" data-start="0" data-duration="32" data-track-index="0"></div>
+  <div id="dim" class="clip" data-start="0" data-duration="32" data-track-index="1"></div>
+
+  <!-- B1 0-6s: hook -->
+  <div id="b1" class="beat clip" data-start="0" data-duration="6" data-track-index="2">
+    <div class="hint" id="b1by" style="top:760px">THỰC HIỆN BỞI ⚡ <b>Tên Kênh</b></div>
+    <div class="hero" id="b1h" style="top:830px">RỐT CUỘC<br><span class="l" style="font-size:72px">CHUYỆN GÌ ĐÃ XẢY RA</span></div>
+  </div>
+
+  <!-- B2 6-13s: bảng giá -->
+  <div id="b2" class="beat clip" data-start="6" data-duration="7" data-track-index="2">
+    <div class="cap" id="b2c" style="top:500px">Bảng giá các hạng</div>
+    <table class="tbl" id="b2t" style="top:590px">
+      <tr><th>Hạng</th><th>Giá</th><th>Nguồn</th></tr>
+      <tr class="r"><td>Gói 4 năm (thẻ cao cấp)</td><td>120 triệu</td><td>Dân Trí, 2026</td></tr>
+      <tr class="r"><td>Thẻ trọn đời</td><td>215 triệu + 5,6 triệu/năm</td><td>Tuổi Trẻ, 2018</td></tr>
+      <tr class="r"><td>Centuryon (cao nhất)</td><td>24.000 USD mỗi năm</td><td>Saigoneer, 2016</td></tr>
+    </table>
+  </div>
+
+  <!-- B3 13-20s: thẻ báo trích dẫn + highlight lime -->
+  <div id="b3" class="beat clip" data-start="13" data-duration="7" data-track-index="2">
+    <div class="news" id="b3n" style="top:620px"><div class="src">DÂN TRÍ · 8/10/2026</div><mark>Chi 200 triệu mua gói</mark>, hội viên California bức xúc vì khăn, nước dần bị cắt</div>
+    <div class="hint" style="top:1120px">“Khăn không còn, nước không còn, sinh tố cũng không còn.”</div>
+  </div>
+
+  <!-- B4 20-27s: cột 2024 vs 2025 -->
+  <div id="b4" class="beat clip" data-start="20" data-duration="7" data-track-index="2">
+    <div class="ttl" id="b4t" style="top:300px">Người tiêu dùng Việt Nam<br><span class="l">THẮT CHẶT CHI TIÊU</span><small>(% người được hỏi; nguồn: NielsenIQ)</small></div>
+    <svg id="b4c" style="position:absolute;left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+  </div>
+
+  <!-- B5 27-32s: bản đồ chấm đỏ + chú giải -->
+  <div id="b5" class="beat clip" data-start="27" data-duration="5" data-track-index="2">
+    <div class="dot" style="left:250px;top:700px"></div><div class="dot" style="left:420px;top:900px"></div><div class="dot" style="left:600px;top:760px"></div><div class="dot" style="left:760px;top:1020px"></div>
+    <div class="dot g" id="g1" style="left:330px;top:1100px"></div><div class="dot g" id="g2" style="left:560px;top:1180px"></div>
+    <div class="legend" id="lg"><div><i style="background:var(--legend-red)"></i>California còn mở</div><div style="margin-top:10px"><i style="background:var(--legend-green)"></i>Gym nhỏ gần nhà</div></div>
+  </div>
+
+  <audio id="s1" src="assets/sfx_whoosh.wav" data-start="0.3" data-duration="0.8" data-track-index="10" data-volume="0.5"></audio>
+  <audio id="s2" src="assets/sfx_click.wav" data-start="7" data-duration="0.2" data-track-index="11" data-volume="0.4"></audio>
+  <audio id="s3" src="assets/sfx_ping.wav" data-start="14" data-duration="0.6" data-track-index="12" data-volume="0.5"></audio>
+  <audio id="s4" src="assets/sfx_ping.wav" data-start="22.5" data-duration="0.6" data-track-index="13" data-volume="0.5"></audio>
+  <audio id="s5" src="assets/sfx_whoosh.wav" data-start="27.3" data-duration="0.8" data-track-index="14" data-volume="0.4"></audio>
+</div>
+<script>
+const NS="http://www.w3.org/2000/svg";
+function el(p,t,a,txt){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;p.appendChild(e);return e}
+/* DỮ LIỆU biểu đồ cột — sửa ở đây */
+const BARS=[{x:300,v:57,c:'#FFFFFF',lab:'2024',t:'57%'},{x:600,v:8,c:'#CBF73E',lab:'2025',t:'8%'}],MAX=60,Y0=1480,TOP=760,L=120;
+const s=document.getElementById('b4c');
+el(s,'path',{d:`M${L} ${TOP-20}V${Y0}H980`,class:'ax'});
+[0,20,40,60].forEach(v=>{const y=Y0-(Y0-TOP)*v/MAX;el(s,'text',{x:L-14,y:y+10,'text-anchor':'end',class:'tk'},v+'%');if(v)el(s,'path',{d:`M${L} ${y}H980`,class:'gl'})});
+BARS.forEach((b,i)=>{const h=(Y0-TOP)*b.v/MAX;
+  el(s,'rect',{class:'bar',x:b.x,y:Y0-h,width:150,height:h,fill:b.c});
+  el(s,'text',{class:'v bt',x:b.x+75,y:Y0-h-16,'text-anchor':'middle'},b.t);
+  el(s,'text',{class:'tk',x:b.x+75,y:Y0+50,'text-anchor':'middle',style:'font-weight:800;font-size:34px'},b.lab)});
+
+const tl=gsap.timeline({paused:true});
+tl.to('#sat',{scale:1.15,x:-40,y:-60,duration:32,ease:'none'},0);
+/* B1 */
+tl.from('#b1by',{opacity:0,y:-20,duration:.4},.3).from('#b1h',{opacity:0,y:60,duration:.6,ease:'power3.out'},.5);
+/* B2: tiêu đề → khung bảng → từng hàng */
+tl.from('#b2c',{opacity:0,x:-40,duration:.4},6.2).from('#b2t',{opacity:0,duration:.4},6.5)
+  .from('#b2t .r',{opacity:0,y:20,duration:.35,stagger:.9},7.4);
+/* B3 */
+tl.from('#b3n',{opacity:0,y:120,duration:.5,ease:'power3.out'},13.2)
+  .from('#b3n mark',{backgroundSize:'0% 100%',duration:.01},14)
+  .from('#b3 .hint',{opacity:0,duration:.5},16);
+/* B4: tiêu đề → trục → cột trắng 1.0 s → cột lime 0.8 s (cột lime đúng 8% — nhỏ bất ngờ) */
+tl.from('#b4t',{opacity:0,y:30,duration:.5},20.2)
+  .from('#b4c .ax,#b4c .tk,#b4c .gl',{opacity:0,duration:.4,stagger:.02},20.8)
+  .from('#b4c rect:nth-of-type(1)',{scaleY:0,transformOrigin:'50% 100%',duration:1,ease:'power3.out'},21.6)
+  .from('#b4c .bt:nth-of-type(1)',{opacity:0,duration:.3},22.4)
+  .from('#b4c rect:nth-of-type(2)',{scaleY:0,transformOrigin:'50% 100%',duration:.8,ease:'power3.out'},23.6)
+  .from('#b4c .bt:nth-of-type(2)',{opacity:0,duration:.3},24.3);
+/* B5: chấm đỏ lần lượt, chấm lime có vòng sáng nhấp 2 nhịp */
+tl.from('#b5 .dot:not(.g)',{scale:0,duration:.3,ease:'back.out(3)',stagger:.25},27.4)
+  .from('#g1,#g2',{scale:0,duration:.4,ease:'back.out(3)',stagger:.4},28.8)
+  .from('#lg',{opacity:0,x:-60,duration:.4},28.2)
+  .to('#g1,#g2',{boxShadow:'0 0 0 28px rgba(203,247,62,0)',duration:.6,yoyo:true,repeat:1},29.8);
+window.__timelines=window.__timelines||{};window.__timelines['root']=tl;
+</script></body></html>

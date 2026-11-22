@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><title>data-finance explainer</title>
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face{font-family:"Inter";font-weight:400 800;src:url(assets/fonts/Inter.ttf)}
+:root{--bg:#080F0D;--lime:#ADF400;--red:#E70A23;--amber:#FEC73C;--ink:#fff;--mut:rgba(255,255,255,.72)}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;font-family:"Inter",Arial,sans-serif;color:var(--ink)}
+#root{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
+/* nền: bản đồ/b-roll đã tối (THAY bằng <img>/<video muted> opacity .25-.35) */
+#bg{position:absolute;inset:-60px;background:radial-gradient(ellipse at 70% 30%,#16302a 0,transparent 55%),radial-gradient(ellipse at 20% 80%,#0d2236 0,transparent 55%),var(--bg);opacity:.95}
+#dim{position:absolute;inset:0;background:rgba(0,0,0,.35)}
+.beat{position:absolute;inset:0}
+.title{position:absolute;left:60px;right:60px;top:380px;text-align:center;font-weight:800;font-size:60px;line-height:1.12}
+.title .l{color:var(--lime)}
+.sub{display:block;margin-top:14px;font-weight:500;font-style:italic;font-size:34px;color:var(--mut)}
+.axis{stroke:#fff;stroke-width:2.5;fill:none}
+.tick{font-size:36px;font-weight:500;fill:#fff;opacity:.92}
+.line{fill:none;stroke:var(--lime);stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+.dash{stroke:#fff;stroke-width:3;stroke-dasharray:10 10;fill:none;opacity:.8}
+.note{position:absolute;font-weight:700;font-size:44px;text-align:right}
+.big{position:absolute;font-weight:800;font-size:76px}
+.bar-pos{fill:var(--amber)}.bar-neg{fill:var(--red)}
+.val{font-weight:800;font-size:56px}
+.card{position:absolute;left:110px;right:110px;top:470px;background:#fff;color:#111;border-radius:6px;padding:40px 42px;font-size:34px;line-height:1.45;box-shadow:0 30px 80px rgba(0,0,0,.6);transform:rotate(-2deg)}
+.card h3{margin:0 0 18px;font-size:46px;line-height:1.15;font-weight:800}
+.card mark{background:#D4F55A;padding:0 4px}
+.oval{position:absolute;border:6px solid var(--red);border-radius:50%}
+.stamp{position:absolute;left:150px;right:150px;top:1180px;text-align:center;border:10px solid #C21A1A;color:#C21A1A;font-weight:800;font-size:96px;padding:6px 0;transform:rotate(-6deg);letter-spacing:2px;background:rgba(255,255,255,.04)}
+.strip{position:absolute;left:0;right:0;background:#F2EDE4;color:#111;text-align:center;font-weight:800;font-size:64px;line-height:1.1;padding:26px 50px;transform:rotate(-1.5deg)}
+.pill{position:absolute;left:0;right:0;margin:0 auto;width:560px;text-align:center;background:var(--amber);color:#111;border-radius:22px;padding:22px 0;font-weight:800;font-size:96px;box-shadow:0 10px 0 #b8861a}
+.sticker{position:absolute;font-size:150px;line-height:1}
+.badge{position:absolute;left:120px;right:120px;top:620px;border:6px solid var(--lime);border-radius:26px;background:#0b140f;text-align:center;font-weight:800;font-size:58px;padding:26px 20px}
+.brand{position:absolute;left:0;right:0;top:300px;text-align:center;font-size:30px;font-weight:600;color:var(--mut)}
+.hero{position:absolute;left:40px;right:40px;top:560px;text-align:center;font-weight:800;font-size:150px;line-height:1.02}
+.hero .l{color:var(--lime)}
+.hero small{display:block;font-size:84px;margin-top:70px}
+</style></head><body>
+<div id="root" data-composition-id="root" data-start="0" data-duration="28" data-width="1080" data-height="1920">
+  <div id="bg" class="clip" data-start="0" data-duration="28" data-track-index="0"></div>
+  <div id="dim" class="clip" data-start="0" data-duration="28" data-track-index="1"></div>
+
+  <div id="b1" class="beat clip" data-start="0" data-duration="4" data-track-index="2">
+    <div class="brand">⚡ Thực hiện bởi <b>Tên Kênh</b></div>
+    <div class="hero"><span>PNJ</span><br><span class="l">SA CƠ</span><small>NHƯ THẾ NÀO?</small></div>
+  </div>
+
+  <div id="b2" class="beat clip" data-start="4" data-duration="7" data-track-index="2">
+    <div class="title"><span class="l">Giá cổ phiếu PNJ</span> đã điều chỉnh<span class="sub">(nghìn đồng/cp; nguồn: CafeF/HOSE)</span></div>
+    <svg id="lc" style="position:absolute;left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+    <div id="b2note" class="note" style="left:430px;top:560px;width:440px">đỉnh 1/2026: 79</div>
+  </div>
+
+  <div id="b3" class="beat clip" data-start="11" data-duration="6" data-track-index="2">
+    <div class="title"><span class="l">Lợi nhuận sau thuế 2026</span><span class="sub">(tỷ đồng; nguồn: ...)</span></div>
+    <svg id="bc" style="position:absolute;left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+    <div id="b3big" class="big" style="left:560px;top:620px">≈ 9.680 TỶ<div style="font-size:42px;font-weight:500;color:var(--mut)">chênh lệch cả năm</div></div>
+  </div>
+
+  <div id="b4" class="beat clip" data-start="17" data-duration="6" data-track-index="2">
+    <div id="b4card" class="card"><h3>Tiệm vàng thay đổi để đối phó luật</h3>Theo thông tư, các giấy phép sản xuất <mark>vàng miếng do ngân hàng nhà nước cấp</mark> đã không còn hiệu lực từ năm 2012, khiến doanh nghiệp phải thay đổi cách vận hành.</div>
+    <div id="b4oval" class="oval" style="left:130px;top:690px;width:760px;height:130px"></div>
+    <div id="b4stamp" class="stamp">HẾT HIỆU LỰC</div>
+  </div>
+
+  <div id="b5" class="beat clip" data-start="23" data-duration="5" data-track-index="2">
+    <div id="b5badge" class="badge">25 TRIỆU CỔ PHIẾU</div>
+    <div id="b5s1" class="sticker" style="left:440px;top:780px">🗄️</div>
+    <div id="b5s2" class="sticker" style="left:560px;top:860px">💵</div>
+    <div id="b5pill" class="pill" style="top:1060px">700 TỶ</div>
+  </div>
+
+  <audio id="sfx1" src="assets/sfx_whoosh.wav" data-start="0.4" data-duration="0.8" data-track-index="10" data-volume="0.5"></audio>
+  <audio id="sfx2" src="assets/sfx_ping.wav" data-start="12.3" data-duration="0.6" data-track-index="11" data-volume="0.5"></audio>
+  <audio id="sfx3" src="assets/sfx_hit.wav" data-start="19.7" data-duration="1.5" data-track-index="12" data-volume="0.7"></audio>
+  <audio id="sfx4" src="assets/sfx_click.wav" data-start="24.7" data-duration="0.2" data-track-index="13" data-volume="0.4"></audio>
+</div>
+
+<script>
+/* ---- DỮ LIỆU: sửa ở đây ---- */
+const LINE={xs:["2012","2015","2018","2021","2024"],ys:[0,20,40,60,80],pts:[[0,0],[.2,3],[.4,12],[.6,30],[.8,58],[.92,79],[.95,15],[1,17.45]]}; // pts: [x 0-1, giá trị]
+const BARS=[{label:"KH 4/2026",v:3409,cls:"bar-pos",txt:"+3.409"},{label:"KH 10/2026",v:-6271,cls:"bar-neg",txt:"−6.271"}];
+/* ---- dựng SVG (đồng bộ, không dùng random) ---- */
+const NS="http://www.w3.org/2000/svg";
+function el(p,t,a,txt){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;p.appendChild(e);return e;}
+(function(){ // line chart
+  const s=document.getElementById('lc'),L=150,R=1000,T=560,B=1400,max=LINE.ys[LINE.ys.length-1];
+  el(s,'path',{d:`M${L} ${T-20}V${B}H${R}`,class:'axis'});
+  LINE.ys.forEach(v=>{const y=B-(B-T)*v/max;el(s,'text',{x:L-18,y:y+12,'text-anchor':'end',class:'tick'},v)});
+  LINE.xs.forEach((t,i)=>{const x=L+(R-L-60)*i/(LINE.xs.length-1);el(s,'text',{x:x,y:B+60,'text-anchor':'middle',class:'tick'},t)});
+  const P=LINE.pts.map(([x,v])=>[L+(R-L)*x,B-(B-T)*v/max]);
+  const d='M'+P.map(p=>p.join(' ')).join('L');
+  el(s,'path',{id:'lcpath',d:d,class:'line',pathLength:1,'stroke-dasharray':1,'stroke-dashoffset':1});
+  const last=P[P.length-1];
+  el(s,'circle',{id:'lcdot',cx:last[0],cy:last[1],r:20,fill:'none',stroke:'#E70A23','stroke-width':6});
+  el(s,'line',{id:'lcdash',x1:L,x2:last[0],y1:last[1],y2:last[1],class:'dash'});
+})();
+(function(){ // bar chart dương/âm quanh trục 0
+  const s=document.getElementById('bc'),L=130,R=980,Y0=900,K=0.075,W=170;
+  el(s,'path',{d:`M${L} 560V1400`,class:'axis'});
+  el(s,'path',{d:`M${L} ${Y0}H${R}`,class:'axis'});
+  BARS.forEach((b,i)=>{
+    const x=L+60+i*(W+250),h=Math.abs(b.v)*K,y=b.v>=0?Y0-h:Y0;
+    const r=el(s,'rect',{class:'bar '+b.cls,x:x,y:y,width:W,height:h});
+    r.setAttribute('data-up',b.v>=0?1:0);
+    el(s,'text',{class:'val',x:x+W/2,y:b.v>=0?y-20:y+h+60,'text-anchor':'middle',fill:b.v>=0?'#FEC73C':'#E70A23'},b.txt);
+    el(s,'text',{class:'tick',x:x+W/2,y:1520,'text-anchor':'middle'},b.label);
+  });
+})();
+
+const tl=gsap.timeline({paused:true});
+tl.to('#bg',{scale:1.08,duration:28,ease:'none'},0);
+/* b1: tiêu đề hook */
+tl.from('#b1 .brand',{opacity:0,y:-20,duration:.4},.2).from('#b1 .hero span',{opacity:0,y:60,duration:.55,ease:'power3.out',stagger:.25},.4).from('#b1 small',{opacity:0,duration:.4},1.2);
+/* b2: line chart vẽ dần 3s */
+tl.from('#b2 .title',{opacity:0,y:30,duration:.5,ease:'power2.out'},4.1)
+  .from('#lc .axis,#lc .tick',{opacity:0,duration:.4,stagger:.03},4.4)
+  .to('#lcpath',{strokeDashoffset:0,duration:3,ease:'power1.inOut'},5)
+  .from('#lcdot,#lcdash',{opacity:0,duration:.3},8)
+  .from('#b2note',{opacity:0,x:20,duration:.4},6.6);
+/* b3: cột mọc từ trục 0 */
+tl.from('#b3 .title',{opacity:0,y:30,duration:.5},11.1)
+  .from('#bc .axis,#bc .tick',{opacity:0,duration:.4},11.3)
+  .from('#bc .bar-pos',{scaleY:0,transformOrigin:'50% 100%',duration:.7,ease:'power3.out'},11.8)
+  .from('#bc .bar-neg',{scaleY:0,transformOrigin:'50% 0%',duration:.7,ease:'power3.out'},13)
+  .from('#bc .val',{opacity:0,duration:.3,stagger:1.2},12.3)
+  .from('#b3big',{opacity:0,x:30,duration:.5},14.4);
+/* b4: thẻ báo + khoanh đỏ + dấu mộc */
+tl.from('#b4card',{opacity:0,scale:.9,y:40,duration:.5,ease:'power3.out'},17.1)
+  .from('#b4oval',{scale:.2,opacity:0,duration:.4,ease:'back.out(1.8)'},18.3)
+  .from('#b4stamp',{scale:2.2,opacity:0,duration:.25,ease:'power4.in'},19.6);
+/* b5: huy hiệu + sticker rơi + số tiền */
+tl.from('#b5badge',{opacity:0,y:-40,duration:.4,ease:'back.out(2)'},23.1)
+  .from('#b5s1',{opacity:0,y:-200,duration:.5,ease:'bounce.out'},23.5)
+  .from('#b5s2',{opacity:0,y:-300,rotation:-30,duration:.6,ease:'bounce.out'},23.9)
+  .from('#b5pill',{opacity:0,scale:.6,duration:.4,ease:'back.out(2.5)'},24.7);
+window.__timelines=window.__timelines||{};window.__timelines['root']=tl;
+</script></body></html>
