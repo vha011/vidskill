@@ -16,6 +16,7 @@ F:\2.sources\d.explainedvideo\
 │   ├── skills-v2\                      <-- Kho Preset Templates chuẩn hóa
 │   │   ├── explained-fdi-timeline\     (Dọc 9:16 · Lịch sử kinh tế / chính sách theo năm)
 │   │   ├── explained-history-dossier\  (Ngang 16:9 · Hồ sơ tư liệu lịch sử / chiến dịch)
+│   │   ├── explained-history-chronicle\ (Ngang 16:9 · Lịch sử dài, nền giấy sáng, bản đồ + Polaroid)
 │   │   ├── explained-data-finance\     (Dọc 9:16 · Báo cáo tài chính / cổ phiếu PNJ)
 │   │   ├── explained-geo-map\          (Dọc 9:16 · Địa chính trị / bản đồ Singapore)
 │   │   ├── explained-gym-business\     (Dọc 9:16 · Mô hình kinh doanh / hòa vốn Gym)
@@ -49,10 +50,11 @@ Agent tra cứu bảng ánh xạ sau để chọn đúng template gốc trong `s
 |---|---|---|---|---|
 | **FDI Timeline** / Kinh tế vĩ mô | `explained-fdi-timeline` | **9:16** (1080×1920) | `video-reference/fdi vn.mp4` | Nền `#0D0B0C`, Lime `#CBF73E`, Thước TimelineRunner đỉnh, Thùng hàng xếp tầng, Sơ đồ phát sáng, Mộc đỏ |
 | **History Dossier** / Lịch sử | `explained-history-dossier` | **16:9** (1920×1080) | `video-reference/lichsu-vietnam.mp4` | Nền rêu `#121411`, Kem `#F2E6D2`, Đỏ `#B4322C`, Giấy kraft, Mũi tên vẽ tay, Thẻ mốc ngày, Lưới đơn vị |
-| **Data Finance** / PNJ Tài chính | `explained-data-finance` | **9:16** (1080×1920) | `video-reference/pnj-tai-chinh.mp4` | Deep Navy `#060913`, Vàng `#F59E0B`, Biểu đồ cột/waterfall, Ticker chứng khoán, Thỏi vàng |
-| **Geo Map** / Singapore / Bản đồ | `explained-geo-map` | **9:16** (1080×1920) | `video-reference/singapore.mp4` | Dark Satellite, Bản đồ vệ tinh phóng to, Vùng lãnh thổ viền neon, Tuyến hàng hải |
-| **Gym Business** / Điểm hòa vốn | `explained-gym-business` | **9:16** (1080×1920) | `video-reference/gym center.mp4` | Urban Dark, Neon Lime `#84CC16`, HUD Reticle quét mục tiêu, Thẻ Polaroid, Cọc tiền 3D |
-| **Investigative** / Vietjet Điều tra | `explained-investigative` | **9:16** (1080×1920) | `video-reference/vietjet airline.mp4` | Giấy tối + bàn gỗ `#241810`, Đỏ `#EF4444`, Hợp đồng A4 nghiêng, Con dấu mộc "ĐÃ KÝ", Thước giá |
+| **History Chronicle** / Lịch sử dài (Triều Tiên) | `explained-history-chronicle` | **16:9** (1920×1080) | Video mẫu 30:39 (Google Drive, chưa nằm trong `video-reference/`) | Nền giấy sáng `#E1E1DB`, nhấn vàng `#F3C31B`, mực `#0F0F0F`, chữ Barlow Condensed, nhãn mono gõ từng chữ, Polaroid + băng keo, Bản đồ vệ tinh đen trắng + vùng đỏ + ghim xanh |
+| **Data Finance** / PNJ Tài chính | `explained-data-finance` | **9:16** (1080×1920) | `video-reference/pnj-tai-chinh.mp4` | Nền tối `#080F0D`, Lime `#ADF400`, Vàng `#FEC73C`, Đỏ `#E70A23`, Biểu đồ đường/cột, Thẻ báo khoanh đỏ, Con dấu |
+| **Geo Map** / Singapore / Bản đồ | `explained-geo-map` | **9:16** (1080×1920) | `video-reference/singapore.mp4` | Bản đồ phẳng màu + ảnh vệ tinh, Vàng nhấn `#FFD708` (vòng tròn, năm, nhãn, đường tàu), Nhãn pop-up, Phụ đề từ khóa vàng |
+| **Gym Business** / Điểm hòa vốn | `explained-gym-business` | **9:16** (1080×1920) | `video-reference/gym center.mp4` | Nền ảnh vệ tinh tối (`#0E1114`), Lime `#CBF73E`, Đỏ `#C5202B`, Bảng giá viền trắng, Thẻ báo highlight lime, Biểu đồ cột, Chú giải bản đồ |
+| **Investigative** / Vietjet Điều tra | `explained-investigative` | **9:16** (1080×1920) | `video-reference/vietjet airline.mp4` | Nền xám than `#252525` có lưới, Lime `#CCF53C`, Đỏ `#E3202E`, Nhãn giấy kraft + lime xé mép, Băng giấy rách, Dây lime nét đứt, Dấu mộc |
 | **Juno UGC** / Thời trang quảng cáo | `../juno-ugc-toolkit` | **9:16** (1080×1920) | Tham khảo UGC 30s | Sáng thời trang, PIP cận cảnh vải, Phụ đề Liquid-Glass, CTA giỏ hàng |
 
 ---
@@ -67,7 +69,7 @@ Mọi video đều phải thực hiện tuần tự qua 4 bước khép kín sau
 2. Tạo thư mục `assets/` bên trong và copy tài nguyên dùng chung từ `vidskill/skills-v2/_shared/`:
    - `assets/gsap.min.js`
    - `assets/*.wav` (SFX: whoosh, click, ping, hit)
-   - `assets/fonts/` (Inter.ttf, BeVietnamPro-*.ttf, Roboto.ttf, IBMPlexMono-*.ttf)
+   - `assets/fonts/` (Inter.ttf, BeVietnamPro-*.ttf, Roboto.ttf, IBMPlexMono-*.ttf, BarlowCondensed-*.ttf)
    - Nhạc nền `assets/bg_music.wav`
 3. Phân chia kịch bản thành các phân đoạn (Beats/Scenes) tương ứng với từng mốc nội dung (mỗi phân đoạn từ 5 – 8 giây).
 
@@ -97,7 +99,7 @@ Chạy script Python bằng trình thông dịch của VieNeu-TTS:
    - Mỗi clip âm thanh / hình ảnh chồng lớp **phải có `data-track-index` riêng biệt**, không được trùng nhau.
 4. **Quy tắc Phụ đề chân trang (Captions)**:
    - Đối với video dọc (9:16): Triển khai dạng **Karaoke Word-by-Word Runner**. Từng từ `<span class="w">` nhảy sáng màu Lime `#CBF73E` kết hợp phóng to `scale: 1.18x` theo đúng thời gian nói thực tế; không hiển thị huy hiệu model thừa.
-   - Đối với video ngang (16:9): Giữ phong cách hồ sơ tư liệu trang trọng, phụ đề rõ ràng, thanh thoát.
+   - Đối với video ngang (16:9): không dùng Karaoke; theo từng skill (dossier: nhãn ngày + dòng nguồn mỗi trang; chronicle: nhãn mono gõ từng chữ + cụm nhấn nền vàng).
 
 ### Bước 4: Kiểm tra Linter & Render Video
 1. **Kiểm tra chuẩn HyperFrames** (phải đạt 0 errors):
@@ -118,7 +120,7 @@ Chạy script Python bằng trình thông dịch của VieNeu-TTS:
 
 - **TUÂN THỦ PRESET GỐC**: Làm theo template có sẵn trong `skills-v2/` và đối chiếu ảnh trong `reference/`. Không tự ý vẽ lại layout, không đổi bảng màu hoặc font chữ ngoài quy định.
 - **TỈ LỆ KHUNG HÌNH BẤT DI BẤT DỊCH**:
-  + `explained-history-dossier`: Bắt buộc ngang **16:9** (1920×1080).
+  + `explained-history-dossier`, `explained-history-chronicle`: Bắt buộc ngang **16:9** (1920×1080).
   + Tất cả các preset kinh tế, tài chính, bản đồ, UGC khác: Bắt buộc dọc **9:16** (1080×1920).
 - **KHÔNG CHÈN TẠP ÂM / BADGE THỪA**: Không hiển thị các nhãn kỹ thuật như "VieNeu-TTS :: Thùy Dung" lên khung hình trừ khi người dùng yêu cầu rõ ràng.
-- **FONT CHỮ NỘI BỘ**: Chỉ sử dụng font local đã nhúng trong `assets/fonts/` (Inter, BeVietnamPro, Roboto, IBM Plex Mono) để chống lỗi vỡ chữ có dấu tiếng Việt khi render headless.
+- **FONT CHỮ NỘI BỘ**: Chỉ sử dụng font local đã nhúng trong `assets/fonts/` (Inter, BeVietnamPro, Roboto, IBM Plex Mono, Barlow Condensed) để chống lỗi vỡ chữ có dấu tiếng Việt khi render headless.
