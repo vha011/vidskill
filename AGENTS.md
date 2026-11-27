@@ -67,7 +67,7 @@ Mọi video đều phải thực hiện tuần tự qua 4 bước khép kín sau
 2. Tạo thư mục `assets/` bên trong và copy tài nguyên dùng chung từ `vidskill/skills-v2/_shared/`:
    - `assets/gsap.min.js`
    - `assets/*.wav` (SFX: whoosh, click, ping, hit)
-   - `assets/fonts/` (Inter.ttf, BeVietnamPro-*.ttf, Roboto.ttf, CourierPrime-*.ttf)
+   - `assets/fonts/` (Inter.ttf, BeVietnamPro-*.ttf, Roboto.ttf, IBMPlexMono-*.ttf)
    - Nhạc nền `assets/bg_music.wav`
 3. Phân chia kịch bản thành các phân đoạn (Beats/Scenes) tương ứng với từng mốc nội dung (mỗi phân đoạn từ 5 – 8 giây).
 
@@ -121,4 +121,4 @@ Chạy script Python bằng trình thông dịch của VieNeu-TTS:
   + `explained-history-dossier`: Bắt buộc ngang **16:9** (1920×1080).
   + Tất cả các preset kinh tế, tài chính, bản đồ, UGC khác: Bắt buộc dọc **9:16** (1080×1920).
 - **KHÔNG CHÈN TẠP ÂM / BADGE THỪA**: Không hiển thị các nhãn kỹ thuật như "VieNeu-TTS :: Thùy Dung" lên khung hình trừ khi người dùng yêu cầu rõ ràng.
-- **FONT CHỮ NỘI BỘ**: Chỉ sử dụng font local đã nhúng trong `assets/fonts/` (Inter, BeVietnamPro, Roboto, Courier Prime) để chống lỗi vỡ chữ có dấu tiếng Việt khi render headless.
+- **FONT CHỮ NỘI BỘ**: Chỉ sử dụng font local đã nhúng trong `assets/fonts/` (Inter, BeVietnamPro, Roboto, IBM Plex Mono) để chống lỗi vỡ chữ có dấu tiếng Việt khi render headless.
