@@ -5,7 +5,7 @@ description: Video giải thích lịch sử dài (15–30 phút) theo phong cá
 
 # explained-history-chronicle
 
-Trích từ video film Chiến tranh Triều Tiên (Google Drive, 30:39): 1920×1080, 24 fps (dựng ở 30 fps), 1838,8 s (30:39), −14,0 LUFS, giọng đọc liền mạch (không có đoạn lặng ≥0,5 s ở ngưỡng −35 dB; 37 đoạn ≥0,3 s ở ngưỡng −40 dB). Khác `explained-history-dossier` (nền tối, 5–6 trang, ảnh đen trắng có hạt): chronicle là **nền sáng, chữ lớn, nhịp dày, ước tính hàng trăm trang (~350 trang nếu 5 s/trang)**.
+Trích từ video film Chiến tranh Triều Tiên (30:39; bản tham chiếu nén 1280×720, 49 MB, ở `video-reference/trieu-tien-chronicle.mp4`; số đo dưới đây lấy từ bản gốc): 1920×1080, 24 fps (dựng ở 30 fps), 1838,8 s (30:39), −14,0 LUFS, giọng đọc liền mạch (không có đoạn lặng ≥0,5 s ở ngưỡng −35 dB; 37 đoạn ≥0,3 s ở ngưỡng −40 dB). Khác `explained-history-dossier` (nền tối, 5–6 trang, ảnh đen trắng có hạt): chronicle là **nền sáng, chữ lớn, nhịp dày, ước tính hàng trăm trang (~350 trang nếu 5 s/trang)**.
 Tham chiếu: `reference/hc-sheet_01..05.jpg` (1 khung / 20 s), `hc-first60.jpg` (60 giây đầu, 1 khung / 2 s: cho thấy nhịp trang và cách chữ hiện), `hc-typewriter-map.jpg` (vùng đỏ nhạt dần + nhãn gõ chữ, 4 khung/s), `hc30` (polaroid + số), `hc90` (tài liệu + nhãn đen + số lớn), `hc170` / `hc330` (câu hỏi giữa trang), `hc230` (bản đồ + ghim), `hc520` (tiêu đề trái + polaroid phải + nhãn đen), `hc1000` (polaroid ảnh minh hoạ AI, chừa trống nửa trái), `template-snapshot.jpg`.
 
 ## Cấu trúc câu chuyện (rút từ video mẫu)
