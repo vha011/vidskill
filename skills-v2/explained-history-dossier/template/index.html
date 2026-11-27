@@ -3,15 +3,15 @@
 <script src="assets/gsap.min.js"></script>
 <style>
 @font-face{font-family:"Roboto";font-weight:100 900;src:url(assets/fonts/Roboto.ttf)}
-@font-face{font-family:"Courier Prime";font-weight:400;src:url(assets/fonts/CourierPrime-Regular.ttf)}
-@font-face{font-family:"Courier Prime";font-weight:700;src:url(assets/fonts/CourierPrime-Bold.ttf)}
+@font-face{font-family:"Plex Mono";font-weight:400;src:url(assets/fonts/IBMPlexMono-Regular.ttf)}
+@font-face{font-family:"Plex Mono";font-weight:700;src:url(assets/fonts/IBMPlexMono-Bold.ttf)}
 :root{--bg:#121411;--bg2:#1D221C;--panel:#1C1E1B;--edge:#393B38;--cream:#F2E6D2;--paper:#E2D8C6;--gold:#E1BA74;--red:#B4322C;--salmon:#D06955;--mut:#B19064;--txt:#DEE0D7}
 *{box-sizing:border-box}
 html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#000;font-family:"Roboto",Arial,sans-serif;color:var(--cream)}
 #root{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
 #bg{position:absolute;inset:0;background:radial-gradient(ellipse at 85% 95%,rgba(120,100,50,.16),transparent 55%),linear-gradient(160deg,var(--bg) 20%,var(--bg2))}
 #frame{position:absolute;inset:28px;border:1.5px solid rgba(255,255,255,.1)}
-.mono{font-family:"Courier Prime","Courier New",monospace}
+.mono{font-family:"Plex Mono","Courier New",monospace}
 /* khung cố định: tiêu đề hồ sơ + thanh tiến trình + nguồn */
 #hd{position:absolute;left:87px;top:52px;font-size:22px;font-weight:700;letter-spacing:4px;color:var(--cream)}
 .dt{position:absolute;right:93px;top:54px;font-size:20px;letter-spacing:2px;color:#9a998f}
@@ -29,7 +29,7 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#000;fo
 .h1{font-weight:800;line-height:1.02;color:var(--cream);text-transform:uppercase}
 .sub{font-size:31px;line-height:1.35;color:var(--txt)}
 .photo{position:absolute;border:0;background:#222;box-shadow:0 24px 50px rgba(0,0,0,.5)}
-.photo .im:after{content:"ẢNH TƯ LIỆU — THAY BẰNG ẢNH THẬT";position:absolute;left:0;right:0;top:50%;text-align:center;font:700 22px "Courier Prime",monospace;color:rgba(255,255,255,.35)}
+.photo .im:after{content:"ẢNH TƯ LIỆU — THAY BẰNG ẢNH THẬT";position:absolute;left:0;right:0;top:50%;text-align:center;font:700 22px "Plex Mono",monospace;color:rgba(255,255,255,.35)}
 .photo .im{position:absolute;inset:0;filter:grayscale(1) contrast(1.1);background:linear-gradient(135deg,#6b6f68,#2a2b28)}
 .cap{position:absolute;font-size:17px;letter-spacing:2px;color:#9a998f;text-transform:uppercase}
 .kraft{position:absolute;background:var(--paper);color:#23201b;padding:22px 30px;box-shadow:0 18px 40px rgba(0,0,0,.4)}
@@ -73,7 +73,7 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#000;fo
       <div class="h1" id="b1h" style="font-size:96px;margin-top:34px">KÉO<br>PHÁO RA?</div>
       <div class="sub" id="b1s" style="margin-top:22px">Một cuộc tiến công sắp bắt đầu. Rồi pháo quay đầu.</div>
     </div>
-    <svg id="b1a" style="position:absolute;left:960px;top:480px" width="300" height="200" viewBox="0 0 300 200"><path id="b1ap" d="M10 150 C40 40 150 10 230 70" fill="none" stroke="#B4322C" stroke-width="9" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><path id="b1ah" d="M200 52 L238 74 L196 90" fill="none" stroke="#B4322C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="0"/></svg>
+    <svg id="b1a" style="position:absolute;left:820px;top:560px" width="300" height="200" viewBox="0 0 300 200"><path id="b1ap" d="M10 150 C40 40 150 10 230 70" fill="none" stroke="#B4322C" stroke-width="9" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><path id="b1ah" d="M200 52 L238 74 L196 90" fill="none" stroke="#B4322C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="0"/></svg>
   </div>
 
   <!-- B2 7-17s: lưới "mỗi dấu = 1 đơn vị" + dải số lớn -->
@@ -90,7 +90,7 @@ html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#000;fo
   <div id="b3" class="beat clip" data-start="17" data-duration="9" data-track-index="3">
     <div class="dt mono">26.01.1954</div><div class="src mono">QUYẾT ĐỊNH VÀ PHƯƠNG CHÂM: KHO LƯU TRỮ • ẢNH: TƯ LIỆU</div>
     <div class="kick mono" style="position:absolute;left:145px;top:215px" id="b3k">MŨI TIẾN CÔNG ĐANG HƯỚNG VÀO LÒNG CHẢO</div>
-    <div class="kraft" id="b3p" style="left:145px;top:305px;width:760px;height:190px"><div class="k mono">SƠ ĐỒ DIỄN GIẢI</div><div class="t">TẬP KẾT → TIẾN CÔNG</div></div>
+    <div class="kraft" id="b3p" style="left:145px;top:305px;width:760px;height:190px"><div class="k mono">SƠ ĐỒ DIỄN GIẢI</div><div class="t">TẬP KẾT <span class="mono">→</span> TIẾN CÔNG</div></div>
     <div class="cap mono" style="left:145px;top:540px">MŨI TÊN QUAY NGƯỢC • MINH HỌA PHƯƠNG ÁN</div>
     <svg id="b3a" style="position:absolute;left:80px;top:640px" width="600" height="140" viewBox="0 0 600 140"><path id="b3ap" d="M240 20 C170 30 130 50 20 100" fill="none" stroke="#B4322C" stroke-width="9" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><path d="M12 92 L10 106 L38 108" fill="none" stroke="#B4322C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
     <div class="panel" id="b3c" style="left:1080px;top:210px;width:700px;height:540px;padding:34px 44px">

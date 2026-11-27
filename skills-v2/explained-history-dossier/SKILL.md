@@ -24,11 +24,13 @@ Tham chiếu: `reference/ls-sheet_01..06.jpg` (1 khung / 5 s), `ls012.jpg` (hook
 | Panel | `#1C1E1B`, viền `#393B38` 1,5 px, đổ bóng sâu |
 | Chữ tiêu đề | kem `#F2E6D2`, Roboto ExtraBold HOA, line-height 1.02 |
 | Chữ phụ | `#DEE0D7`, Roboto Regular |
-| Nhãn / mốc / nguồn | Courier Prime Bold HOA, giãn chữ 3–4 px; vàng `#E1BA74`, nâu nhạt `#B19064`, xám `#9A998F` |
+| Nhãn / mốc / nguồn | IBM Plex Mono Bold HOA, giãn chữ 3–4 px; vàng `#E1BA74`, nâu nhạt `#B19064`, xám `#9A998F` |
 | Đỏ (mũi tên, ô sáng, nhãn ngày, viền thẻ) | `#B4322C`, ô sáng `#A92C25`, số lớn `#D06955` |
 | Giấy kraft / kem | `#E2D8C6`, chữ `#23201B`, nhãn đỏ `#A92C25` |
 
-Khung cố định: viền mảnh cách mép 28 px; góc trái "HỒ SƠ CHIẾN DỊCH • 1954"; góc phải **ngày của trang hiện tại** (đổi theo cảnh); thanh tiến trình đỏ chạy đều từ đầu đến cuối với núm vàng; đường cong đứt đỏ ở đáy; **dòng nguồn riêng cho mỗi trang** (Courier HOA) ở góc trái dưới.
+Khung cố định: viền mảnh cách mép 28 px; góc trái "HỒ SƠ CHIẾN DỊCH • 1954"; góc phải **ngày của trang hiện tại** (đổi theo cảnh); thanh tiến trình đỏ chạy đều từ đầu đến cuối với núm vàng; đường cong đứt đỏ ở đáy; **dòng nguồn riêng cho mỗi trang** (Plex Mono HOA) ở góc trái dưới.
+
+**Font**: tiêu đề/chữ phụ dùng Roboto, nhãn/ngày/nguồn dùng IBM Plex Mono; cả hai phủ đủ chữ Việt. Không dùng Courier Prime (thiếu ơ, ư, ạ, ế, ị, ộ, ủ… và sẽ lẫn font). Roboto không có ký tự `→`, bọc `→` trong `.mono`. Trước khi thêm font mới, kiểm tra phủ chữ Việt bằng fontTools.
 
 ## Chuyển động
 - Cảnh tĩnh: phần tử vào bằng `power3.out`, 0,4–0,7 s, trượt ≤ 80 px hoặc hiện mờ. Không zoom, không xoay trừ ảnh hook (−1,6°).
