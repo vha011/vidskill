@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><title>history chronicle explainer</title>
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face{font-family:"Barlow Cond";font-weight:700;src:url(assets/fonts/BarlowCondensed-Bold.ttf)}
+@font-face{font-family:"Barlow Cond";font-weight:800;src:url(assets/fonts/BarlowCondensed-ExtraBold.ttf)}
+@font-face{font-family:"Plex Mono";font-weight:700;src:url(assets/fonts/IBMPlexMono-Bold.ttf)}
+@font-face{font-family:"Plex Mono";font-weight:400;src:url(assets/fonts/IBMPlexMono-Regular.ttf)}
+:root{--paper:#E1E1DB;--yel:#F3C31B;--ink:#0F0F0F;--white:#F9F9F9;--red:#D53F27;--redmap:#990303;--blue:#3F81BD;--tape:#CFC9BD;--poly:#F9F3F3;--cream:#F1EBCF;--mapbg:#151515}
+*{box-sizing:border-box;margin:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:"Barlow Cond",sans-serif}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
+.page{position:absolute;inset:0}
+.mono{font-family:"Plex Mono","Courier New",monospace;font-weight:700;text-transform:uppercase}
+/* nền giấy: đa giác mờ rất nhẹ, không viền */
+#paper svg,.mapbg svg{position:absolute;inset:0;width:1920px;height:1080px}
+.mapbg{position:absolute;inset:0;background:var(--mapbg)}
+.mapbg:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(0,0,0,.6))}
+.mapph{position:absolute;left:340px;top:-60px;width:900px;height:1250px;background:linear-gradient(160deg,#747474,#3d3d3d 60%,#555);clip-path:polygon(38% 0,72% 6%,64% 30%,78% 44%,70% 58%,82% 76%,60% 100%,34% 92%,40% 74%,24% 62%,36% 46%,22% 30%,30% 14%);filter:blur(7px);opacity:.9}
+.mapph.dark{background:#2a2a2a}
+/* chữ */
+.h{font-family:"Barlow Cond";font-weight:800;text-transform:uppercase;line-height:1.08;color:var(--ink);letter-spacing:.5px}
+.h.white{color:var(--white)}
+.hl{background:var(--yel);padding:0 12px;margin:0 -2px;display:inline-block;line-height:1.02}
+.tag{display:inline-block;font-size:34px;letter-spacing:7px;padding:10px 24px;line-height:1.1}
+.tag.k{background:var(--ink);color:var(--white)}
+.tag.w{background:var(--white);color:var(--ink)}
+.tag.y{background:var(--yel);color:var(--ink)}
+.tag.r{background:var(--red);color:var(--white)}
+.tag.b{background:var(--blue);color:var(--white)}
+.tag.s{font-size:20px;letter-spacing:4px;padding:6px 14px}
+.lbl{position:absolute;background:var(--white);color:var(--ink);font-size:15px;letter-spacing:2px;padding:3px 9px}
+/* ảnh polaroid dán băng keo */
+.pol{position:absolute;background:var(--poly);padding:16px;box-shadow:0 22px 50px rgba(0,0,0,.28)}
+.pol .im{position:relative;width:100%;height:100%;background:linear-gradient(135deg,#8a8a85,#2c2c2a);overflow:hidden}
+.pol .im:before{content:"ẢNH TƯ LIỆU / ẢNH MINH HOẠ — THAY BẰNG ẢNH THẬT";position:absolute;left:0;right:0;top:45%;text-align:center;font:700 20px "Plex Mono";letter-spacing:2px;color:rgba(255,255,255,.4);padding:0 30px}
+.pol .cp{position:absolute;left:0;bottom:0;background:rgba(15,15,15,.85);color:var(--white);font-size:15px;letter-spacing:2px;padding:5px 12px}
+.tp{position:absolute;width:150px;height:56px;background:var(--tape);opacity:.9}
+/* thẻ ghi chú kem, checklist, dấu mộc */
+.note{position:absolute;background:var(--cream);color:#2b2a22;padding:20px 26px;box-shadow:0 14px 34px rgba(0,0,0,.25);width:420px}
+.note .t{font-size:22px;letter-spacing:3px;text-align:center;border-bottom:2px solid #2b2a22;padding-bottom:8px}
+.note .b{font:400 20px/1.5 "Plex Mono";margin-top:12px}
+.chk{position:absolute;font-size:26px;letter-spacing:3px;color:var(--ink)}
+.chk div{margin:14px 0;display:flex;align-items:center;gap:16px}
+.chk i{display:inline-block;width:26px;height:26px;border:3px solid var(--red);position:relative}
+.chk i.x:before,.chk i.x:after{content:"";position:absolute;left:-3px;top:10px;width:26px;height:3px;background:var(--red)}
+.chk i.x:before{transform:rotate(45deg)}.chk i.x:after{transform:rotate(-45deg)}
+.stamp{position:absolute;border:4px solid var(--red);color:var(--red);font-size:30px;letter-spacing:5px;padding:4px 16px;transform:rotate(-8deg);opacity:.85}
+/* chân dung cắt, viền trắng */
+.cut{position:absolute;filter:drop-shadow(0 0 0 #fff) drop-shadow(4px 0 0 #fff) drop-shadow(-4px 0 0 #fff) drop-shadow(0 4px 0 #fff) drop-shadow(0 -4px 0 #fff) drop-shadow(0 14px 18px rgba(0,0,0,.3))}
+.cname{position:absolute;font-size:16px;letter-spacing:2px;background:var(--white);color:var(--ink);padding:3px 10px}
+.bignum{font-family:"Barlow Cond";font-weight:800;font-size:150px;line-height:1.05;color:var(--ink);text-transform:uppercase}
+</style></head><body>
+<div id="root" data-composition-id="root" data-start="0" data-duration="42" data-width="1920" data-height="1080">
+
+  <div id="paper" class="page clip" data-start="0" data-duration="42" data-track-index="0">
+    <svg viewBox="0 0 1920 1080" preserveAspectRatio="none"><g fill="#d6d6cf" opacity=".5" style="filter:blur(10px)">
+      <polygon points="80,120 380,60 460,300 160,360"/><polygon points="760,40 1060,110 980,380 700,300"/><polygon points="1400,160 1720,60 1840,330 1480,400"/>
+      <polygon points="200,640 520,560 620,860 260,940"/><polygon points="900,700 1240,640 1320,980 960,1040"/><polygon points="1560,640 1840,700 1760,1000 1500,940"/></g>
+      <g fill="#ececE7" opacity=".6" style="filter:blur(12px)"><polygon points="420,380 700,420 620,640 380,600"/><polygon points="1180,300 1460,380 1380,600 1140,520"/><polygon points="60,420 220,400 260,560 90,580"/></g></svg>
+  </div>
+
+  <!-- P1 0-6: polaroid trái + nhãn ngày + số lớn có nền vàng -->
+  <div id="p1" class="page clip" data-start="0" data-duration="6" data-track-index="1">
+    <div class="tp" style="left:35px;top:210px;transform:rotate(-38deg)"></div>
+    <div class="pol" id="p1p" style="left:130px;top:230px;width:850px;height:710px;transform:rotate(-1.4deg)"><div class="im"><div class="cp mono">TRÊN TÀU MEREDITH VICTORY 12-1950 · HẢI QUÂN MỸ</div></div></div>
+    <div class="tp" style="left:880px;top:810px;width:170px;transform:rotate(-40deg)"></div>
+    <div class="tag y mono" id="p1t" style="position:absolute;left:1120px;top:400px"></div>
+    <div class="bignum" id="p1n" style="position:absolute;left:1100px;top:480px">~<span class="hl">7.158</span> NGƯỜI</div>
+  </div>
+
+  <!-- P2 6-12: trang bản đồ — vùng đỏ, ghim xanh, đường chấm, tiêu đề cuối khung -->
+  <div id="p2" class="page clip" data-start="6" data-duration="6" data-track-index="1">
+    <div class="mapbg"><div class="mapph"></div>
+      <svg viewBox="0 0 1920 1080">
+        <polygon id="p2red" points="1010,330 1190,300 1250,420 1180,540 1060,560 980,460" fill="#990303" opacity="1"/>
+        <defs><mask id="p2m"><path id="p2mp" d="M900 290 C905 360 888 460 880 640" fill="none" stroke="#fff" stroke-width="30" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></mask></defs>
+        <path d="M900 290 C905 360 888 460 880 640" fill="none" stroke="#dfeeff" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 18" mask="url(#p2m)"/>
+      </svg>
+      <svg id="p2pin" style="position:absolute;left:870px;top:230px;width:60px;height:70px" viewBox="0 0 60 70"><path d="M5 5 H55 V40 L30 66 L5 40Z" fill="#3F81BD" stroke="#fff" stroke-width="4"/><circle cx="30" cy="24" r="8" fill="#fff"/></svg>
+    </div>
+    <div class="tag y mono s" style="position:absolute;left:30px;top:30px">12 - 1950</div>
+    <div class="tag y mono" id="p2t" style="position:absolute;left:660px;top:48px;font-size:26px;letter-spacing:5px">25 - 12 - 1950 · GIÁNG SINH</div>
+    <div class="lbl mono" style="left:1040px;top:410px">HƯNG NAM</div>
+    <div class="h white" id="p2h" style="position:absolute;left:0;right:0;text-align:center;top:800px;font-size:110px">CẢ HAI <span class="hl" style="color:var(--ink)">ĐỀU MUỐN ĐÁNH</span></div>
+  </div>
+
+  <!-- P3 12-18: câu hỏi giữa trang -->
+  <div id="p3" class="page clip" data-start="12" data-duration="6" data-track-index="1">
+    <div class="h" id="p3h" style="position:absolute;left:0;right:0;text-align:center;top:360px;font-size:124px">ĐƯỜNG CHIA ĐÔI <span class="hl">TỪ ĐÂU RA</span> ?</div>
+    <div style="position:absolute;left:0;right:0;text-align:center;top:590px"><span class="tag w mono" id="p3s">XEM LẠI VIDEO CHIẾN TRANH LẠNH</span></div>
+  </div>
+
+  <!-- P4 18-24: checklist + dấu mộc + thẻ ghi chú kem -->
+  <div id="p4" class="page clip" data-start="18" data-duration="6" data-track-index="1">
+    <div style="position:absolute;left:230px;top:210px"><span class="tag k mono" id="p4t">5 KHOANG HÀNG</span></div>
+    <div class="note" id="p4n" style="left:1120px;top:200px"><div class="t mono">LỆNH CỦA LARUE</div><div class="b">Dỡ gần hết hàng xuống.<br>Nhận nhiều người nhất có thể.</div></div>
+    <div class="chk mono" id="p4c" style="left:300px;top:500px"><div><i class="x" id="p4c1"></i>THỨC ĂN</div><div><i class="x" id="p4c2"></i>NƯỚC SẠCH</div><div><i class="x" id="p4c3"></i>BÁC SĨ</div></div>
+    <div class="stamp mono" id="p4s" style="left:560px;top:620px">THỦY LÔI</div>
+  </div>
+
+  <!-- P5 24-30: chân dung cắt + nhãn đỏ + tiêu đề + ghi chú -->
+  <div id="p5" class="page clip" data-start="24" data-duration="6" data-track-index="1">
+    <svg id="p5c" class="cut" style="left:1150px;top:170px" width="520" height="760" viewBox="0 0 520 760"><path d="M260 60 C340 60 380 130 372 210 C366 270 330 300 330 340 C440 370 500 440 510 760 H10 C20 440 80 370 190 340 C190 300 154 270 148 210 C140 130 180 60 260 60Z" fill="#9a9a95"/></svg>
+    <div class="cname mono" style="left:1290px;top:900px">STALIN</div>
+    <div style="position:absolute;left:200px;top:300px"><span class="tag r mono" id="p5t">SỰ LIÊN XÔ NHẢY VÀO</span></div>
+    <div class="h" id="p5h" style="position:absolute;left:200px;top:390px;font-size:132px">THẾ CHIẾN 3 ·<br><span class="hl">BOM</span> NGUYÊN TỬ</div>
+  </div>
+
+  <!-- P6 30-36: hai con số lớn + nhãn xanh -->
+  <div id="p6" class="page clip" data-start="30" data-duration="6" data-track-index="1">
+    <div class="bignum" id="p6a" style="position:absolute;left:0;right:0;text-align:center;top:330px;font-size:170px"><span class="hl">17.500</span> XE</div>
+    <div class="bignum" id="p6b" style="position:absolute;left:0;right:0;text-align:center;top:520px;font-size:170px"><span class="hl">91 – 98</span> NGHÌN DÂN</div>
+    <div style="position:absolute;left:0;right:0;text-align:center;top:730px"><span class="tag b mono s" id="p6t" style="font-size:26px">CHỜ VỀ PHÍA NAM</span></div>
+  </div>
+
+  <!-- P7 36-42: tiêu đề trái + polaroid phải -->
+  <div id="p7" class="page clip" data-start="36" data-duration="6" data-track-index="1">
+    <div class="h" id="p7h" style="position:absolute;left:60px;top:330px;width:840px;text-align:center;font-size:112px;white-space:nowrap">CÒN NHỚ<br><span class="hl">CÁI GHẾ TRỐNG</span> ?</div>
+    <div style="position:absolute;left:60px;top:690px;width:840px;text-align:center"><span class="tag k mono" id="p7t" style="font-size:30px;letter-spacing:6px">LIÊN XÔ CÓ QUYỀN PHỦ QUYẾT</span></div>
+    <div class="tp" style="left:870px;top:180px;transform:rotate(-38deg)"></div>
+    <div class="pol" id="p7p" style="left:970px;top:220px;width:800px;height:620px;transform:rotate(1.2deg)"><div class="im"><div class="cp mono">ẢNH MINH HOẠ · TẠO BẰNG AI</div></div></div>
+    <div class="tp" style="left:1620px;top:800px;transform:rotate(-40deg)"></div>
+  </div>
+
+  <audio id="s1" src="assets/sfx_whoosh.wav" data-start="0.3" data-duration="0.8" data-track-index="10" data-volume="0.35"></audio>
+  <audio id="s2" src="assets/sfx_ping.wav" data-start="7" data-duration="0.6" data-track-index="11" data-volume="0.35"></audio>
+  <audio id="s3" src="assets/sfx_click.wav" data-start="19.2" data-duration="0.2" data-track-index="12" data-volume="0.3"></audio>
+  <audio id="s4" src="assets/sfx_hit.wav" data-start="32" data-duration="1.5" data-track-index="13" data-volume="0.4"></audio>
+</div>
+<script>
+/* nhãn gõ từng chữ: giữ nguyên chữ gốc để lint/snapshot đọc được */
+function typeInit(id,text){const el=document.getElementById(id);el.textContent="";[...text].forEach(c=>{const s=document.createElement("span");s.textContent=c;el.appendChild(s)});return[...el.children]}
+const TXT={p1t:"SÁNG 23 - 12 - 1950"};
+const p1t=typeInit("p1t",TXT.p1t);
+const tl=gsap.timeline({paused:true});
+const fadeIn=(sel,t,d=.25)=>tl.from(sel,{opacity:0,duration:d},t);
+const rise=(sel,t,y=34,d=.5)=>tl.from(sel,{y,opacity:0,duration:d,ease:"power3.out"},t);
+/* P1 */
+tl.from("#p1p",{x:-160,rotation:-5,opacity:0,duration:.7,ease:"power3.out"},.15)
+  .from("#p1 .tp",{scale:0,opacity:0,duration:.3,stagger:.12},.7)
+  .from(p1t,{opacity:0,duration:.01,stagger:.045},.9)
+  .from("#p1n",{x:60,opacity:0,duration:.55,ease:"power3.out"},1.7);
+/* P2 */
+fadeIn("#p2 .mapbg",6,.3);
+tl.from("#p2red",{opacity:0,duration:.5},6.6).to("#p2red",{opacity:.5,duration:1.2},7.4)
+  .from("#p2pin",{y:-30,opacity:0,duration:.4,ease:"back.out(2)"},7.2)
+  .to("#p2mp",{strokeDashoffset:0,duration:1.4,ease:"power1.inOut"},7.5)
+  .from("#p2 .tag.y.s,#p2t",{opacity:0,duration:.3},6.4).from("#p2 .lbl",{opacity:0,duration:.3},8)
+  .from("#p2h",{y:40,opacity:0,duration:.5,ease:"power3.out"},9);
+/* P3 */
+rise("#p3h",12.2,36);tl.from("#p3s",{opacity:0,scale:.9,duration:.4,ease:"power2.out"},13.2);
+/* P4 */
+tl.from("#p4t",{opacity:0,x:-30,duration:.4},18.2).from("#p4n",{opacity:0,y:-30,rotation:2,duration:.5,ease:"power3.out"},18.6)
+  .from("#p4c",{opacity:0,duration:.3},19.2)
+  .from("#p4c1,#p4c2,#p4c3",{scale:0,duration:.25,stagger:.5,ease:"back.out(2.5)"},19.6)
+  .from("#p4s",{scale:2.2,opacity:0,duration:.25,ease:"power4.in"},21.6);
+/* P5 */
+tl.from("#p5c",{x:120,opacity:0,duration:.6,ease:"power3.out"},24.2).from("#p5 .cname",{opacity:0,duration:.3},24.8)
+  .from("#p5t",{opacity:0,x:-30,duration:.4},24.5).from("#p5h",{y:40,opacity:0,duration:.55,ease:"power3.out"},25);
+/* P6 */
+rise("#p6a",30.2,40);rise("#p6b",31.1,40);tl.from("#p6t",{opacity:0,scale:.9,duration:.35},32.2);
+/* P7 */
+rise("#p7h",36.2,36);tl.from("#p7t",{opacity:0,duration:.4},37.2)
+  .from("#p7p",{x:140,rotation:5,opacity:0,duration:.65,ease:"power3.out"},36.3).from("#p7 .tp",{scale:0,opacity:0,duration:.3,stagger:.12},36.9);
+window.__timelines=window.__timelines||{};window.__timelines["root"]=tl;
+</script></body></html>
