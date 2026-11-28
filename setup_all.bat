@@ -82,6 +82,7 @@ if %ERRORLEVEL% neq 0 (
 :: BUOC 2: herk-edit-kit (HyperFrames + GSAP)
 :: -------------------------------------------------------------------------
 echo.
+if not exist "output" mkdir "output"
 echo [2/5] Cai dat herk-edit-kit (Render Engine)...
 if not exist "herk-edit-kit" (
     echo   -> git clone herk-edit-kit...

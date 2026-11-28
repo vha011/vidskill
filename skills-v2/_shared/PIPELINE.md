@@ -7,12 +7,13 @@ Môi trường: `herk-edit-kit` (HyperFrames 0.7.x + GSAP 3.14). Mọi lệnh ch
 
 1. **Brief (≤10 dòng)**: chủ đề, tỉ lệ (mặc định 9:16 1080×1920, 30fps), thời lượng mục tiêu, nguồn số liệu, CTA. Chọn skill theo `skills-v2/README.md`.
 2. **Kịch bản**: chia câu ngắn 6–14 từ. Mỗi câu = 1 "beat" hình. Hook trong 3 giây đầu: một con số/câu hỏi gây sốc.
-3. **Giọng đọc**: tạo mỗi câu 1 file WAV bằng VieNeu-TTS; đo `ffprobe -v error -show_entries format=duration -of csv=p=0 cau_01.wav`. Ghép lại bằng ffmpeg `concat` thành `assets/vo.wav`, giữ khoảng nghỉ 0,15 s giữa câu. **Thời gian beat = thời lượng audio thật**, không đoán.
-4. **Dựng dự án**: `bash skills-v2/_shared/scripts/new-project.sh <skill> <slug>` (copy template, gsap, font, sfx).
+3. **Giọng đọc**: viết `script.json` (xem đầu `_shared/scripts/build_voiceover.py`) rồi chạy `<ROOT>/VieNeu-TTS/.venv/Scripts/python.exe skills-v2/_shared/scripts/build_voiceover.py <thư-mục-dự-án> script.json`. Script sinh từng câu, ghép `assets/vo.wav` và ghi `assets/timing.json` (start/end từng câu). **Thời gian beat = timing.json**, không đoán.
+   **Nhịp nghỉ (bắt buộc, tránh đọc dồn):** nghỉ giữa câu cùng trang ≥ 0,7 s; câu cuối của trang (chuyển cảnh) ≥ 1,3 s; sau câu hỏi dẫn dắt ≥ 1,5 s; đầu bài 0,5 s; cuối bài giữ ≥ 1,5 s. Không rút ngắn các khoảng này để vừa thời lượng — bớt câu thay vì bớt nghỉ. Mỗi trang 1 ý, câu ≤ 14 từ. Cắt sang trang mới ở (end câu cuối + 0,5 s) để hình mới vào xong trước khi câu kế bắt đầu (≥ 0,6 s sau khi trang hiện).
+4. **Dựng dự án**: Windows `skills-v2\_shared\scripts\new-project.bat <skill> <slug> [--theme=<màu>]`, macOS/Linux `bash skills-v2/_shared/scripts/new-project.sh <skill> <slug> [--theme=<màu>]` (copy template, gsap, font, sfx).
 5. **Sửa template**: chỉ sửa các khối đánh dấu `DỮ LIỆU`, `CAPTIONS`, nội dung text trong `.beat`, và dòng `tl.` tương ứng. Giữ nguyên class, màu, cỡ chữ, easing trong SKILL.md.
 6. **Âm thanh**: thêm `<audio id="vo" src="assets/vo.wav" data-start="0" data-duration="<tổng giây>" data-track-index="9" data-volume="1">`. SFX dùng `_shared/audio/` (bảng ở dưới). Nhạc nền nếu cần: `ugc_bg_music_30s.wav` trong `README.zip` của repo, volume 0.12.
 7. **Kiểm tra**: `npx hyperframes lint` → 0 error. Rồi `npx hyperframes snapshot --at <giây giữa mỗi beat>` và **mở contact-sheet.jpg xem từng khung**. Sửa tới khi qua hết checklist bên dưới.
-8. **Render**: `npx hyperframes render --output renders/<slug>.mp4` (quality mặc định `standard`; thử nhanh dùng `-q draft`). Ghi kết quả vào `VERIFY.md` (lint, các khung đã xem, độ lớn file, LUFS).
+8. **Render**: từ `<ROOT>/herk-edit-kit` chạy `npx hyperframes render video-projects/<slug> --output ../output/<slug>.mp4` (quality mặc định `standard`; thử nhanh dùng `-q draft`). **Mọi video, ảnh QA, `VERIFY.md` nằm trong `<ROOT>/output/`** (cùng cấp repo `vidskill`), không để trong `herk-edit-kit`. Ghi kết quả vào `output/<slug>-VERIFY.md` (lint, các khung đã xem, độ lớn file, LUFS).
 
 ## Quy tắc HyperFrames bắt buộc (lint sẽ bắt)
 
