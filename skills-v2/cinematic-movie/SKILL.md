@@ -1,6 +1,6 @@
 ---
 name: cinematic-movie
-description: Video kể chuyện kiểu phim ngắn / phim tài liệu có thế giới hình ảnh xuyên suốt, máy quay ảo, cảnh chuyển có chủ đích. Dùng khi cần cảm xúc và mạch truyện hơn là số liệu.
+description: (Nếu là hoạt hình nhân vật AI nhiều phút, dùng `animated-story-ai`.) Video kể chuyện kiểu phim ngắn / phim tài liệu có thế giới hình ảnh xuyên suốt, máy quay ảo, cảnh chuyển có chủ đích. Dùng khi cần cảm xúc và mạch truyện hơn là số liệu.
 ---
 
 # cinematic-movie  (CHƯA có video tham chiếu riêng)
