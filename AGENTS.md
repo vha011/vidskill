@@ -1,6 +1,7 @@
 # 🎬 HƯỚNG DẪN ĐIỀU PHỐI HỆ THỐNG EXPLAINED VIDEO (AGENTS.MD)
 
 > **Dành cho mọi AI Agent (Antigravity, Gemini, Claude Code, Cursor)**:
+> **Trước tiên đọc `skills-v2/_shared/HERK-KIT.md`**: herk-edit-kit có sẵn 406 card thiết kế và các skill (motion-showreel, short-form-edit); dùng chúng thay vì tự vẽ. Ảnh/clip AI dùng **Muse** (không dùng Kie), giọng dùng **VieNeu-TTS** (không dùng ElevenLabs).
 > Đây là bản đồ kiến trúc và quy chuẩn sản xuất video giải thích tự động (Explained Video Engine) chạy **100% Offline Local** trên máy tính. Bắt buộc đọc kỹ file này khi bắt đầu bất kỳ tác vụ tạo video hoặc preset mới.
 
 ---
@@ -27,7 +28,7 @@ Khi người dùng yêu cầu làm video (hoặc mở repo và nói "bắt đầ
 > - **A — Đồ họa động + ảnh/bản đồ thật:** dựng từ template; em tự tìm ảnh tư liệu tự do (Wikimedia, NASA), vẽ bản đồ từ ranh giới thật, trộn nhạc theo hồi (mở – cao trào – kết), ra video luôn kèm danh sách asset (`ASSETS.md`) để anh thay ảnh nào muốn.
 > - **B — Đồ họa + cảnh phim AI:** như A, thêm khoảng cứ 25–30 giây một clip 5–8 giây do video-AI tạo (có SFX, không nhạc, không giọng). Em giao file prompt đánh số 1. 2. 3. để anh chạy batch; anh lưu clip vào một thư mục (tên bắt đầu bằng số thứ tự) và đưa đường dẫn thư mục đó, em tự ghép đúng vị trí, chuẩn hóa clip và render bản cuối. Em render bản A trước để xem nhịp. Chỉ dùng cho preset ngang 16:9.
 >
-> **2. Preset** (xem danh sách ở mục 2; gợi ý theo chủ đề: lịch sử dài → `explained-history-chronicle`, hồ sơ tư liệu → `explained-history-dossier`, kinh tế vĩ mô → `explained-fdi-timeline`, tài chính doanh nghiệp → `explained-data-finance`, bản đồ/địa chính trị → `explained-geo-map`, điều tra → `explained-investigative`, kinh doanh → `explained-gym-business`)
+> **2. Preset** (xem danh sách ở mục 2; gợi ý theo chủ đề: giải thích chung / lịch sử / sự kiện, muốn đẹp nhất → `explained-vox-cards` (card thiết kế sẵn của herk-edit-kit); lịch sử dài → `explained-history-chronicle`, hồ sơ tư liệu → `explained-history-dossier`, kinh tế vĩ mô → `explained-fdi-timeline`, tài chính doanh nghiệp → `explained-data-finance`, bản đồ/địa chính trị → `explained-geo-map`, điều tra → `explained-investigative`, kinh doanh → `explained-gym-business`)
 >
 > **3. Màu** (chỉ preset có `themes/`; hiện là `explained-history-chronicle`, mặc định `paper`): `paper` giấy xám như video mẫu · `sepia-archive` ố vàng hoài cổ · `ocean-chart` xanh lạnh hải đồ. Preset khác dùng màu cố định của preset.
 >
@@ -57,6 +58,7 @@ Thư mục làm việc chính của người dùng là `vidskill`. Hai hệ sinh
 │   │   ├── explained-fdi-timeline\     (Dọc 9:16 · Lịch sử kinh tế / chính sách theo năm)
 │   │   ├── explained-history-dossier\  (Ngang 16:9 · Hồ sơ tư liệu lịch sử / chiến dịch)
 │   │   ├── explained-history-chronicle\ (Ngang 16:9 · Lịch sử dài, nền giấy sáng, bản đồ + Polaroid)
+│   │   ├── explained-vox-cards\        (Ngang 16:9 · Ghép card Vox của herk-edit-kit, khuyên dùng)
 │   │   ├── animated-story-ai\         (Ngang 16:9 · Hoạt hình 3D nhân vật AI, truyện dài: sổ nhân vật, kịch bản, shot list)
 │   │   ├── explained-data-finance\     (Dọc 9:16 · Báo cáo tài chính / cổ phiếu PNJ)
 │   │   ├── explained-geo-map\          (Dọc 9:16 · Địa chính trị / bản đồ Singapore)
@@ -93,6 +95,7 @@ Agent tra cứu bảng ánh xạ sau để chọn đúng template gốc trong `s
 | **FDI Timeline** / Kinh tế vĩ mô | `explained-fdi-timeline` | **9:16** (1080×1920) | `video-reference/fdi vn.mp4` | Nền `#0D0B0C`, Lime `#CBF73E`, Thước TimelineRunner đỉnh, Thùng hàng xếp tầng, Sơ đồ phát sáng, Mộc đỏ |
 | **History Dossier** / Lịch sử | `explained-history-dossier` | **16:9** (1920×1080) | `video-reference/lichsu-vietnam.mp4` | Nền rêu `#121411`, Kem `#F2E6D2`, Đỏ `#B4322C`, Giấy kraft, Mũi tên vẽ tay, Thẻ mốc ngày, Lưới đơn vị |
 | **History Chronicle** / Lịch sử dài (Triều Tiên) | `explained-history-chronicle` | **16:9** (1920×1080) | `video-reference/trieu-tien-chronicle.mp4` (bản nén 1280×720 của video 30:39) | Nền giấy sáng `#E1E1DB`, nhấn vàng `#F3C31B`, mực `#0F0F0F`, chữ Barlow Condensed, nhãn mono gõ từng chữ, Polaroid + băng keo, Bản đồ vệ tinh đen trắng + vùng đỏ + ghim xanh |
+| **Vox Cards** / Giải thích cắt dán kiểu Vox (khuyên dùng) | `explained-vox-cards` | **16:9** (1920×1080) | `herk-edit-kit/style-library/01-vox-explainer` (106 card) | Giấy báo `#efe9dc`, mực `#17130e`, xanh nhấn `#37BDF8`, đỏ `#e23b2e`; Fraunces + Archivo; ảnh đen trắng thật; chuyển động stop-motion. Không vẽ layout: chọn card bằng `cards.py list`, điền slot, ghép bằng `cards.py build` |
 | **Data Finance** / PNJ Tài chính | `explained-data-finance` | **9:16** (1080×1920) | `video-reference/pnj-tai-chinh.mp4` | Nền tối `#080F0D`, Lime `#ADF400`, Vàng `#FEC73C`, Đỏ `#E70A23`, Biểu đồ đường/cột, Thẻ báo khoanh đỏ, Con dấu |
 | **Geo Map** / Singapore / Bản đồ | `explained-geo-map` | **9:16** (1080×1920) | `video-reference/singapore.mp4` | Bản đồ phẳng màu + ảnh vệ tinh, Vàng nhấn `#FFD708` (vòng tròn, năm, nhãn, đường tàu), Nhãn pop-up, Phụ đề từ khóa vàng |
 | **Gym Business** / Điểm hòa vốn | `explained-gym-business` | **9:16** (1080×1920) | `video-reference/gym center.mp4` | Nền ảnh vệ tinh tối (`#0E1114`), Lime `#CBF73E`, Đỏ `#C5202B`, Bảng giá viền trắng, Thẻ báo highlight lime, Biểu đồ cột, Chú giải bản đồ |

@@ -1,0 +1,19 @@
+{
+  "style": "vox-explainer",
+  "beats": [
+    {"card": "vox-explainer.t1.section.fullbleed", "duration": 6.5,
+     "slots": {"kicker": "23-12-1950 · HƯNG NAM", "headline": "Con tàu <em>cuối cùng</em> rời cảng", "source": "ẢNH: HẢI QUÂN MỸ · PD"},
+     "images": {"photo": "assets/img/h5.jpg"}},
+    {"card": "vox-explainer.t1.stat.over-photo", "duration": 7, "images": {"photo": "assets/img/h3.jpg"},
+     "slots": {"kicker": "SS MEREDITH VICTORY", "stat": "14.000", "label": "người tị nạn lên một con tàu<br>thiết kế chở <em>12 hành khách</em>", "source": "ẢNH: HẢI QUÂN MỸ · PD"}},
+    {"card": "vox-explainer.t1.section.map", "duration": 6.5,
+     "slots": {"kicker": "BẮC TRIỀU TIÊN · 12-1950", "headline": "Bị <em>vây</em> ở bờ biển phía đông", "place": "HƯNG NAM"}},
+    {"card": "vox-explainer.t1.section.highlight", "duration": 7,
+     "slots": {"kicker": "LỆNH THUYỀN TRƯỞNG", "pre": "Bỏ lại hàng hoá, chở", "key": "tất cả mọi người", "post": " lên tàu.", "source": "THUYỀN TRƯỞNG LEONARD LARUE"}},
+    {"card": "vox-explainer.t1.overview.filmstrip", "duration": 8,
+     "slots": {"title": "CUỘC SƠ TÁN", "cap1": "11-12 · LÍNH THỦY", "cap2": "DÂN TỊ NẠN", "cap3": "14-12 · BẾN CẢNG", "cap4": "24-12 · RỜI ĐI", "source": "ẢNH: WIKIMEDIA COMMONS · PD"},
+     "images": {"img1": "assets/img/h2.jpg", "img2": "assets/img/h3.jpg", "img3": "assets/img/h4.jpg", "img4": "assets/img/p1.jpg"}},
+    {"card": "vox-explainer.t1.section.classified", "duration": 7,
+     "slots": {"filed": "HỒ SƠ · 25-12-1950", "title": "Không một ai thiệt mạng", "stamp": "KỶ LỤC", "substamp": "GUINNESS", "note": "CON TÀU CỨU HỘ"}}
+  ]
+}
