@@ -9,7 +9,9 @@ Cứ ~25–30 giây chèn 1 clip 5–8 giây do video-AI (Veo, Kling, Runway, So
    Ra `assets/broll_plan.json` (số thứ tự, thời điểm bắt đầu, độ dài, lời đọc tương ứng) và `broll_snippets.html` (thẻ `<video>` + GSAP fade 0,3 s, đã đặt đúng `data-start`/`data-duration`, track 5).
 3. Viết file prompt `<ROOT>/output/<ten-video>-broll-prompts.txt` theo quy tắc dưới, **đúng số lượng và thứ tự slot trong plan**.
 4. Kiểm tra: `python skills-v2/_shared/scripts/broll.py check <thư-mục-dự-án> <file-prompt.txt> --theme <màu>` → phải `OK`.
-5. Người dùng chạy batch, lưu video thành `assets/broll/01.mp4`, `02.mp4`… (số = số thứ tự prompt). Dán `broll_snippets.html` vào `index.html`, lint, render. Chưa có file clip thì đừng dán thẻ video (render sẽ lỗi).
+5. Người dùng chạy batch rồi đưa **đường dẫn một thư mục** chứa các clip, tên có số thứ tự prompt ở đầu (`1.mp4`, `01_havana.mp4`, `clip-02.mp4`… đều được). AI tự làm hết:
+   `python skills-v2/_shared/scripts/broll.py ingest <thư-mục-dự-án> <thư-mục-clip>`
+   Lệnh này ghép clip theo số, chuẩn hóa về 1920×1080 30 fps không tiếng (vào `assets/broll/NN.mp4`), đo độ dài thật, rút slot nếu clip ngắn hơn, báo clip thiếu/thừa và ghi lại `broll_snippets.html` chỉ gồm clip có file. AI dán snippet vào `index.html` (thẻ `<video>` vào `#root` sau các khối trang, dòng GSAP vào timeline), lint, render bản cuối. Slot thiếu clip thì trang giữ đồ họa, không dán thẻ video (render sẽ lỗi). Bản A (chưa có clip) vẫn render trước để xem nhịp.
 6. Nói rõ cho người dùng bảng slot (số, giây bắt đầu, độ dài, lời đọc) để họ chèn đúng chỗ.
 
 ## Định dạng file prompt (để import batch)

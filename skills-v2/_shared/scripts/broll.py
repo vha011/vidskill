@@ -15,6 +15,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -32,6 +33,67 @@ def load_style(theme):
 def build_suffix(cfg, theme_cfg, duration=None):
     parts = [cfg["base"], theme_cfg["grade"], cfg["technical"]]
     return " ".join(p.strip() for p in parts), cfg["negative"].strip()
+
+
+def write_snippets(project, slots):
+    lines = ["<!-- Dán các thẻ này vào <div id=\"root\"> SAU các khối trang (để nằm trên cùng). Track 5 không dùng cho clip khác. -->"]
+    gsap = ["// Dán vào khối timeline GSAP (tl là timeline chính)"]
+    for s in slots:
+        i = f"broll{s['n']:02d}"
+        end = round(s["start"] + s["duration"], 2)
+        lines.append(
+            f'<video id="{i}" class="clip" src="{s["file"]}" data-start="{s["start"]}" '
+            f'data-duration="{s["duration"]}" data-track-index="5" muted playsinline '
+            f'style="position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover;z-index:50"></video>')
+        gsap.append(f'tl.from("#{i}",{{opacity:0,duration:.3}},{s["start"]}).to("#{i}",{{opacity:0,duration:.3}},{round(end - 0.3, 2)});')
+    sp = os.path.join(project, "broll_snippets.html")
+    open(sp, "w", encoding="utf-8").write("\n".join(lines) + "\n\n<script>\n" + "\n".join(gsap) + "\n</script>\n")
+
+
+def probe(path):
+    r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path],
+                       capture_output=True, text=True)
+    return float(r.stdout.strip())
+
+
+def ingest(args):
+    pp = os.path.join(args.project, "assets", "broll_plan.json")
+    if not os.path.exists(pp):
+        sys.exit("Chưa có broll_plan.json. Chạy `broll.py plan` trước.")
+    plan_data = json.load(open(pp, encoding="utf-8"))
+    dest = os.path.join(args.project, "assets", "broll")
+    os.makedirs(dest, exist_ok=True)
+    found = {}
+    for name in sorted(os.listdir(args.folder)):
+        m = re.match(r"^\D*(\d+)", name)
+        if m and name.lower().endswith((".mp4", ".mov", ".webm", ".mkv")):
+            found.setdefault(int(m.group(1)), os.path.join(args.folder, name))
+    ready, notes = [], []
+    for s in plan_data["slots"]:
+        src = found.get(s["n"])
+        if not src:
+            notes.append(f"#{s['n']:02d}: THIẾU clip (slot {s['start']}s +{s['duration']}s) - bỏ qua, trang giữ đồ họa")
+            continue
+        out = os.path.join(dest, f"{s['n']:02d}.mp4")
+        # chuẩn hoá: H.264 1920x1080 30fps, bỏ tiếng (tiếng chỉ đi qua giọng đọc)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-an",
+                        "-vf", "scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,fps=30",
+                        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", out], check=True)
+        d = probe(out)
+        s = dict(s)
+        if d + 0.05 < s["duration"]:
+            notes.append(f"#{s['n']:02d}: clip {d:.1f}s ngắn hơn slot {s['duration']}s - rút slot còn {d:.1f}s")
+            s["duration"] = round(d, 2)
+        elif d > s["duration"] + 0.05:
+            notes.append(f"#{s['n']:02d}: clip {d:.1f}s dài hơn slot {s['duration']}s - cắt bớt đuôi")
+        ready.append(s)
+    extra = sorted(set(found) - {s["n"] for s in plan_data["slots"]})
+    if extra:
+        notes.append(f"Clip thừa không có slot: {extra}")
+    write_snippets(args.project, ready)
+    print(f"Đã nhận {len(ready)}/{len(plan_data['slots'])} clip -> {dest}")
+    print("\n".join(notes))
+    print("Snippet đã cập nhật: broll_snippets.html (chỉ gồm các clip có file)")
 
 
 def plan(args):
@@ -77,17 +139,7 @@ def plan(args):
     pp = os.path.join(args.project, "assets", "broll_plan.json")
     json.dump(out, open(pp, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 
-    lines = ["<!-- Dán các thẻ này vào <div id=\"root\"> SAU các khối trang (để nằm trên cùng). Track 5 không dùng cho clip khác. -->"]
-    gsap = ["// Dán vào khối timeline GSAP (tl là timeline chính)"]
-    for s in slots:
-        i = f"broll{s['n']:02d}"
-        lines.append(
-            f'<video id="{i}" class="clip" src="{s["file"]}" data-start="{s["start"]}" '
-            f'data-duration="{s["duration"]}" data-track-index="5" muted playsinline '
-            f'style="position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover;z-index:50"></video>')
-        gsap.append(f'tl.from("#{i}",{{opacity:0,duration:.3}},{s["start"]}).to("#{i}",{{opacity:0,duration:.3}},{round(s["end"] - 0.3, 2)});')
-    sp = os.path.join(args.project, "broll_snippets.html")
-    open(sp, "w", encoding="utf-8").write("\n".join(lines) + "\n\n<script>\n" + "\n".join(gsap) + "\n</script>\n")
+    write_snippets(args.project, slots)
 
     print(f"{len(slots)} clip trong {total:.1f}s (mỗi ~{args.every}s) -> {pp}")
     for s in slots:
@@ -144,6 +196,10 @@ def main():
     p2.add_argument("prompts")
     p2.add_argument("--theme", default="paper")
     p2.set_defaults(fn=check)
+    p4 = sub.add_parser("ingest")
+    p4.add_argument("project")
+    p4.add_argument("folder")
+    p4.set_defaults(fn=ingest)
     p3 = sub.add_parser("style")
     p3.add_argument("--theme", default="paper")
     p3.set_defaults(fn=style)
