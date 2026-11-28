@@ -2,7 +2,18 @@
 
 Ngang 16:9. Phong cách cắt dán tài liệu kiểu Vox: giấy báo, ảnh đen trắng thật, chữ Fraunces đậm nhạt tương phản, khối nhấn xanh, chuyển động giật kiểu stop-motion. **Không tự vẽ layout**: mỗi cảnh là một card có sẵn trong `herk-edit-kit/style-library/01-vox-explainer` (106 card: 41 card con số, 18 card mở chương, 21 card tổng quan, 26 card chú thích). AI chỉ chọn card, điền chữ, ảnh và canh thời gian.
 
-Ảnh mẫu: `reference/demo-fixes.jpg`. Storyboard mẫu 6 cảnh: `template/storyboard.json` (Hưng Nam 1950).
+Ảnh mẫu: `reference/demo-fixes.jpg`. Storyboard mẫu 6 cảnh: `template/storyboard.json` (Hưng Nam 1950), ảnh của nó: `template/assets.json`.
+
+## Dựng lại video demo (42 s) để kiểm tra máy
+Chạy từ thư mục repo (Windows dùng `new-project.bat`):
+```
+bash skills-v2/_shared/scripts/new-project.sh explained-vox-cards demo-vox
+python skills-v2/_shared/scripts/fetch_assets.py ../herk-edit-kit/video-projects/demo-vox ../herk-edit-kit/video-projects/demo-vox/assets.json
+python skills-v2/_shared/scripts/mix_audio.py ../herk-edit-kit/video-projects/demo-vox --duration 42 --acts hook:0,build:15,climax:64,resolve:83
+python skills-v2/_shared/scripts/cards.py build ../herk-edit-kit/video-projects/demo-vox ../herk-edit-kit/video-projects/demo-vox/storyboard.json
+cd ../herk-edit-kit && npx hyperframes lint video-projects/demo-vox && npx hyperframes render video-projects/demo-vox --output ../output/demo-vox.mp4
+```
+Demo không có giọng đọc (`--duration 42` = chỉ nhạc). Video thật: làm giọng bằng `build_voiceover.py` trước, bỏ `--duration`, và dùng `from`/`to` (số câu) thay `duration` trong storyboard.
 
 ## Vì sao đẹp hơn template HTML tự vẽ
 Card của herk do người thiết kế làm từng cái, có hệ màu, font, nhịp chuyển động thống nhất (`tokens.css`, `DESIGN.md` của style). Các preset cũ trong `skills-v2` không dùng thư viện này mà vẽ lại một template đơn, nên ít bố cục và đứng yên nhiều.

@@ -27,6 +27,7 @@ Ví dụ hoàn chỉnh: `herk-edit-kit/examples/showcase/youtube-showreel.mp4` (
 ## Muse
 **Gọi Muse bằng `skills-v2/_shared/scripts/muse.py` qua muse2api** (chạy trên máy hoặc mạng nội bộ, pool tài khoản Muse, không tính tiền theo lượt). Cấu hình trong `<repo>/.env` (mẫu `.env.example`, không commit): `MUSE_HOST`, `MUSE_PORT` (mặc định 18610), `MUSE_API_KEY` (khóa MUSE2API_KEY), `MUSE_IMAGE_MODEL` (mặc định `muse-image`), `MUSE_VIDEO_MODEL` (để trống nếu không cần).
 - Kiểm tra kết nối: `python muse.py check`.
+- Ảnh chọn sẵn (biết đúng file): trong `assets.json` ghi `"url"` thay `"query"`, `fetch_assets.py` tải đúng file đó.
 - Ảnh: `python muse.py image "<prompt>" -o assets/img/p3.jpg --size 16:9`. Dùng cho ô ảnh không tìm được ảnh thật; slot `source` ghi "ẢNH MINH HOẠ · TẠO BẰNG AI".
 - Clip (cách làm B, cảnh chèn của video người nói): `python muse.py batch output/<video>-broll-prompts.txt output/<video>-broll --kind video --duration 6` → `01.mp4`, `02.mp4`… đúng số prompt, bỏ qua file đã có (chạy lại để tiếp tục). Thời lượng muse2api: 5/6/8/10 s (số khác tự làm tròn lên). Sau đó `broll.py ingest <dự-án> output/<video>-broll`.
 - Không gọi `kie.mjs` của herk.

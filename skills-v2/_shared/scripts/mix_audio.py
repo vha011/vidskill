@@ -4,7 +4,7 @@
   python mix_audio.py <thư-mục-dự-án> [--acts hook:0,build:12,climax:62,resolve:88]
                       [--music build=đường/dẫn.mp3] [--pick 0] [--gap 8] [--no-music]
 
-Cần: assets/vo.wav + assets/timing.json (build_voiceover.py), ffmpeg trong PATH.
+Cần: assets/vo.wav + assets/timing.json (build_voiceover.py), ffmpeg trong PATH. Chưa có giọng (demo, video không lời): --duration <giây>.
 --acts   : % thời lượng nơi mỗi hồi bắt đầu (mặc định như trên). Có thể ghi theo câu: build:s5 (bắt đầu từ câu 5).
 --music  : thay bài cho một vai trò bằng file của bạn (lặp lại được nhiều lần).
 --pick   : chọn bài thứ mấy trong danh sách của mỗi vai trò (0,1,2) - đổi để ra màu nhạc khác.
@@ -92,14 +92,21 @@ def main():
     ap.add_argument("--pick", type=int, default=0)
     ap.add_argument("--gap", type=float, default=8.0)
     ap.add_argument("--no-music", action="store_true")
+    ap.add_argument("--duration", type=float, help="chỉ nhạc khi chưa có assets/vo.wav (giây)")
     a = ap.parse_args()
 
     assets = os.path.join(a.project, "assets")
     vo = os.path.join(assets, "vo.wav")
-    timing = json.load(open(os.path.join(assets, "timing.json"), encoding="utf-8"))
-    total = timing["total"]
     tmp = os.path.join(assets, "_mix")
     os.makedirs(tmp, exist_ok=True)
+    if not os.path.exists(vo) and a.duration:
+        # chỉ nhạc (demo / video không lời): giọng câm dài đúng thời lượng
+        vo = os.path.join(tmp, "silent.wav")
+        ff("-f", "lavfi", "-i", "anullsrc=r=24000:cl=mono", "-t", str(a.duration), vo)
+        timing = {"total": a.duration, "sentences": [{"start": 0.0, "end": a.duration}]}
+    else:
+        timing = json.load(open(os.path.join(assets, "timing.json"), encoding="utf-8"))
+    total = timing["total"]
 
     vo_n = os.path.join(tmp, "vo_n.wav")
     loudnorm_2pass(vo, vo_n, -16)
