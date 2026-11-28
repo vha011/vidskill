@@ -91,3 +91,6 @@ Em đối chiếu template với khung gốc và sửa những chỗ đo đượ
 3. **Chân dung cắt**: template chỉ có bóng người giữ chỗ.
 4. **Số trang**: template 7 trang; video mẫu có hàng trăm trang với nhiều bố cục (xem `reference/hc-sheet_*.jpg`). Khi gặp bố cục chưa có, Gemini phải ghép từ các thành phần có sẵn thay vì đổi phong cách.
 5. **Lời đọc, nhạc, SFX** chưa phân tích: nhịp cắt trong video thật bám giọng đọc.
+
+## Clip video AI (B-roll)
+Chèn clip phim do video-AI tạo vào video tài liệu: xem `skills-v2/_shared/BROLL-VIDEO.md`. Style và tông màu phim cho từng bảng màu nằm ở `broll-style.json`; ví dụ prompt ở `examples/cuba-broll-prompts.txt`.

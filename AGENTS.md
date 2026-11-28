@@ -17,11 +17,31 @@
 4. Giọng đọc: dùng `<ROOT>/VieNeu-TTS/.venv/Scripts/python.exe` (Linux/macOS: `.venv/bin/python`).
 5. **Chọn giọng**: chạy `preview_voices.bat` (hoặc `<ROOT>/VieNeu-TTS/.venv/Scripts/python.exe preview_voices.py`) để liệt kê các giọng, gõ số để nghe thử, `c <số>` để chọn. Giọng chọn lưu ở `voice_choice.txt`. Nếu người dùng chưa nêu giọng, AI phải đọc `voice_choice.txt` nếu có; nếu không thì hướng dẫn người dùng chạy script này (hoặc `--list`) trước khi sinh giọng. Tên giọng dùng trong `infer(voice=...)` phải đúng ID mà script liệt kê.
 
+### Bước 0 — HỎI NHANH TRƯỚC KHI LÀM (bắt buộc)
+
+Khi người dùng yêu cầu làm video (hoặc mở repo và nói "bắt đầu", "làm video", "xin chào"…), AI **không được tự chọn hộ**. Gửi **đúng một tin nhắn** theo mẫu dưới, chỉ giữ lại các mục người dùng **chưa** nêu, rồi chờ trả lời. Người dùng đã nêu đủ thì bỏ qua bước này. Mục nào họ không trả lời thì dùng mặc định ghi trong ngoặc và nói rõ đã dùng mặc định.
+
+> Em làm video theo các lựa chọn sau, anh chọn giúp (trả lời kiểu "A, chronicle, sepia-archive, Thùy Dung, 3 phút"):
+>
+> **1. Cách làm hình** (mặc định A)
+> - **A — Chỉ đồ họa động:** dựng hoàn toàn từ template (chữ, bản đồ, polaroid, biểu đồ…), chạy 100% trên máy, ra video luôn.
+> - **B — Đồ họa + cảnh phim AI:** như A, thêm khoảng cứ 25–30 giây một clip 5–8 giây do video-AI tạo (có SFX, không nhạc, không giọng). Em giao file prompt đánh số 1. 2. 3. để anh chạy batch; anh lưu clip vào một thư mục (tên bắt đầu bằng số thứ tự) và đưa đường dẫn thư mục đó, em tự ghép đúng vị trí, chuẩn hóa clip và render bản cuối. Em render bản A trước để xem nhịp. Chỉ dùng cho preset ngang 16:9.
+>
+> **2. Preset** (xem danh sách ở mục 2; gợi ý theo chủ đề: lịch sử dài → `explained-history-chronicle`, hồ sơ tư liệu → `explained-history-dossier`, kinh tế vĩ mô → `explained-fdi-timeline`, tài chính doanh nghiệp → `explained-data-finance`, bản đồ/địa chính trị → `explained-geo-map`, điều tra → `explained-investigative`, kinh doanh → `explained-gym-business`)
+>
+> **3. Màu** (chỉ preset có `themes/`; hiện là `explained-history-chronicle`, mặc định `paper`): `paper` giấy xám như video mẫu · `sepia-archive` ố vàng hoài cổ · `ocean-chart` xanh lạnh hải đồ. Preset khác dùng màu cố định của preset.
+>
+> **4. Giọng đọc** (mặc định giọng trong `voice_choice.txt`, chưa có thì chạy `preview_voices.bat` để nghe thử)
+>
+> **5. Thời lượng và nguồn kịch bản** (anh dán kịch bản, hoặc em tự viết từ nguồn anh đưa)
+
+Sau khi có câu trả lời: nhắc lại một dòng tóm tắt lựa chọn, rồi làm đủ các bước ở mục 3. Chọn **B** thì thêm bước clip AI (`skills-v2/_shared/BROLL-VIDEO.md`) và giao bảng slot kèm file prompt trong `<ROOT>/output/`. Chỉ hỏi lại khi thiếu thông tin không có mặc định (chủ đề, kịch bản).
+
 ### Mẫu câu lệnh người dùng (copy/paste)
 
-> Đọc `AGENTS.md`. Dùng preset **<tên preset>** làm video giải thích về **<chủ đề>**, thời lượng **<~N giây/phút>**, giọng **<tên giọng>**, màu **<tên bảng màu, nếu preset có>**. Kịch bản: <dán kịch bản hoặc "tự viết từ nguồn …">. Xuất ra `<ROOT>/output/<ten-video>.mp4`.
+> Đọc `AGENTS.md`. Cách làm **<A hoặc B>**. Dùng preset **<tên preset>** làm video giải thích về **<chủ đề>**, thời lượng **<~N giây/phút>**, giọng **<tên giọng>**, màu **<tên bảng màu, nếu preset có>**. Kịch bản: <dán kịch bản hoặc "tự viết từ nguồn …">. Xuất ra `<ROOT>/output/<ten-video>.mp4`.
 
-AI phải: (a) tra bảng ở mục 2 để chọn preset và tỉ lệ khung; (b) đọc `skills-v2/<preset>/SKILL.md` + `template/index.html` + ảnh trong thư mục reference của preset; (c) chạy đủ 4 bước ở mục 3; (d) lint 0 errors trước khi render; (e) bàn giao đường dẫn MP4 + ảnh lưới kiểm tra 2×2. Preset có thư mục `themes/` (hiện: `explained-history-chronicle` với `paper`, `sepia-archive`, `ocean-chart`) thì cho người dùng chọn màu và tạo dự án bằng `--theme=<tên>`. Kết quả luôn nằm ở `<ROOT>/output/`, không để trong `herk-edit-kit`. Nếu thiếu thông tin (chủ đề, thời lượng, giọng, màu), chỉ hỏi những mục đó rồi làm tiếp.
+AI phải: (a) tra bảng ở mục 2 để chọn preset và tỉ lệ khung; (b) đọc `skills-v2/<preset>/SKILL.md` + `template/index.html` + ảnh trong thư mục reference của preset; (c) chạy đủ 4 bước ở mục 3; (d) lint 0 errors trước khi render; (e) bàn giao đường dẫn MP4 + ảnh lưới kiểm tra 2×2. Nếu người dùng muốn thêm clip phim do video-AI tạo (khoảng 25–30 s một clip 5–8 s, preset ngang): làm theo `skills-v2/_shared/BROLL-VIDEO.md`, giao file `<ROOT>/output/<ten-video>-broll-prompts.txt` (mỗi prompt một đoạn, đánh số 1. 2. …) cùng bảng slot (số, giây bắt đầu, độ dài). Preset có thư mục `themes/` (hiện: `explained-history-chronicle` với `paper`, `sepia-archive`, `ocean-chart`) thì cho người dùng chọn màu và tạo dự án bằng `--theme=<tên>`. Kết quả luôn nằm ở `<ROOT>/output/`, không để trong `herk-edit-kit`. Nếu thiếu thông tin (chủ đề, thời lượng, giọng, màu), chỉ hỏi những mục đó rồi làm tiếp.
 
 ---
 
