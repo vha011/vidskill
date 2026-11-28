@@ -98,7 +98,7 @@ if not exist "herk-edit-kit" (
 )
 echo   -> npm install...
 pushd herk-edit-kit
-call npm install
+call npm install --no-audit --no-fund --onnxruntime-node-install-cuda=skip
 popd
 echo   [OK] herk-edit-kit xong.
 

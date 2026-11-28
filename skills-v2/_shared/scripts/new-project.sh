@@ -26,6 +26,8 @@ cp "$HERE/_shared/gsap.min.js" "$DEST/assets/"
 cp "$HERE"/_shared/fonts/*.ttf "$DEST/assets/fonts/"
 cp "$HERE"/_shared/audio/*.wav "$DEST/assets/"
 cp "$KIT/examples/starter/meta.json" "$KIT/examples/starter/hyperframes.json" "$DEST/"
+# danh sách ảnh/bản đồ mẫu của template: sửa query/pins rồi chạy fetch_assets.py
+[ -f "$HERE/$SKILL/template/assets.json" ] && cp "$HERE/$SKILL/template/assets.json" "$DEST/assets.json"
 
 if [ -n "$THEME" ]; then
   F="$HERE/$SKILL/themes/$THEME.css"

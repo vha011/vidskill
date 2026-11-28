@@ -45,13 +45,14 @@ Chữ:
 
 Ảnh: polaroid xoay ±1–2°, viền 20 px (đo từ video), cỡ ~862×688 cho ảnh lớn, bóng nhẹ; chú thích đáy trái nền đen mờ. **Ảnh tạo bằng AI phải ghi "ẢNH MINH HOẠ · TẠO BẰNG AI"** (như video mẫu); ảnh tư liệu ghi nguồn và năm.
 
-## Chuyển động (trang tĩnh, vào bằng 0,3–0,7 s)
+## Chuyển động (trang vào 0,3–0,7 s, sau đó KHÔNG đứng yên)
 - Ảnh polaroid: `x ±160`, `rotation ±5°` → 0, `power3.out`; băng keo `scale 0 → 1` ngay sau.
 - Nhãn mono: **gõ từng chữ**, `stagger .045`, trước khi số / tiêu đề vào.
 - Tiêu đề, số: `y 34–40 → 0` + mờ dần vào, `power3.out`, 0,5 s; số thứ hai vào sau số thứ nhất 0,9 s.
 - Thẻ kem: `y −30`, `rotation 2°` → 0; ô ☒ `scale 0 → 1` (`back.out(2.5)`), `stagger .5` bám lời đọc; dấu mộc `scale 2.2 → 1` (`power4.in`, 0,25 s).
 - Bản đồ: nền hiện 0,3 s; vùng đỏ hiện đặc `#990303` rồi giảm xuống opacity .5 trong 1,2 s; ghim rơi từ trên (`back.out`), đường chấm vẽ bằng `mask` + `stroke-dashoffset` (1,4 s `power1.inOut`).
-- Chuyển trang: cắt thẳng hoặc mờ ≤ 0,3 s; **không** zoom, parallax hay xoay cả trang.
+- **Giữ người xem** (bản cũ để trang đứng yên 6–10 s nên nhàm): ảnh và bản đồ luôn trôi chậm suốt trang (`kb()`: ảnh scale 1→1,09, bản đồ 1→1,06; chỉ phần ảnh, không zoom cả trang); số lớn đếm lên (`countUp()`); mỗi câu đọc làm hiện thêm một thứ (nhãn, ghim, ô checklist, gạch chân) đúng `start` của câu trong `timing.json`. Không quá 3 s không có gì chuyển động.
+- Chuyển trang: cắt thẳng hoặc mờ ≤ 0,3 s; không parallax, không xoay cả trang.
 
 ## Bảng màu (chọn khi tạo video)
 Bố cục, font, cỡ chữ giữ nguyên; chỉ đổi biến màu `:root` trong `themes/<tên>.css`. Mọi màu trong template đã dùng biến, không sửa tay mã hex.
@@ -67,30 +68,28 @@ Tạo dự án: Windows `skills-v2\_shared\scripts\new-project.bat explained-his
 ## Nhịp đọc
 Theo `PIPELINE.md` bước 3: nghỉ giữa câu ≥ 0,7 s, chuyển trang ≥ 1,3 s, sau câu hỏi ≥ 1,5 s. Có thuyết minh thì thời lượng trang lấy từ `timing.json` (câu + nghỉ), thường 6–9 s, dài hơn mức 4–6 s của video mẫu.
 
-## Quy trình
-1. Chia kịch bản thành trang 4–6 s, mỗi trang ghi sẵn: loại trang (giấy / bản đồ), cụm nhấn vàng, ảnh cần có.
-2. Giọng đọc và timing: theo `skills-v2/_shared/PIPELINE.md`; nhạc nền `data-volume` 0.08–0.10, giọng 1.0.
-3. Copy `template/index.html` vào project, nhân bản các khối `#p1`…`#p7` (đổi `data-start`, `data-duration`, id duy nhất), bám timing từng trang. Video dài: tách thành nhiều composition ~3 phút rồi ghép.
-4. Làm ảnh theo `image-prompts.md` (BẮT BUỘC trước khi dựng). Thay hộp polaroid giữ chỗ bằng ảnh thật; thay `.mapph` bằng ảnh vệ tinh đen trắng (`filter: grayscale(1) blur(6px)`), vẽ lại vùng đỏ theo polygon thật.
-5. `hyperframes lint` (0 lỗi) → `snapshot` ở giữa mỗi loại trang → render.
+
+## Quy trình (cách làm A — chỉ đồ họa, nhưng hình THẬT)
+1. Kịch bản → `build_voiceover.py` → `timing.json`. Chia trang theo câu: mỗi trang 1 ý, 6–9 s, ghi loại trang (giấy / bản đồ), cụm vàng, ảnh cần có.
+2. Tạo dự án (`new-project`), template đã có sẵn `assets.json` mẫu. Nhân bản khối `#p1`…`#p7` theo số trang; mỗi ô ảnh/bản đồ mới thêm marker `<!--asset:ID--><!--/asset:ID-->` và một mục trong `assets.json`.
+3. **Hình thật**: `fetch_assets.py` → ảnh tự do thật (Wikimedia Commons, NASA), bản đồ vẽ từ ranh giới quốc gia thật, gắn thẳng vào `index.html`, xuất `ASSETS.md` (danh sách để người dùng thay). Query tiếng Anh, cụ thể: sự kiện + địa danh + năm. Ảnh chủ đề hiện đại (công nghệ, doanh nghiệp) thường ít ảnh tự do → ưu tiên NASA / ảnh báo chí PD, còn thiếu thì ghi rõ trong `ASSETS.md` để người dùng tự thay, không để ô xám trong bản bàn giao mà không báo.
+4. **Nhạc**: `mix_audio.py` — 4 hồi (hook căng · build có nhịp · climax · resolve), nhạc tự hạ khi có lời, −14 LUFS. Đặt mốc hồi ở câu tương ứng (`--acts hook:0,build:s4,climax:s18,resolve:s27`). Ghi công nhạc CC BY trong mô tả video.
+5. `hyperframes lint` (0 lỗi) → `snapshot` giữa mỗi trang, xem contact sheet → render vào `<ROOT>/output/` → `qa_video.py` phải **ĐẠT**.
+
+## Mẫu đo lỗi của bản cũ (để không lặp lại)
+Video SpaceX 172 s làm theo bản cũ, đo bằng `qa_video.py`: 19 đoạn hình đứng yên > 3,5 s (dài nhất 10,6 s), chỉ 30% khoảng nghỉ giữa câu ≥ 0,6 s, −17,1 LUFS, LRA 3,1 (nhạc một màu). Bản đồ là hình vẽ tay giả, nhiều trang chỉ có chữ nhỏ trên nền trống. Ba công cụ ở bước 3–5 và checker sửa đúng các lỗi này.
+
+## Chưa có trong template
+Đồng hồ, biểu đồ cột nhỏ, khung phim tư liệu; chân dung cắt (`#p5c`) vẫn là bóng giữ chỗ (ảnh chân dung thật cần tách nền, làm tay hoặc thay bằng polaroid).
 
 ## Không làm
 - Không dùng màu ngoài bảng trên; không dùng gradient màu, emoji, icon hoạt hình.
 - Không đặt hơn 1 cụm vàng cạnh tranh nhau trong một dòng; không bôi vàng cả câu.
 - Không đổi sang dọc 9:16 (preset dọc khác dùng bộ khác).
 - Không để chữ trắng trên nền giấy hay chữ đen trên bản đồ: **trang giấy = chữ đen, trang bản đồ = chữ trắng** (cụm vàng luôn chữ đen).
-- Không dùng ảnh tạo bằng AI mà không ghi nhãn.
+- Không dùng ảnh tạo bằng AI mà không ghi nhãn; ảnh thật phải giữ dòng ghi công `.cr` (fetch_assets.py tự thêm).
+- Không bàn giao khi `qa_video.py` báo CHƯA ĐẠT.
 
-## Chưa có trong template
-Template chỉ có 7 trang mẫu (42 s): polaroid + số, bản đồ + ghim, câu hỏi giữa trang, checklist + mộc + thẻ kem, chân dung cắt, hai số lớn, polaroid phải. Chưa có: đồng hồ, thước giá / biểu đồ cột nhỏ, bản đồ thế giới, mẫu nhiều ghim đồng thời, khung phim tư liệu. Bản đồ và chân dung trong template là hình giữ chỗ. Chưa trích lời đọc và nhạc nền của video mẫu; nhịp 4–6 s ước lượng bằng mắt từ 60 giây đầu và các khung 20 s.
-
-## Vì sao kết quả có thể khác video mẫu (đối chiếu đã làm)
-Em đối chiếu template với khung gốc và sửa những chỗ đo được (nền mảnh sắc cạnh, viền polaroid 20 px, bản đồ có hạt địa hình). Chênh lệch còn lại:
-1. **Ảnh**: video mẫu dùng ảnh đen trắng thật hoặc ảnh AI. Template chỉ có hộp xám giữ chỗ. Cần làm ảnh theo `image-prompts.md` trước khi dựng.
-2. **Bản đồ**: nền địa hình trong template là hạt sinh bằng SVG, không phải ảnh vệ tinh thật; hình đất là hình giả định, không phải bán đảo Triều Tiên.
-3. **Chân dung cắt**: template chỉ có bóng người giữ chỗ.
-4. **Số trang**: template 7 trang; video mẫu có hàng trăm trang với nhiều bố cục (xem `reference/hc-sheet_*.jpg`). Khi gặp bố cục chưa có, Gemini phải ghép từ các thành phần có sẵn thay vì đổi phong cách.
-5. **Lời đọc, nhạc, SFX** chưa phân tích: nhịp cắt trong video thật bám giọng đọc.
 
 ## Clip video AI (B-roll)
 Chèn clip phim do video-AI tạo vào video tài liệu: xem `skills-v2/_shared/BROLL-VIDEO.md`. Style và tông màu phim cho từng bảng màu nằm ở `broll-style.json`; ví dụ prompt ở `examples/cuba-broll-prompts.txt`.
