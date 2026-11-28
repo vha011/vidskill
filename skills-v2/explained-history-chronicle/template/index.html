@@ -167,6 +167,10 @@ tl.from("#p5c",{x:120,opacity:0,duration:.6,ease:"power3.out"},24.2).from("#p5 .
 /* P6 */
 rise("#p6a",30.2,40);rise("#p6b",31.1,40);tl.from("#p6t",{opacity:0,scale:.9,duration:.35},32.2);
 countUp("#p6a .hl",30.2,17500,1.4);
+/* trang chỉ có chữ: trôi rất chậm để không có khung đứng yên (qa_video bắt > 3,5 s) */
+tl.to("#p3h",{scale:1.04,duration:5,ease:"none"},12.8);
+tl.to("#p5c",{x:-24,duration:5,ease:"none"},24.9);
+tl.to("#p6a,#p6b",{scale:1.04,duration:4.6,ease:"none"},31.4);
 /* P7 */
 rise("#p7h",36.2,36);tl.from("#p7t",{opacity:0,duration:.4},37.2)
   .from("#p7p",{x:140,rotation:5,opacity:0,duration:.65,ease:"power3.out"},36.3).from("#p7 .tp",{scale:0,opacity:0,duration:.3,stagger:.12},36.9);
