@@ -15,6 +15,7 @@
    `bash skills-v2/_shared/scripts/new-project.sh <preset> <slug> ../herk-edit-kit`
    Script copy template, font, SFX, `gsap.min.js` và `meta.json`/`hyperframes.json` mẫu vào `video-projects/<slug>`.
 4. Giọng đọc: dùng `<ROOT>/VieNeu-TTS/.venv/Scripts/python.exe` (Linux/macOS: `.venv/bin/python`).
+5. **Chọn giọng**: chạy `preview_voices.bat` (hoặc `<ROOT>/VieNeu-TTS/.venv/Scripts/python.exe preview_voices.py`) để liệt kê các giọng, gõ số để nghe thử, `c <số>` để chọn. Giọng chọn lưu ở `voice_choice.txt`. Nếu người dùng chưa nêu giọng, AI phải đọc `voice_choice.txt` nếu có; nếu không thì hướng dẫn người dùng chạy script này (hoặc `--list`) trước khi sinh giọng. Tên giọng dùng trong `infer(voice=...)` phải đúng ID mà script liệt kê.
 
 ### Mẫu câu lệnh người dùng (copy/paste)
 
@@ -141,6 +142,6 @@ Chạy script Python bằng trình thông dịch của VieNeu-TTS:
 - **TUÂN THỦ PRESET GỐC**: Làm theo template có sẵn trong `skills-v2/` và đối chiếu ảnh trong `skills-v2/<preset>/reference/` (nếu có). Không tự ý vẽ lại layout, không đổi bảng màu hoặc font chữ ngoài quy định.
 - **TỈ LỆ KHUNG HÌNH BẤT DI BẤT DỊCH**:
   + `explained-history-dossier`, `explained-history-chronicle`, `animated-story-ai`: Bắt buộc ngang **16:9** (1920×1080).
-  + Tất cả các preset kinh tế, tài chính, bản đồ, UGC khác: Bắt buộc dọc **9:16** (1080×1920).
+  + Tất cả các preset kinh tế, tài chính, bản đồ khác: Bắt buộc dọc **9:16** (1080×1920).
 - **KHÔNG CHÈN TẠP ÂM / BADGE THỪA**: Không hiển thị các nhãn kỹ thuật như "VieNeu-TTS :: Thùy Dung" lên khung hình trừ khi người dùng yêu cầu rõ ràng.
 - **FONT CHỮ NỘI BỘ**: Chỉ sử dụng font local đã nhúng trong `assets/fonts/` (Inter, BeVietnamPro, Roboto, IBM Plex Mono, Barlow Condensed) để chống lỗi vỡ chữ có dấu tiếng Việt khi render headless.

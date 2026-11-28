@@ -1,6 +1,6 @@
 ---
 name: explained-video-maker
-description: Quy trình sản xuất video giải thích đa thể loại (Explained Videos) chuyên nghiệp 100% Local bằng HyperFrames + GSAP (herk-edit-kit) và giọng đọc AI VieNeu-TTS Trúc Ly. Hỗ trợ 4 Preset chuẩn (Biocodex Y tế, Greenland Phóng sự/Bản đồ, Juno Thời trang UGC, FDI / Finpath Kinh tế vĩ mô) và khả năng Reverse-Engineering phân tích video mẫu bất kỳ để nhân bản thành Style Preset.
+description: Quy trình sản xuất video giải thích đa thể loại (Explained Videos) chuyên nghiệp 100% Local bằng HyperFrames + GSAP (herk-edit-kit) và giọng đọc AI VieNeu-TTS Trúc Ly. Hỗ trợ các Preset chuẩn (Biocodex Y tế, Greenland Phóng sự/Bản đồ, FDI / Finpath Kinh tế vĩ mô) và khả năng Reverse-Engineering phân tích video mẫu bất kỳ để nhân bản thành Style Preset.
 ---
 
 # 🎬 EXPLAINED VIDEO MAKER SKILL
@@ -9,7 +9,7 @@ Hệ thống sản xuất video giải thích chuyên nghiệp sử dụng chuy�
 
 ---
 
-## 1. BỐN PRESET CỐT LÕI
+## 1. CÁC PRESET CỐT LÕI
 
 ### Preset 1: Medical / Pharma / Science Explainer (Phong cách Biocodex)
 - **Mục tiêu**: Giải thích cơ chế bệnh học, cơ chế vi sinh vật, tác dụng dược lý, phân tích số liệu y khoa.
@@ -23,13 +23,7 @@ Hệ thống sản xuất video giải thích chuyên nghiệp sử dụng chuy�
 - **Tỉ lệ**: 16:9 hoặc 9:16 dọc.
 - **Tone giọng**: Hùng biện, lôi cuốn, nhịp điệu dồn dập, gợi mở tò mò.
 
-### Preset 3: Commercial / Fashion / Product UGC (Phong cách Juno)
-- **Mục tiêu**: Video quảng cáo chuyển đổi cao theo UGC framework 30s.
-- **Visual**: Hook 0-7s chống nuốt dáng, PIP cận cảnh chất liệu, đường gióng 1px tôn đường cong, dải phụ đề Liquid-Glass chân trang, CTA giỏ hàng TikTok Shop.
-- **Tỉ lệ**: 9:16 dọc (1080x1920, 30fps).
-- **Tone giọng**: Nữ trẻ trung (Trúc Ly), tươi tắn, gần gũi, thuyết phục.
-
-### Preset 4: Macroeconomics / Geopolitics / Tech Policy (Phong cách Finpath / FDI VN)
+### Preset 3: Macroeconomics / Geopolitics / Tech Policy (Phong cách Finpath / FDI VN)
 - **Mục tiêu**: Video phân tích kinh tế vĩ mô, chuỗi cung ứng FDI, câu chuyện tự chủ công nghệ, địa chính trị tài chính.
 - **Visual**: Dark Tech Slate (#0A0E17) + Technical Graph Grid 60px; Neon Lime (#A3E635) + Golden (#FACC15); Timeline Runner đỉnh khung hình; bản đồ tuyến vận tải phát sáng; biểu đồ thùng hàng xếp tầng (Bounce Physics); sơ đồ cây quyết định chính sách (Policy Tree Glow); cắt dán tư liệu báo chí viền trắng + con dấu đỏ "ĐÃ BÁN" đập mạnh (Hit SFX).
 - **Tỉ lệ**: 9:16 dọc (1080x1920, 30fps).

@@ -178,6 +178,7 @@ echo =======================================================================
 echo    CAI DAT HOAN TAT
 echo    - herk-edit-kit : %INSTALL_DIR%\herk-edit-kit
 echo    - VieNeu-TTS    : %INSTALL_DIR%\VieNeu-TTS
+echo    - Chon giong doc: chay preview_voices.bat ^(nghe thu va chon^)
 echo    - Buoc tiep: mo AI Agent tai %REPO_DIR% va bao no doc AGENTS.md
 echo =======================================================================
 echo.

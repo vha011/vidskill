@@ -41,3 +41,7 @@ Nếu anh có một video giải thích mẫu (ví dụ: phong cách Biocodex, G
    - Nhận diện các hiệu ứng chữ động (kinetic text), hiệu ứng chuyển cảnh (whip pan, zoom, push in), và bảng màu.
    - Viết mã code tái hiện lại thành một **Style Template** trong `herk-edit-kit/style-templates/`.
    - Đóng gói thành một **Preset** hoặc **Skill** riêng để từ đó về sau anh chỉ cần nhập nội dung là video sẽ tự động xuất ra đúng phong cách đó!
+
+## Chọn giọng đọc
+
+Chạy `preview_voices.bat`: liệt kê toàn bộ giọng, gõ số để nghe thử, `c <số>` để chọn (lưu vào `voice_choice.txt`).
