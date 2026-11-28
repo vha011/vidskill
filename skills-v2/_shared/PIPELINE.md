@@ -13,6 +13,7 @@ Môi trường: `herk-edit-kit` (HyperFrames 0.7.x + GSAP 3.14). Mọi lệnh ch
 5. **Sửa template**: chỉ sửa các khối đánh dấu `DỮ LIỆU`, `CAPTIONS`, nội dung text trong `.beat`, và dòng `tl.` tương ứng. Giữ nguyên class, màu, cỡ chữ, easing trong SKILL.md.
 6. **Âm thanh**: thêm `<audio id="vo" src="assets/vo.wav" data-start="0" data-duration="<tổng giây>" data-track-index="9" data-volume="1">`. SFX dùng `_shared/audio/` (bảng ở dưới). Nhạc nền nếu cần: `ugc_bg_music_30s.wav` trong `README.zip` của repo, volume 0.12.
 7. **Kiểm tra**: `npx hyperframes lint` → 0 error. Rồi `npx hyperframes snapshot --at <giây giữa mỗi beat>` và **mở contact-sheet.jpg xem từng khung**. Sửa tới khi qua hết checklist bên dưới.
+7b. **(Tùy chọn, video ngang) Clip video AI**: nếu người dùng muốn thêm cảnh phim do video-AI tạo, làm theo `_shared/BROLL-VIDEO.md` (`broll.py plan` → viết file prompt → `broll.py check`) trước khi render.
 8. **Render**: từ `<ROOT>/herk-edit-kit` chạy `npx hyperframes render video-projects/<slug> --output ../output/<slug>.mp4` (quality mặc định `standard`; thử nhanh dùng `-q draft`). **Mọi video, ảnh QA, `VERIFY.md` nằm trong `<ROOT>/output/`** (cùng cấp repo `vidskill`), không để trong `herk-edit-kit`. Ghi kết quả vào `output/<slug>-VERIFY.md` (lint, các khung đã xem, độ lớn file, LUFS).
 
 ## Quy tắc HyperFrames bắt buộc (lint sẽ bắt)
