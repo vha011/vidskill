@@ -19,7 +19,7 @@ Phương án B sử dụng script tự động clone mã nguồn từ GitHub và
 
 ## ⚡ 2. Cài Đặt Tự Động (Chỉ 1 Click)
 
-1. Mở thư mục `SETUP-NEW-MACHINE/`.
+1. Mở thư mục gốc của repo.
 2. Nhấp đúp chuột vào file:
    👉 **`setup_all.bat`**
 

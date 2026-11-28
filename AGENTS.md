@@ -76,7 +76,6 @@ Agent tra cứu bảng ánh xạ sau để chọn đúng template gốc trong `s
 | **Gym Business** / Điểm hòa vốn | `explained-gym-business` | **9:16** (1080×1920) | `video-reference/gym center.mp4` | Nền ảnh vệ tinh tối (`#0E1114`), Lime `#CBF73E`, Đỏ `#C5202B`, Bảng giá viền trắng, Thẻ báo highlight lime, Biểu đồ cột, Chú giải bản đồ |
 | **Investigative** / Vietjet Điều tra | `explained-investigative` | **9:16** (1080×1920) | `video-reference/vietjet airline.mp4` | Nền xám than `#252525` có lưới, Lime `#CCF53C`, Đỏ `#E3202E`, Nhãn giấy kraft + lime xé mép, Băng giấy rách, Dây lime nét đứt, Dấu mộc |
 | **Animated Story AI** / Hoạt hình nhân vật AI dài | `animated-story-ai` | **16:9** (1920×1080) | `video-reference/mario-animation-ai.mp4` (68 s mở đầu) | Hình do AI tạo (ảnh khóa → clip 2 s), KHÔNG dùng template HTML để vẽ hình; HyperFrames chỉ ghép clip + giọng + nhạc; đọc `SKILL.md` của skill trước khi làm |
-| **Juno UGC** / Thời trang quảng cáo | `../juno-ugc-toolkit` | **9:16** (1080×1920) | Tham khảo UGC 30s | Sáng thời trang, PIP cận cảnh vải, Phụ đề Liquid-Glass, CTA giỏ hàng |
 
 ---
 

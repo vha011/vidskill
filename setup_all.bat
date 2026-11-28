@@ -134,7 +134,6 @@ echo   [OK] VieNeu-TTS xong.
 echo.
 echo [4/5] Cau hinh model giong Truc Ly (v3 Turbo)...
 set "OFFLINE_MODEL_SRC=%REPO_DIR%\models_offline\models--pnnbao-ump--VieNeu-TTS-v3-Turbo"
-if not exist "%OFFLINE_MODEL_SRC%" set "OFFLINE_MODEL_SRC=%INSTALL_DIR%\juno-ugc-toolkit\models_offline\models--pnnbao-ump--VieNeu-TTS-v3-Turbo"
 set "HF_HUB_CACHE=%USERPROFILE%\.cache\huggingface\hub\models--pnnbao-ump--VieNeu-TTS-v3-Turbo"
 
 if exist "%OFFLINE_MODEL_SRC%" (
