@@ -20,6 +20,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 STYLE_FILE = os.path.join(HERE, "..", "..", "explained-history-chronicle", "broll-style.json")
+SFX_VOLUME = 0.35  # thấp hơn giọng đọc (1.0) để SFX của clip không che lời
 
 
 def load_style(theme):
@@ -31,12 +32,12 @@ def load_style(theme):
 
 
 def build_suffix(cfg, theme_cfg, duration=None):
-    parts = [cfg["base"], theme_cfg["grade"], cfg["technical"]]
+    parts = [cfg["base"], theme_cfg["grade"], cfg["technical"], cfg["audio"]]
     return " ".join(p.strip() for p in parts), cfg["negative"].strip()
 
 
 def write_snippets(project, slots):
-    lines = ["<!-- Dán các thẻ này vào <div id=\"root\"> SAU các khối trang (để nằm trên cùng). Track 5 không dùng cho clip khác. -->"]
+    lines = ["<!-- Dán các thẻ này vào <div id=\"root\"> SAU các khối trang (để nằm trên cùng). Video luôn muted; SFX của clip đi qua thẻ <audio> riêng. -->"]
     gsap = ["// Dán vào khối timeline GSAP (tl là timeline chính)"]
     for s in slots:
         i = f"broll{s['n']:02d}"
@@ -45,9 +46,19 @@ def write_snippets(project, slots):
             f'<video id="{i}" class="clip" src="{s["file"]}" data-start="{s["start"]}" '
             f'data-duration="{s["duration"]}" data-track-index="5" muted playsinline '
             f'style="position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover;z-index:50"></video>')
+        if s.get("audio"):
+            lines.append(
+                f'<audio id="{i}a" src="{s["audio"]}" data-start="{s["start"]}" '
+                f'data-duration="{s["duration"]}" data-track-index="{20 + s["n"]}" data-volume="{SFX_VOLUME}"></audio>')
         gsap.append(f'tl.from("#{i}",{{opacity:0,duration:.3}},{s["start"]}).to("#{i}",{{opacity:0,duration:.3}},{round(end - 0.3, 2)});')
     sp = os.path.join(project, "broll_snippets.html")
     open(sp, "w", encoding="utf-8").write("\n".join(lines) + "\n\n<script>\n" + "\n".join(gsap) + "\n</script>\n")
+
+
+def has_audio(path):
+    r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "a", "-show_entries", "stream=codec_type",
+                        "-of", "csv=p=0", path], capture_output=True, text=True)
+    return "audio" in r.stdout
 
 
 def probe(path):
@@ -75,7 +86,7 @@ def ingest(args):
             notes.append(f"#{s['n']:02d}: THIẾU clip (slot {s['start']}s +{s['duration']}s) - bỏ qua, trang giữ đồ họa")
             continue
         out = os.path.join(dest, f"{s['n']:02d}.mp4")
-        # chuẩn hoá: H.264 1920x1080 30fps, bỏ tiếng (tiếng chỉ đi qua giọng đọc)
+        # video: H.264 1920x1080 30fps, bỏ tiếng (HyperFrames cần video muted); tiếng tách riêng bên dưới
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-an",
                         "-vf", "scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,fps=30",
                         "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", out], check=True)
@@ -86,6 +97,15 @@ def ingest(args):
             s["duration"] = round(d, 2)
         elif d > s["duration"] + 0.05:
             notes.append(f"#{s['n']:02d}: clip {d:.1f}s dài hơn slot {s['duration']}s - cắt bớt đuôi")
+        if has_audio(src):
+            wav = os.path.join(dest, f"{s['n']:02d}.wav")
+            fo = max(0.0, s["duration"] - 0.4)
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-vn", "-t", str(s["duration"]),
+                            "-af", f"afade=t=in:d=0.2,afade=t=out:st={fo:.2f}:d=0.4",
+                            "-ar", "48000", "-ac", "2", "-c:a", "pcm_s16le", wav], check=True)
+            s["audio"] = f"assets/broll/{s['n']:02d}.wav"
+        else:
+            notes.append(f"#{s['n']:02d}: clip KHÔNG có tiếng - không có SFX cho slot này")
         ready.append(s)
     extra = sorted(set(found) - {s["n"] for s in plan_data["slots"]})
     if extra:
@@ -167,7 +187,11 @@ def check(args):
         if suffix not in body:
             errors.append(f"#{k}: thiếu khối style chung (copy đúng từ `python broll.py style --theme {args.theme}`)")
         if negative not in body:
-            errors.append(f"#{k}: thiếu câu loại trừ (chữ, logo, watermark...)")
+            errors.append(f"#{k}: thiếu câu loại trừ (chữ, logo, watermark, nhạc, giọng nói...)")
+        if "Sound design:" not in body:
+            errors.append(f"#{k}: thiếu câu riêng của cảnh bắt đầu bằng 'Sound design:' (SFX cụ thể: bước chân, gió, động cơ...)")
+        if re.search(r"Sound design:[^.]*\b(music|score|song|voice|narrat|dialogue|speech|singing)\b", body, re.I):
+            errors.append(f"#{k}: 'Sound design:' không được nhắc nhạc/giọng nói")
         if len(body) < 300:
             errors.append(f"#{k}: quá ngắn ({len(body)} ký tự) — mô tả chủ thể, hành động, bối cảnh, ánh sáng, chuyển động máy")
     print("\n".join(errors) if errors else f"OK: {len(paras)} prompt hợp lệ")

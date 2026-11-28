@@ -1,7 +1,8 @@
 {
   "base": "Cinematic documentary film footage, in the style of an archival historical documentary: observational, restrained and serious, naturalistic available light, real-world textures, no stylised or fantasy elements, no on-screen graphics.",
   "technical": "Shot on 35mm film with fine organic grain and gentle halation, shallow depth of field, slow deliberate camera movement (slow push-in, slow pan or locked-off), stable and unhurried, 24 fps, 16:9 widescreen, 5 to 8 seconds, a single continuous shot with no cuts.",
-  "negative": "Exclude: any legible text, captions, subtitles, signs with readable lettering, logos, watermarks, split screens, cartoon or CGI look, recognisable real public figures, close-up faces of identifiable people.",
+  "audio": "Audio: generate synchronised natural sound effects and ambience only, recorded like production sound with realistic perspective and room tone, sparse and restrained, matching what is visible on screen.",
+  "negative": "Exclude: any legible text, captions, subtitles, signs with readable lettering, logos, watermarks, split screens, cartoon or CGI look, recognisable real public figures, close-up faces of identifiable people. Audio exclusions: no music, no musical score, no soundtrack, no singing, no voice-over, no narration, no spoken dialogue, no intelligible speech, no laugh track.",
   "themes": {
     "paper": {
       "grade": "Colour grade: desaturated neutral palette with deep blacks and soft grey highlights, faint cool-grey cast, restrained contrast like scanned archival film, a single warm yellow accent allowed only if it occurs naturally in the scene."

@@ -25,7 +25,7 @@ Khi người dùng yêu cầu làm video (hoặc mở repo và nói "bắt đầ
 >
 > **1. Cách làm hình** (mặc định A)
 > - **A — Chỉ đồ họa động:** dựng hoàn toàn từ template (chữ, bản đồ, polaroid, biểu đồ…), chạy 100% trên máy, ra video luôn.
-> - **B — Đồ họa + cảnh phim AI:** như A, thêm khoảng cứ 25–30 giây một clip 5–8 giây do video-AI tạo. Em giao file prompt đánh số 1. 2. 3. để anh chạy batch; anh lưu clip vào một thư mục (tên bắt đầu bằng số thứ tự) và đưa đường dẫn thư mục đó, em tự ghép đúng vị trí, chuẩn hóa clip và render bản cuối. Em render bản A trước để xem nhịp. Chỉ dùng cho preset ngang 16:9.
+> - **B — Đồ họa + cảnh phim AI:** như A, thêm khoảng cứ 25–30 giây một clip 5–8 giây do video-AI tạo (có SFX, không nhạc, không giọng). Em giao file prompt đánh số 1. 2. 3. để anh chạy batch; anh lưu clip vào một thư mục (tên bắt đầu bằng số thứ tự) và đưa đường dẫn thư mục đó, em tự ghép đúng vị trí, chuẩn hóa clip và render bản cuối. Em render bản A trước để xem nhịp. Chỉ dùng cho preset ngang 16:9.
 >
 > **2. Preset** (xem danh sách ở mục 2; gợi ý theo chủ đề: lịch sử dài → `explained-history-chronicle`, hồ sơ tư liệu → `explained-history-dossier`, kinh tế vĩ mô → `explained-fdi-timeline`, tài chính doanh nghiệp → `explained-data-finance`, bản đồ/địa chính trị → `explained-geo-map`, điều tra → `explained-investigative`, kinh doanh → `explained-gym-business`)
 >

@@ -17,10 +17,12 @@ Cứ ~25–30 giây chèn 1 clip 5–8 giây do video-AI (Veo, Kling, Runway, So
 ## Định dạng file prompt (để import batch)
 - Mỗi prompt **một đoạn văn duy nhất**, bắt đầu bằng `1. `, `2. `… liền mạch, **cách nhau một dòng trống**, không tiêu đề, không ghi chú xen giữa.
 - Viết **tiếng Anh** (các model video hiểu tốt nhất).
-- Cấu trúc một prompt: `N. <cảnh cụ thể: bối cảnh + chủ thể + hành động + ánh sáng + chuyển động máy> <KHỐI STYLE CHUNG>`.
+- Cấu trúc một prompt: `N. <cảnh cụ thể: bối cảnh + chủ thể + hành động + ánh sáng + chuyển động máy>. Sound design: <SFX của cảnh>. <KHỐI STYLE CHUNG>`.
 - **Khối style chung** (cơ bản + màu phim + kỹ thuật + câu loại trừ) lấy bằng `python broll.py style --theme <màu>` và dán **nguyên văn, giống hệt ở mọi prompt** — đó là thứ giữ các clip đồng nhất. Nguồn: `explained-history-chronicle/broll-style.json` (mỗi bảng màu `paper`, `sepia-archive`, `ocean-chart` có tông màu phim riêng khớp với bảng màu đồ họa).
 
 ## Cách viết phần cảnh (≥ 300 ký tự mỗi prompt)
+- **Âm thanh: chỉ SFX, không nhạc, không giọng.** Mỗi prompt có một câu riêng của cảnh bắt đầu bằng `Sound design:` liệt kê SFX/âm nền cụ thể thấy được trên hình (bước chân, gió, sóng, động cơ, vải, vật va chạm…). Câu đó **không** được nhắc music/voice/dialogue (checker bắt lỗi). Khối style chung đã có dòng `Audio:` (chỉ SFX tự nhiên) và câu loại trừ âm thanh (no music, no voice-over, no narration, no dialogue, no singing). Giọng đọc và nhạc nền luôn do pipeline thêm, không do video-AI.
+- Khi `ingest`, tiếng của clip được tách thành `assets/broll/NN.wav` (fade vào/ra), chèn bằng thẻ `<audio>` riêng volume 0,35 để không át giọng đọc; video luôn `muted`. Model nào không sinh được tiếng thì clip chỉ có hình (lệnh báo rõ), SFX chung của template vẫn dùng bình thường.
 - Hợp nội dung lời đọc ở slot đó: minh họa bối cảnh/không khí, không minh họa con số hay chữ.
 - Một cảnh liền, một chuyển động máy chậm (push-in, pan, tracking, cố định). Không cắt cảnh, không whip-pan.
 - Chủ thể quay từ xa, từ phía sau, bóng đổ hoặc chỉ cảnh tay/đồ vật; **không** mặt cận cảnh người nhận diện được, không nhân vật có thật, không biểu tượng/logo/cờ có chữ.
