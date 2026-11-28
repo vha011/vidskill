@@ -11,7 +11,7 @@
 
 1. Kiểm tra môi trường: tồn tại `<ROOT>/herk-edit-kit/node_modules` và `<ROOT>/VieNeu-TTS/.venv`?
 2. Nếu **thiếu** → chạy `setup_all.bat` ở gốc repo (Windows). Script tự cài Git/Node/Python/FFmpeg qua winget nếu thiếu, clone `herk-edit-kit` + `VieNeu-TTS` vào `<ROOT>`, `npm install`, tạo `.venv`, cài PyTorch + VieNeu-TTS, đăng ký skill. Lần đầu có thể mất 10–20 phút và tải model giọng đọc. Nếu vừa cài công cụ mới mà lệnh chưa nhận, mở lại terminal rồi chạy lại script (chạy lại an toàn).
-3. Tạo dự án từ preset bằng script (Git Bash/WSL/macOS/Linux):
+3. Tạo dự án từ preset. **Windows (mặc định, không cần Git Bash):** `skills-v2\_shared\scripts\new-project.bat <preset> <slug> [--theme=<màu>]`. macOS/Linux/Git Bash: lệnh `bash` dưới đây. Cả hai làm giống nhau:
    `bash skills-v2/_shared/scripts/new-project.sh <preset> <slug> [--theme=<màu>]` (mặc định tìm `herk-edit-kit` ở `<ROOT>`; video xuất ra `<ROOT>/output/`)
    Script copy template, font, SFX, `gsap.min.js` và `meta.json`/`hyperframes.json` mẫu vào `video-projects/<slug>`.
 4. Giọng đọc: dùng `<ROOT>/VieNeu-TTS/.venv/Scripts/python.exe` (Linux/macOS: `.venv/bin/python`).

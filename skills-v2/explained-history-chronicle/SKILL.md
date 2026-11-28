@@ -62,7 +62,7 @@ Bố cục, font, cỡ chữ giữ nguyên; chỉ đổi biến màu `:root` tro
 | `sepia-archive` | Phóng sự tư liệu ố vàng, hoài cổ | `#D9C9A8` / hổ phách `#E3A83B` |
 | `ocean-chart` | Phóng sự hải đồ, lạnh, hợp địa chính trị/kinh tế | `#D3DCE1` / lam nhạt `#63C7E6` |
 
-Tạo dự án: `bash skills-v2/_shared/scripts/new-project.sh explained-history-chronicle <slug> --theme=sepia-archive` (`--theme=list` để liệt kê). Ảnh so sánh: `reference/themes-compare.jpg`. Người dùng chưa chọn → hỏi một câu ngắn, mặc định `paper`.
+Tạo dự án: Windows `skills-v2\_shared\scripts\new-project.bat explained-history-chronicle <slug> --theme=sepia-archive`; macOS/Linux `bash skills-v2/_shared/scripts/new-project.sh ...` cùng tham số (`--theme=list` để liệt kê). Ảnh so sánh: `reference/themes-compare.jpg`. Người dùng chưa chọn → hỏi một câu ngắn, mặc định `paper`.
 
 ## Nhịp đọc
 Theo `PIPELINE.md` bước 3: nghỉ giữa câu ≥ 0,7 s, chuyển trang ≥ 1,3 s, sau câu hỏi ≥ 1,5 s. Có thuyết minh thì thời lượng trang lấy từ `timing.json` (câu + nghỉ), thường 6–9 s, dài hơn mức 4–6 s của video mẫu.
