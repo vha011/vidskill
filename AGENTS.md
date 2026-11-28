@@ -22,11 +22,12 @@
 
 Khi người dùng yêu cầu làm video (hoặc mở repo và nói "bắt đầu", "làm video", "xin chào"…), AI **không được tự chọn hộ**. Gửi **đúng một tin nhắn** theo mẫu dưới, chỉ giữ lại các mục người dùng **chưa** nêu, rồi chờ trả lời. Người dùng đã nêu đủ thì bỏ qua bước này. Mục nào họ không trả lời thì dùng mặc định ghi trong ngoặc và nói rõ đã dùng mặc định.
 
-> Em làm video theo các lựa chọn sau, anh chọn giúp (trả lời kiểu "A, chronicle, sepia-archive, Thùy Dung, 3 phút"):
+> Em làm video theo các lựa chọn sau, anh chọn giúp (trả lời kiểu "A, vox-cards, Thùy Dung, 3 phút" hoặc "C, dọc, file D:\quay\clip1.mp4"):
 >
 > **1. Cách làm hình** (mặc định A)
 > - **A — Đồ họa động + ảnh/bản đồ thật:** dựng từ template; em tự tìm ảnh tư liệu tự do (Wikimedia, NASA), vẽ bản đồ từ ranh giới thật, trộn nhạc theo hồi (mở – cao trào – kết), ra video luôn kèm danh sách asset (`ASSETS.md`) để anh thay ảnh nào muốn.
 > - **B — Đồ họa + cảnh phim AI:** như A, thêm khoảng cứ 25–30 giây một clip 5–8 giây do video-AI tạo (có SFX, không nhạc, không giọng). Em giao file prompt đánh số 1. 2. 3. để anh chạy batch; anh lưu clip vào một thư mục (tên bắt đầu bằng số thứ tự) và đưa đường dẫn thư mục đó, em tự ghép đúng vị trí, chuẩn hóa clip và render bản cuối. Em render bản A trước để xem nhịp. Chỉ dùng cho preset ngang 16:9.
+> - **C — Dựng video người nói anh tự quay:** anh đưa file video; em chép lời tiếng Việt trên máy, bỏ khoảng lặng, cắt câu vấp, thêm phụ đề, card chữ/số, cảnh chèn Muse, nhạc, SFX theo skill của herk-edit-kit (`skills-v2/talking-head-edit`). Dọc 9:16 hoặc ngang 16:9.
 >
 > **2. Preset** (xem danh sách ở mục 2; gợi ý theo chủ đề: giải thích chung / lịch sử / sự kiện, muốn đẹp nhất → `explained-vox-cards` (card thiết kế sẵn của herk-edit-kit); lịch sử dài → `explained-history-chronicle`, hồ sơ tư liệu → `explained-history-dossier`, kinh tế vĩ mô → `explained-fdi-timeline`, tài chính doanh nghiệp → `explained-data-finance`, bản đồ/địa chính trị → `explained-geo-map`, điều tra → `explained-investigative`, kinh doanh → `explained-gym-business`)
 >
@@ -36,7 +37,7 @@ Khi người dùng yêu cầu làm video (hoặc mở repo và nói "bắt đầ
 >
 > **5. Thời lượng và nguồn kịch bản** (anh dán kịch bản, hoặc em tự viết từ nguồn anh đưa)
 
-Sau khi có câu trả lời: nhắc lại một dòng tóm tắt lựa chọn, rồi làm đủ các bước ở mục 3. Chọn **B** thì thêm bước clip AI (`skills-v2/_shared/BROLL-VIDEO.md`) và giao bảng slot kèm file prompt trong `<ROOT>/output/`. Chỉ hỏi lại khi thiếu thông tin không có mặc định (chủ đề, kịch bản).
+Sau khi có câu trả lời: nhắc lại một dòng tóm tắt lựa chọn, rồi làm đủ các bước ở mục 3. Chọn **C** thì làm theo `skills-v2/talking-head-edit/SKILL.md` (bỏ qua mục giọng đọc và màu). Chọn **B** thì thêm bước clip AI (`skills-v2/_shared/BROLL-VIDEO.md`) và giao bảng slot kèm file prompt trong `<ROOT>/output/`. Chỉ hỏi lại khi thiếu thông tin không có mặc định (chủ đề, kịch bản).
 
 ### Mẫu câu lệnh người dùng (copy/paste)
 
@@ -59,6 +60,7 @@ Thư mục làm việc chính của người dùng là `vidskill`. Hai hệ sinh
 │   │   ├── explained-history-dossier\  (Ngang 16:9 · Hồ sơ tư liệu lịch sử / chiến dịch)
 │   │   ├── explained-history-chronicle\ (Ngang 16:9 · Lịch sử dài, nền giấy sáng, bản đồ + Polaroid)
 │   │   ├── explained-vox-cards\        (Ngang 16:9 · Ghép card Vox của herk-edit-kit, khuyên dùng)
+│   │   ├── talking-head-edit\          (Dọc/ngang · Dựng video người nói quay thật bằng skill của herk)
 │   │   ├── animated-story-ai\         (Ngang 16:9 · Hoạt hình 3D nhân vật AI, truyện dài: sổ nhân vật, kịch bản, shot list)
 │   │   ├── explained-data-finance\     (Dọc 9:16 · Báo cáo tài chính / cổ phiếu PNJ)
 │   │   ├── explained-geo-map\          (Dọc 9:16 · Địa chính trị / bản đồ Singapore)
@@ -96,6 +98,7 @@ Agent tra cứu bảng ánh xạ sau để chọn đúng template gốc trong `s
 | **History Dossier** / Lịch sử | `explained-history-dossier` | **16:9** (1920×1080) | `video-reference/lichsu-vietnam.mp4` | Nền rêu `#121411`, Kem `#F2E6D2`, Đỏ `#B4322C`, Giấy kraft, Mũi tên vẽ tay, Thẻ mốc ngày, Lưới đơn vị |
 | **History Chronicle** / Lịch sử dài (Triều Tiên) | `explained-history-chronicle` | **16:9** (1920×1080) | `video-reference/trieu-tien-chronicle.mp4` (bản nén 1280×720 của video 30:39) | Nền giấy sáng `#E1E1DB`, nhấn vàng `#F3C31B`, mực `#0F0F0F`, chữ Barlow Condensed, nhãn mono gõ từng chữ, Polaroid + băng keo, Bản đồ vệ tinh đen trắng + vùng đỏ + ghim xanh |
 | **Vox Cards** / Giải thích cắt dán kiểu Vox (khuyên dùng) | `explained-vox-cards` | **16:9** (1920×1080) | `herk-edit-kit/style-library/01-vox-explainer` (106 card) | Giấy báo `#efe9dc`, mực `#17130e`, xanh nhấn `#37BDF8`, đỏ `#e23b2e`; Fraunces + Archivo; ảnh đen trắng thật; chuyển động stop-motion. Không vẽ layout: chọn card bằng `cards.py list`, điền slot, ghép bằng `cards.py build` |
+| **Talking Head** / Video người nói quay thật | `talking-head-edit` | **9:16** hoặc **16:9** | `herk-edit-kit/examples/showcase/ai-edits-everything-*.mp4` | Dùng skill `short-form-edit` / `edit-video` của herk; chép lời bằng `transcribe_vi.py` (không ElevenLabs); không cần giọng VieNeu; cần FFmpeg 7+ |
 | **Data Finance** / PNJ Tài chính | `explained-data-finance` | **9:16** (1080×1920) | `video-reference/pnj-tai-chinh.mp4` | Nền tối `#080F0D`, Lime `#ADF400`, Vàng `#FEC73C`, Đỏ `#E70A23`, Biểu đồ đường/cột, Thẻ báo khoanh đỏ, Con dấu |
 | **Geo Map** / Singapore / Bản đồ | `explained-geo-map` | **9:16** (1080×1920) | `video-reference/singapore.mp4` | Bản đồ phẳng màu + ảnh vệ tinh, Vàng nhấn `#FFD708` (vòng tròn, năm, nhãn, đường tàu), Nhãn pop-up, Phụ đề từ khóa vàng |
 | **Gym Business** / Điểm hòa vốn | `explained-gym-business` | **9:16** (1080×1920) | `video-reference/gym center.mp4` | Nền ảnh vệ tinh tối (`#0E1114`), Lime `#CBF73E`, Đỏ `#C5202B`, Bảng giá viền trắng, Thẻ báo highlight lime, Biểu đồ cột, Chú giải bản đồ |

@@ -77,6 +77,8 @@ if %ERRORLEVEL% neq 0 (
 ) else (
     echo   [OK] FFmpeg san sang.
 )
+for /f "tokens=3" %%v in ('ffmpeg -version 2^>nul ^| findstr /b "ffmpeg version"') do set "FFV=%%v"
+if defined FFV if "%FFV:~0,1%"=="6" echo [CANH BAO] FFmpeg %FFV% qua cu: bo cat video nguoi noi cua herk can FFmpeg 7+. Chay: winget upgrade Gyan.FFmpeg
 
 :: -------------------------------------------------------------------------
 :: BUOC 2: herk-edit-kit (HyperFrames + GSAP)
@@ -126,6 +128,8 @@ if not exist ".venv" python -m venv .venv
 echo   -> Dang cai dependencies cho VieNeu-TTS (co the mat vai phut)...
 ".venv\Scripts\python.exe" -m pip install torch torchaudio transformers onnxruntime soundfile soxr kaldi-native-fbank tokenizers sea-g2p huggingface_hub pillow requests beautifulsoup4
 ".venv\Scripts\python.exe" -m pip install -e .
+echo   -> Cai faster-whisper (chep loi tieng Viet tren may cho video nguoi noi)...
+".venv\Scripts\python.exe" -m pip install faster-whisper
 popd
 echo   [OK] VieNeu-TTS xong.
 

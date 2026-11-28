@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
-"""Gọi Muse (Meta) để tạo ẢNH và CLIP thay cho Kie.ai của herk-edit-kit.
+"""Gọi Muse qua muse2api (chạy trên máy / mạng nội bộ, pool tài khoản) để tạo ẢNH và CLIP, thay Kie.ai.
 
-Khóa API (không commit): biến môi trường hoặc file <repo>/.env
-  MUSE_API_KEY=...            khóa dùng chung cho ảnh và video
-  MUSE_IMAGE_KEY / MUSE_VIDEO_KEY   (tùy chọn) khóa riêng nếu hai nhà cung cấp khác nhau
-  MUSE_IMAGE_BASE=https://api.meta.ai/v1          (mặc định: Meta Model API, model muse-image-1.0)
-  MUSE_VIDEO_BASE=https://api.apimodels.app/v1    (mặc định: API Meta chưa có video; Muse Video qua apimodels)
-  MUSE_VIDEO_PRICE=0.037      USD/giây, chỉ để ước tính chi phí
+Cấu hình trong <repo>/.env (mẫu .env.example, không commit):
+  MUSE_HOST=127.0.0.1        máy chạy muse2api
+  MUSE_PORT=18610            cổng muse2api (mặc định của muse2api)
+  MUSE_API_KEY=m2a_...       khóa MUSE2API_KEY đã đặt khi chạy muse2api
+  MUSE_IMAGE_MODEL=muse-image
+  MUSE_VIDEO_MODEL=          để trống nếu muse2api không cần model cho video
+  (hoặc MUSE_BASE_URL=http://host:port/v1 thay cho HOST+PORT)
 
-  python muse.py image "<prompt>" -o assets/img/x.jpg [--size 1792x1024]
-  python muse.py batch <file-prompt.txt> <thư-mục-ra> --kind video|image [--duration 6] [--first-frame-dir dir] [--yes]
-      File prompt dạng "1. ...\\n\\n2. ..." (giống broll-prompts.txt). Ra 01.mp4/01.jpg... đúng số thứ tự,
-      bỏ qua file đã có (chạy lại an toàn). Không có --yes: chỉ in số lượng + chi phí ước tính rồi dừng.
-      Clip ra dùng ngay: broll.py ingest <dự-án> <thư-mục-ra>.
+  python muse.py check                                   kiểm tra kết nối muse2api
+  python muse.py image "<prompt>" -o assets/img/x.jpg [--size 16:9]
+  python muse.py batch <file-prompt.txt> <thư-mục-ra> --kind video|image [--duration 6] [--size 16:9]
+                       [--first-frame-dir dir]
+      File prompt "1. ...\\n\\n2. ..." (như broll-prompts.txt) → 01.mp4/01.jpg… đúng số thứ tự.
+      Bỏ qua file đã có (chạy lại an toàn, tiếp tục khi gián đoạn). Clip ra dùng ngay:
+      broll.py ingest <dự-án> <thư-mục-ra>.
+Video muse2api: thời lượng 5, 6, 8 hoặc 10 s; khung 16:9 hoặc 9:16.
 """
 import argparse
 import base64
@@ -21,50 +25,60 @@ import os
 import re
 import sys
 import time
+import urllib.error
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
+DURATIONS = (5, 6, 8, 10)
 
 
 def load_env():
     path = os.path.join(REPO, ".env")
     if os.path.exists(path):
         for line in open(path, encoding="utf-8"):
-            m = re.match(r"\s*([A-Z_]+)\s*=\s*(.*?)\s*$", line)
+            m = re.match(r"\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*$", line)
             if m and m.group(1) not in os.environ:
                 os.environ[m.group(1)] = m.group(2).strip('"').strip("'")
 
 
-def key(kind):
-    k = os.environ.get(f"MUSE_{kind.upper()}_KEY") or os.environ.get("MUSE_API_KEY") or os.environ.get("MODEL_API_KEY")
-    if not k:
-        sys.exit(f"Thiếu khóa Muse: đặt MUSE_API_KEY trong {os.path.join(REPO, '.env')} hoặc biến môi trường")
-    return k
+def base_url():
+    if os.environ.get("MUSE_BASE_URL"):
+        return os.environ["MUSE_BASE_URL"].rstrip("/")
+    return f"http://{os.environ.get('MUSE_HOST', '127.0.0.1')}:{os.environ.get('MUSE_PORT', '18610')}/v1"
 
 
-def call(method, url, k, body=None, raw=False, timeout=300):
+def call(method, path, body=None, timeout=900):
+    url = path if path.startswith("http") else base_url() + path
+    headers = {"Content-Type": "application/json", "User-Agent": "vidskill/1.0"}
+    if os.environ.get("MUSE_API_KEY"):
+        headers["Authorization"] = f"Bearer {os.environ['MUSE_API_KEY']}"
     data = json.dumps(body).encode() if body is not None else None
-    req = urllib.request.Request(url, data=data, method=method, headers={
-        "Authorization": f"Bearer {k}", "Content-Type": "application/json", "User-Agent": "vidskill/1.0"})
+    req = urllib.request.Request(url, data=data, method=method, headers=headers)
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
-            out = r.read()
+            raw = r.read()
     except urllib.error.HTTPError as e:
-        sys.exit(f"Muse lỗi HTTP {e.code} tại {url}: {e.read().decode(errors='replace')[:500]}")
-    return out if raw else json.loads(out)
+        sys.exit(f"muse2api lỗi HTTP {e.code} tại {url}: {e.read().decode(errors='replace')[:400]}")
+    except urllib.error.URLError as e:
+        sys.exit(f"Không kết nối được muse2api tại {url} ({e.reason}). Kiểm tra MUSE_HOST/MUSE_PORT và muse2api đang chạy.")
+    return json.loads(raw)
 
 
 def download(url, dest):
-    req = urllib.request.Request(url, headers={"User-Agent": "vidskill/1.0"})
-    with urllib.request.urlopen(req, timeout=600) as r:
+    if url.startswith("/"):
+        url = base_url().rsplit("/v1", 1)[0] + url
+    headers = {"User-Agent": "vidskill/1.0"}
+    if os.environ.get("MUSE_API_KEY"):
+        headers["Authorization"] = f"Bearer {os.environ['MUSE_API_KEY']}"
+    with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=900) as r:
         open(dest, "wb").write(r.read())
 
 
-def gen_image(prompt, dest, size="1792x1024"):
-    base = os.environ.get("MUSE_IMAGE_BASE", "https://api.meta.ai/v1").rstrip("/")
-    res = call("POST", f"{base}/images/generations", key("image"),
-               {"model": os.environ.get("MUSE_IMAGE_MODEL", "muse-image-1.0"), "prompt": prompt, "n": 1, "size": size})
+def gen_image(prompt, dest, size="16:9"):
+    res = call("POST", "/images/generations", {
+        "model": os.environ.get("MUSE_IMAGE_MODEL", "muse-image"), "prompt": prompt,
+        "size": size, "response_format": "b64_json"})
     item = res["data"][0]
     if item.get("b64_json"):
         open(dest, "wb").write(base64.b64decode(item["b64_json"]))
@@ -78,27 +92,30 @@ def data_uri(path):
     return f"data:image/{ext};base64," + base64.b64encode(open(path, "rb").read()).decode()
 
 
-def gen_video(prompt, dest, duration=6, aspect="16:9", first_frame=None):
-    base = os.environ.get("MUSE_VIDEO_BASE", "https://api.apimodels.app/v1").rstrip("/")
-    k = key("video")
-    body = {"model": os.environ.get("MUSE_VIDEO_MODEL", "muse-video"), "prompt": prompt,
-            "duration": int(duration), "aspect_ratio": aspect}
+def gen_video(prompt, dest, duration=6, size="16:9", first_frame=None):
+    duration = min((d for d in DURATIONS if d >= duration), default=DURATIONS[-1])
+    body = {"prompt": prompt, "duration": duration, "size": size}
+    if os.environ.get("MUSE_VIDEO_MODEL"):
+        body["model"] = os.environ["MUSE_VIDEO_MODEL"]
     if first_frame:
-        body["image_url"] = data_uri(first_frame)
-    res = call("POST", f"{base}/video/generations", k, body)
-    task = (res.get("data") or {}).get("taskId") or res.get("id")
-    if not task:
-        sys.exit(f"Muse không trả taskId: {json.dumps(res)[:300]}")
-    for _ in range(120):  # tối đa ~30 phút
-        time.sleep(15)
-        st = call("GET", f"{base}/video/generations?task_id={task}", k)
-        d = st.get("data") or {}
-        if d.get("state") == "completed":
-            download(d["resultUrls"][0], dest)
+        body["images"] = [{"url": data_uri(first_frame)}]
+    task = call("POST", "/videos", body)
+    tid = task.get("id") or task.get("task_id")
+    if not tid:
+        sys.exit(f"muse2api không trả id task: {json.dumps(task)[:300]}")
+    waited = 0
+    while waited < 1800:  # pool có thể xếp hàng lâu
+        time.sleep(10)
+        waited += 10
+        st = call("GET", f"/videos/{tid}")
+        status = st.get("status")
+        if status in ("succeeded", "completed"):
+            url = (st.get("result") or {}).get("url") or (st.get("data") or [{}])[0].get("url")
+            download(url, dest)
             return dest
-        if d.get("state") == "failed":
-            sys.exit(f"Muse tạo clip thất bại: {json.dumps(d)[:300]}")
-    sys.exit(f"Quá thời gian chờ task {task}")
+        if status in ("failed", "error", "cancelled"):
+            sys.exit(f"Muse tạo clip thất bại: {json.dumps(st)[:300]}")
+    sys.exit(f"Quá 30 phút chưa xong task {tid}")
 
 
 def read_prompts(path):
@@ -116,46 +133,48 @@ def cmd_batch(a):
     os.makedirs(a.out, exist_ok=True)
     ext = "mp4" if a.kind == "video" else "jpg"
     todo = [(n, p) for n, p in items if not os.path.exists(os.path.join(a.out, f"{n:02d}.{ext}"))]
-    if a.kind == "video":
-        price = float(os.environ.get("MUSE_VIDEO_PRICE", "0.037"))
-        print(f"{len(todo)}/{len(items)} clip cần tạo × {a.duration}s ≈ {len(todo) * a.duration * price:.2f} USD")
-    else:
-        print(f"{len(todo)}/{len(items)} ảnh cần tạo")
-    if not a.yes:
-        print("Chưa gọi Muse. Xác nhận với người dùng rồi chạy lại với --yes.")
-        return
+    print(f"{len(todo)}/{len(items)} {'clip' if a.kind == 'video' else 'ảnh'} cần tạo qua {base_url()}")
     for n, p in todo:
         dest = os.path.join(a.out, f"{n:02d}.{ext}")
-        print(f"  #{n:02d} ...", flush=True)
+        t0 = time.time()
         if a.kind == "video":
             ff = None
             if a.first_frame_dir:
-                cand = [os.path.join(a.first_frame_dir, f"{n:02d}.{e}") for e in ("jpg", "jpeg", "png", "webp")]
-                ff = next((c for c in cand if os.path.exists(c)), None)
-            gen_video(p, dest, a.duration, a.aspect, ff)
+                ff = next((c for c in (os.path.join(a.first_frame_dir, f"{n:02d}.{e}") for e in ("jpg", "jpeg", "png", "webp"))
+                           if os.path.exists(c)), None)
+            gen_video(p, dest, a.duration, a.size, ff)
         else:
             gen_image(p, dest, a.size)
-        print(f"  #{n:02d} -> {dest}")
+        print(f"  #{n:02d} -> {dest} ({time.time() - t0:.0f}s)", flush=True)
+
+
+def cmd_check(a):
+    try:
+        res = call("GET", "/models", timeout=15)
+        ids = [m.get("id") for m in res.get("data", [])]
+        print(f"OK {base_url()}  models: {', '.join(i for i in ids if i) or '(không liệt kê)'}")
+    except SystemExit as e:
+        print(e)
+        sys.exit(1)
 
 
 def main():
     load_env()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("check").set_defaults(fn=cmd_check)
     p = sub.add_parser("image")
     p.add_argument("prompt")
     p.add_argument("-o", "--out", required=True)
-    p.add_argument("--size", default="1792x1024")
+    p.add_argument("--size", default="16:9")
     p.set_defaults(fn=lambda a: print(gen_image(a.prompt, a.out, a.size)))
     p = sub.add_parser("batch")
     p.add_argument("prompts")
     p.add_argument("out")
     p.add_argument("--kind", choices=["video", "image"], default="video")
     p.add_argument("--duration", type=int, default=6)
-    p.add_argument("--aspect", default="16:9")
-    p.add_argument("--size", default="1792x1024")
+    p.add_argument("--size", default="16:9")
     p.add_argument("--first-frame-dir")
-    p.add_argument("--yes", action="store_true")
     p.set_defaults(fn=cmd_batch)
     a = ap.parse_args()
     a.fn(a)
