@@ -20,7 +20,10 @@ Ví dụ hoàn chỉnh: `herk-edit-kit/examples/showcase/youtube-showreel.mp4` (
 | ElevenLabs (giọng, SFX) | **VieNeu-TTS** (giọng), `_shared/audio` + SFX từ clip Muse | `build_voiceover.py` |
 | Suno qua Kie (nhạc) | `mix_audio.py` (nhạc CC BY theo 4 hồi) hoặc nhạc Muse/của người dùng | `--music hook=file.mp3` |
 
-Chưa rõ Muse được cấp qua API, CLI hay công cụ trong trình duyệt: hỏi người dùng một lần, ghi cách gọi vào đây. Khi chưa có, AI xuất file prompt (mỗi prompt một đoạn, đánh số) để người dùng chạy Muse rồi đưa thư mục kết quả.
+**Gọi Muse bằng `skills-v2/_shared/scripts/muse.py`** (khóa API trong `<repo>/.env`, mẫu ở `.env.example`, không commit):
+- Ảnh: `python muse.py image "<prompt>" -o assets/img/p3.jpg` (Meta Model API, `muse-image-1.0`). Dùng cho ô ảnh không tìm được ảnh thật; slot `source` ghi "ẢNH MINH HOẠ · TẠO BẰNG AI".
+- Clip (cách làm B): `python muse.py batch output/<video>-broll-prompts.txt output/<video>-broll --kind video --duration 6` → in số clip và chi phí ước tính; **hỏi người dùng xác nhận** rồi chạy lại với `--yes`. Sau đó `broll.py ingest <dự-án> output/<video>-broll`. API chính thức của Meta chưa có video nên clip đi qua apimodels (`MUSE_VIDEO_BASE`); nhà cung cấp khác thì đổi biến này và kiểm tra lại định dạng trả về.
+- Không gọi `kie.mjs` của herk.
 
 ## Cài
 `setup_all.bat` đã clone herk và `npm install`. Lần đầu render, HyperFrames tự tải Chrome headless. Kiểm tra: `cd <ROOT>/herk-edit-kit && npx hyperframes lint video-projects/<slug>`.
