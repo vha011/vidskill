@@ -53,6 +53,20 @@ Chữ:
 - Bản đồ: nền hiện 0,3 s; vùng đỏ hiện đặc `#990303` rồi giảm xuống opacity .5 trong 1,2 s; ghim rơi từ trên (`back.out`), đường chấm vẽ bằng `mask` + `stroke-dashoffset` (1,4 s `power1.inOut`).
 - Chuyển trang: cắt thẳng hoặc mờ ≤ 0,3 s; **không** zoom, parallax hay xoay cả trang.
 
+## Bảng màu (chọn khi tạo video)
+Bố cục, font, cỡ chữ giữ nguyên; chỉ đổi biến màu `:root` trong `themes/<tên>.css`. Mọi màu trong template đã dùng biến, không sửa tay mã hex.
+
+| Tên | Cảm giác | Nền / nhấn |
+|---|---|---|
+| `paper` (mặc định) | Biên niên sử giấy xám, như video mẫu | `#E1E1DB` / vàng `#F3C31B` |
+| `sepia-archive` | Phóng sự tư liệu ố vàng, hoài cổ | `#D9C9A8` / hổ phách `#E3A83B` |
+| `ocean-chart` | Phóng sự hải đồ, lạnh, hợp địa chính trị/kinh tế | `#D3DCE1` / lam nhạt `#63C7E6` |
+
+Tạo dự án: `bash skills-v2/_shared/scripts/new-project.sh explained-history-chronicle <slug> --theme=sepia-archive` (`--theme=list` để liệt kê). Ảnh so sánh: `reference/themes-compare.jpg`. Người dùng chưa chọn → hỏi một câu ngắn, mặc định `paper`.
+
+## Nhịp đọc
+Theo `PIPELINE.md` bước 3: nghỉ giữa câu ≥ 0,7 s, chuyển trang ≥ 1,3 s, sau câu hỏi ≥ 1,5 s. Có thuyết minh thì thời lượng trang lấy từ `timing.json` (câu + nghỉ), thường 6–9 s, dài hơn mức 4–6 s của video mẫu.
+
 ## Quy trình
 1. Chia kịch bản thành trang 4–6 s, mỗi trang ghi sẵn: loại trang (giấy / bản đồ), cụm nhấn vàng, ảnh cần có.
 2. Giọng đọc và timing: theo `skills-v2/_shared/PIPELINE.md`; nhạc nền `data-volume` 0.08–0.10, giọng 1.0.

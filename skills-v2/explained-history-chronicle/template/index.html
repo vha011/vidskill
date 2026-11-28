@@ -6,7 +6,7 @@
 @font-face{font-family:"Barlow Cond";font-weight:800;src:url(assets/fonts/BarlowCondensed-ExtraBold.ttf)}
 @font-face{font-family:"Plex Mono";font-weight:700;src:url(assets/fonts/IBMPlexMono-Bold.ttf)}
 @font-face{font-family:"Plex Mono";font-weight:400;src:url(assets/fonts/IBMPlexMono-Regular.ttf)}
-:root{--paper:#E1E1DB;--yel:#F3C31B;--ink:#0F0F0F;--white:#F9F9F9;--red:#D53F27;--redmap:#990303;--blue:#3F81BD;--tape:#CFC9BD;--poly:#F9F3F3;--cream:#F1EBCF;--mapbg:#151515}
+:root{--paper:#E1E1DB;--yel:#F3C31B;--ink:#0F0F0F;--white:#F9F9F9;--red:#D53F27;--redmap:#990303;--blue:#3F81BD;--tape:#CFC9BD;--poly:#F9F3F3;--cream:#F1EBCF;--mapbg:#151515;--land:#383838;--noteink:#2b2a22}
 *{box-sizing:border-box;margin:0}
 html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:"Barlow Cond",sans-serif}
 #root{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
@@ -37,8 +37,8 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
 .pol .cp{position:absolute;left:0;bottom:0;background:rgba(15,15,15,.85);color:var(--white);font-size:15px;letter-spacing:2px;padding:5px 12px}
 .tp{position:absolute;width:150px;height:56px;background:var(--tape);opacity:.9}
 /* thẻ ghi chú kem, checklist, dấu mộc */
-.note{position:absolute;background:var(--cream);color:#2b2a22;padding:20px 26px;box-shadow:0 14px 34px rgba(0,0,0,.25);width:420px}
-.note .t{font-size:22px;letter-spacing:3px;text-align:center;border-bottom:2px solid #2b2a22;padding-bottom:8px}
+.note{position:absolute;background:var(--cream);color:var(--noteink);padding:20px 26px;box-shadow:0 14px 34px rgba(0,0,0,.25);width:420px}
+.note .t{font-size:22px;letter-spacing:3px;text-align:center;border-bottom:2px solid var(--noteink);padding-bottom:8px}
 .note .b{font:400 20px/1.5 "Plex Mono";margin-top:12px}
 .chk{position:absolute;font-size:26px;letter-spacing:3px;color:var(--ink)}
 .chk div{margin:14px 0;display:flex;align-items:center;gap:16px}
@@ -80,15 +80,15 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
           </filter>
           <clipPath id="land"><path d="M420 -20 L1060 -20 C1120 90 1030 200 1090 310 C1160 420 1130 480 1180 570 C1230 660 1150 780 1210 880 C1230 980 1120 1050 1040 1100 L520 1100 C580 1000 460 940 520 830 C580 720 400 660 470 560 C530 460 360 380 430 270 C470 170 380 90 420 -20Z"/></clipPath>
         </defs>
-        <g clip-path="url(#land)"><rect width="1920" height="1080" fill="#383838"/><rect width="1920" height="1080" filter="url(#relief)" opacity=".5"/></g>
+        <g clip-path="url(#land)"><rect width="1920" height="1080" style="fill:var(--land)"/><rect width="1920" height="1080" filter="url(#relief)" opacity=".5"/></g>
         <path d="M520 -20 C555 90 500 170 520 260 C560 360 470 440 520 540 C560 640 480 700 560 780 C520 880 610 960 560 1100" fill="none" stroke="#e8e8e8" stroke-width="1.5" opacity=".55"/>
         <path d="M1020 -20 C1000 200 1110 400 1120 560 C1100 760 1130 860 1020 1040" fill="none" stroke="#e8e8e8" stroke-width="1.5" opacity=".45"/>
         <path d="M540 520 L1120 540" fill="none" stroke="#e8e8e8" stroke-width="1" opacity=".35"/>
-        <polygon id="p2red" points="1010,330 1190,300 1250,420 1180,540 1060,560 980,460" fill="#990303" opacity="1"/>
+        <polygon id="p2red" points="1010,330 1190,300 1250,420 1180,540 1060,560 980,460" style="fill:var(--redmap)" opacity="1"/>
         <defs><mask id="p2m"><path id="p2mp" d="M900 290 C905 360 888 460 880 640" fill="none" stroke="#fff" stroke-width="30" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></mask></defs>
         <path d="M900 290 C905 360 888 460 880 640" fill="none" stroke="#dfeeff" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 18" mask="url(#p2m)"/>
       </svg>
-      <svg id="p2pin" style="position:absolute;left:870px;top:230px;width:60px;height:70px" viewBox="0 0 60 70"><path d="M5 5 H55 V40 L30 66 L5 40Z" fill="#3F81BD" stroke="#fff" stroke-width="4"/><rect x="25" y="14" width="10" height="16" rx="2" fill="#fff"/><circle cx="30" cy="12" r="5" fill="#fff"/></svg>
+      <svg id="p2pin" style="position:absolute;left:870px;top:230px;width:60px;height:70px" viewBox="0 0 60 70"><path d="M5 5 H55 V40 L30 66 L5 40Z" style="fill:var(--blue)" stroke="#fff" stroke-width="4"/><rect x="25" y="14" width="10" height="16" rx="2" fill="#fff"/><circle cx="30" cy="12" r="5" fill="#fff"/></svg>
     </div>
     <div class="tag y mono s" style="position:absolute;left:30px;top:30px">12 - 1950</div>
     <div class="tag y mono" id="p2t" style="position:absolute;left:660px;top:48px;font-size:26px;letter-spacing:5px">25 - 12 - 1950 · GIÁNG SINH</div>

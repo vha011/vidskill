@@ -12,16 +12,16 @@
 1. Kiểm tra môi trường: tồn tại `<ROOT>/herk-edit-kit/node_modules` và `<ROOT>/VieNeu-TTS/.venv`?
 2. Nếu **thiếu** → chạy `setup_all.bat` ở gốc repo (Windows). Script tự cài Git/Node/Python/FFmpeg qua winget nếu thiếu, clone `herk-edit-kit` + `VieNeu-TTS` vào `<ROOT>`, `npm install`, tạo `.venv`, cài PyTorch + VieNeu-TTS, đăng ký skill. Lần đầu có thể mất 10–20 phút và tải model giọng đọc. Nếu vừa cài công cụ mới mà lệnh chưa nhận, mở lại terminal rồi chạy lại script (chạy lại an toàn).
 3. Tạo dự án từ preset bằng script (Git Bash/WSL/macOS/Linux):
-   `bash skills-v2/_shared/scripts/new-project.sh <preset> <slug> ../herk-edit-kit`
+   `bash skills-v2/_shared/scripts/new-project.sh <preset> <slug> [--theme=<màu>]` (mặc định tìm `herk-edit-kit` ở `<ROOT>`; video xuất ra `<ROOT>/output/`)
    Script copy template, font, SFX, `gsap.min.js` và `meta.json`/`hyperframes.json` mẫu vào `video-projects/<slug>`.
 4. Giọng đọc: dùng `<ROOT>/VieNeu-TTS/.venv/Scripts/python.exe` (Linux/macOS: `.venv/bin/python`).
 5. **Chọn giọng**: chạy `preview_voices.bat` (hoặc `<ROOT>/VieNeu-TTS/.venv/Scripts/python.exe preview_voices.py`) để liệt kê các giọng, gõ số để nghe thử, `c <số>` để chọn. Giọng chọn lưu ở `voice_choice.txt`. Nếu người dùng chưa nêu giọng, AI phải đọc `voice_choice.txt` nếu có; nếu không thì hướng dẫn người dùng chạy script này (hoặc `--list`) trước khi sinh giọng. Tên giọng dùng trong `infer(voice=...)` phải đúng ID mà script liệt kê.
 
 ### Mẫu câu lệnh người dùng (copy/paste)
 
-> Đọc `AGENTS.md`. Dùng preset **<tên preset>** làm video giải thích về **<chủ đề>**, thời lượng **<~N giây/phút>**, giọng **<Thùy Dung | Minh Đức | Trúc Ly>**. Kịch bản: <dán kịch bản hoặc "tự viết từ nguồn …">. Xuất ra `renders/<ten-video>.mp4`.
+> Đọc `AGENTS.md`. Dùng preset **<tên preset>** làm video giải thích về **<chủ đề>**, thời lượng **<~N giây/phút>**, giọng **<tên giọng>**, màu **<tên bảng màu, nếu preset có>**. Kịch bản: <dán kịch bản hoặc "tự viết từ nguồn …">. Xuất ra `<ROOT>/output/<ten-video>.mp4`.
 
-AI phải: (a) tra bảng ở mục 2 để chọn preset và tỉ lệ khung; (b) đọc `skills-v2/<preset>/SKILL.md` + `template/index.html` + ảnh trong thư mục reference của preset; (c) chạy đủ 4 bước ở mục 3; (d) lint 0 errors trước khi render; (e) bàn giao đường dẫn MP4 + ảnh lưới kiểm tra 2×2. Nếu thiếu thông tin (chủ đề, thời lượng, giọng), chỉ hỏi những mục đó rồi làm tiếp.
+AI phải: (a) tra bảng ở mục 2 để chọn preset và tỉ lệ khung; (b) đọc `skills-v2/<preset>/SKILL.md` + `template/index.html` + ảnh trong thư mục reference của preset; (c) chạy đủ 4 bước ở mục 3; (d) lint 0 errors trước khi render; (e) bàn giao đường dẫn MP4 + ảnh lưới kiểm tra 2×2. Preset có thư mục `themes/` (hiện: `explained-history-chronicle` với `paper`, `sepia-archive`, `ocean-chart`) thì cho người dùng chọn màu và tạo dự án bằng `--theme=<tên>`. Kết quả luôn nằm ở `<ROOT>/output/`, không để trong `herk-edit-kit`. Nếu thiếu thông tin (chủ đề, thời lượng, giọng, màu), chỉ hỏi những mục đó rồi làm tiếp.
 
 ---
 
@@ -49,9 +49,10 @@ Thư mục làm việc chính của người dùng là `vidskill`. Hai hệ sinh
 │
 ├── herk-edit-kit\                      <-- [RENDER ENGINE] Hệ thống dựng & xuất video HyperFrames
 │   ├── video-projects\                 <-- Nơi khởi tạo mã nguồn dự án mới (index.html, assets/)
-│   ├── renders\                        <-- Nơi chứa video MP4 hoàn thiện sau khi render
 │   ├── node_modules\                   <-- Thư viện HyperFrames, GSAP
 │   └── package.json
+│
+├── output\                             <-- [KẾT QUẢ] Toàn bộ MP4, ảnh QA, VERIFY.md (cùng cấp vidskill)
 │
 └── VieNeu-TTS\                         <-- [AI VOICE ENGINE] Thuyết minh tiếng Việt Offline
     ├── .venv\Scripts\python.exe        <-- Trình thông dịch Python chứa PyTorch & VieNeu-TTS
@@ -109,7 +110,8 @@ Chạy script Python bằng trình thông dịch của VieNeu-TTS:
   vieneu.save(audio, r"assets/vo_s1.wav")
   vieneu.close()
   ```
-- **Bắt buộc đo thời lượng chính xác** từng file `.wav` bằng `wave.open()` để làm căn cứ thiết lập keyframes và duration trên timeline GSAP.
+- **Dùng `skills-v2/_shared/scripts/build_voiceover.py`** thay vì tự ghép: nó sinh từng câu, ghép `vo.wav` với khoảng nghỉ chuẩn và ghi `assets/timing.json` (thời điểm từng câu) làm căn cứ keyframes/duration trên timeline GSAP. Chi tiết `script.json` ở đầu file script.
+- **NHỊP NGHỈ (bắt buộc, không đọc dồn):** giữa câu cùng trang ≥ 0,7 s; câu cuối của trang/chuyển cảnh ≥ 1,3 s; sau câu hỏi dẫn dắt ≥ 1,5 s; đầu bài 0,5 s; cuối bài giữ ≥ 1,5 s. Muốn ngắn hơn thì bớt câu, không bớt nghỉ. Hình mới phải vào xong trước khi câu kế bắt đầu.
 
 ### Bước 3: Dựng mã HTML/GSAP (`index.html`) & Phụ đề Karaoke
 1. Lấy khung mẫu từ `vidskill/skills-v2/<preset>/template/index.html`.
@@ -131,9 +133,9 @@ Chạy script Python bằng trình thông dịch của VieNeu-TTS:
 2. **Kết xuất video hoàn thiện**:
    ```bash
    cd "<ROOT>/herk-edit-kit"
-   npx hyperframes render video-projects/<ten-du-an> --output renders/<ten-video>.mp4
+   npx hyperframes render video-projects/<ten-du-an> --output ../output/<ten-video>.mp4
    ```
-3. **Trích xuất ảnh kiểm tra**: Dùng FFmpeg trích xuất lưới 2×2 (4 phân cảnh) để đối soát chất lượng trước khi bàn giao.
+3. **Trích xuất ảnh kiểm tra**: Dùng FFmpeg trích xuất lưới 2×2 (4 phân cảnh) vào `<ROOT>/output/<ten-video>-qa.jpg` để đối soát trước khi bàn giao.
 
 ---
 
