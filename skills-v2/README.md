@@ -14,7 +14,8 @@ Bản cũ (`SKILL.md`, `README_CAI_DAT_MAY_MOI.md`, `setup_all.bat`, `README.zip
 | Lịch sử / chiến dịch, ngang 16:9, nền TỐI, hồ sơ tư liệu (5–6 trang) | `explained-history-dossier/` | lichsu-vietnam.mp4 | Đầy đủ 5 trang (thiếu đợt II–III) |
 | Lịch sử dài, ngang 16:9, nền GIẤY SÁNG, nhịp 4–6 s/trang, bản đồ vệ tinh + polaroid | `explained-history-chronicle/` | trieu-tien-chronicle.mp4 (30:39) | 7 trang mẫu; thiếu đồng hồ, biểu đồ nhỏ, bản đồ thế giới |
 | Motion graphics ngắn | `motion-graphics/` | chưa có | Khung hướng dẫn |
-| Phim ngắn / kể chuyện | `cinematic-movie/` | chưa có | Khung hướng dẫn |
+| Phim ngắn / kể chuyện (khung chung) | `cinematic-movie/` | chưa có | Khung hướng dẫn |
+| Hoạt hình 3D kể chuyện dài, nhân vật do AI tạo | `animated-story-ai/` | mario-animation-ai.mp4 (68 s mở đầu) | Quy trình + sổ nhân vật + kịch bản/shot; ghép bằng HyperFrames đã kiểm |
 
 Gemini đọc theo thứ tự: `_shared/PIPELINE.md` → `<skill>/SKILL.md` → mở `<skill>/template/index.html` và `<skill>/reference/*.jpg`. Làm theo template, không tự thiết kế lại.
 

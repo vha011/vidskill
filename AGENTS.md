@@ -17,6 +17,7 @@ F:\2.sources\d.explainedvideo\
 │   │   ├── explained-fdi-timeline\     (Dọc 9:16 · Lịch sử kinh tế / chính sách theo năm)
 │   │   ├── explained-history-dossier\  (Ngang 16:9 · Hồ sơ tư liệu lịch sử / chiến dịch)
 │   │   ├── explained-history-chronicle\ (Ngang 16:9 · Lịch sử dài, nền giấy sáng, bản đồ + Polaroid)
+│   │   ├── animated-story-ai\         (Ngang 16:9 · Hoạt hình 3D nhân vật AI, truyện dài: sổ nhân vật, kịch bản, shot list)
 │   │   ├── explained-data-finance\     (Dọc 9:16 · Báo cáo tài chính / cổ phiếu PNJ)
 │   │   ├── explained-geo-map\          (Dọc 9:16 · Địa chính trị / bản đồ Singapore)
 │   │   ├── explained-gym-business\     (Dọc 9:16 · Mô hình kinh doanh / hòa vốn Gym)
@@ -55,6 +56,7 @@ Agent tra cứu bảng ánh xạ sau để chọn đúng template gốc trong `s
 | **Geo Map** / Singapore / Bản đồ | `explained-geo-map` | **9:16** (1080×1920) | `video-reference/singapore.mp4` | Bản đồ phẳng màu + ảnh vệ tinh, Vàng nhấn `#FFD708` (vòng tròn, năm, nhãn, đường tàu), Nhãn pop-up, Phụ đề từ khóa vàng |
 | **Gym Business** / Điểm hòa vốn | `explained-gym-business` | **9:16** (1080×1920) | `video-reference/gym center.mp4` | Nền ảnh vệ tinh tối (`#0E1114`), Lime `#CBF73E`, Đỏ `#C5202B`, Bảng giá viền trắng, Thẻ báo highlight lime, Biểu đồ cột, Chú giải bản đồ |
 | **Investigative** / Vietjet Điều tra | `explained-investigative` | **9:16** (1080×1920) | `video-reference/vietjet airline.mp4` | Nền xám than `#252525` có lưới, Lime `#CCF53C`, Đỏ `#E3202E`, Nhãn giấy kraft + lime xé mép, Băng giấy rách, Dây lime nét đứt, Dấu mộc |
+| **Animated Story AI** / Hoạt hình nhân vật AI dài | `animated-story-ai` | **16:9** (1920×1080) | `video-reference/mario-animation-ai.mp4` (68 s mở đầu) | Hình do AI tạo (ảnh khóa → clip 2 s), KHÔNG dùng template HTML để vẽ hình; HyperFrames chỉ ghép clip + giọng + nhạc; đọc `SKILL.md` của skill trước khi làm |
 | **Juno UGC** / Thời trang quảng cáo | `../juno-ugc-toolkit` | **9:16** (1080×1920) | Tham khảo UGC 30s | Sáng thời trang, PIP cận cảnh vải, Phụ đề Liquid-Glass, CTA giỏ hàng |
 
 ---
@@ -120,7 +122,7 @@ Chạy script Python bằng trình thông dịch của VieNeu-TTS:
 
 - **TUÂN THỦ PRESET GỐC**: Làm theo template có sẵn trong `skills-v2/` và đối chiếu ảnh trong `reference/`. Không tự ý vẽ lại layout, không đổi bảng màu hoặc font chữ ngoài quy định.
 - **TỈ LỆ KHUNG HÌNH BẤT DI BẤT DỊCH**:
-  + `explained-history-dossier`, `explained-history-chronicle`: Bắt buộc ngang **16:9** (1920×1080).
+  + `explained-history-dossier`, `explained-history-chronicle`, `animated-story-ai`: Bắt buộc ngang **16:9** (1920×1080).
   + Tất cả các preset kinh tế, tài chính, bản đồ, UGC khác: Bắt buộc dọc **9:16** (1080×1920).
 - **KHÔNG CHÈN TẠP ÂM / BADGE THỪA**: Không hiển thị các nhãn kỹ thuật như "VieNeu-TTS :: Thùy Dung" lên khung hình trừ khi người dùng yêu cầu rõ ràng.
 - **FONT CHỮ NỘI BỘ**: Chỉ sử dụng font local đã nhúng trong `assets/fonts/` (Inter, BeVietnamPro, Roboto, IBM Plex Mono, Barlow Condensed) để chống lỗi vỡ chữ có dấu tiếng Việt khi render headless.
