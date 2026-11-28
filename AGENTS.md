@@ -30,7 +30,7 @@ AI phải: (a) tra bảng ở mục 2 để chọn preset và tỉ lệ khung; (
 Thư mục làm việc chính của người dùng là `vidskill`. Hai hệ sinh thái phụ trợ (`herk-edit-kit` và `VieNeu-TTS`) nằm ở thư mục cha cùng cấp:
 
 ```
-<ROOT>/   (thư mục CHA của repo vidskill; ví dụ F:\2.sources\d.explainedvideo)
+<ROOT>/   (thư mục CHA của repo vidskill)
 ├── vidskill\                           <-- [WORKSHOP & KHO PRESETS] Thư mục làm việc hiện tại
 │   ├── AGENTS.md                       <-- File này (Chỉ dẫn AI)
 │   ├── skills-v2\                      <-- Kho Preset Templates chuẩn hóa

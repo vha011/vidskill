@@ -1,6 +1,6 @@
 # skills-v2 — bộ skill làm video cho Gemini Flash
 
-Bản cũ (`SKILL.md`, `README_CAI_DAT_MAY_MOI.md`, `setup_all.bat`, `README.zip`) giữ nguyên ở thư mục gốc. Bộ mới nằm hoàn toàn trong thư mục này.
+Bản cũ (`SKILL.md`, `setup_all.bat`, `README.zip`) giữ nguyên ở thư mục gốc. Bộ mới nằm hoàn toàn trong thư mục này.
 
 ## Chọn skill
 
