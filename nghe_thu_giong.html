@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo Giọng Đọc VieNeu-TTS — Chọn Giọng Nam & Nữ</title>
+  <style>
+    :root {
+      --bg: #0f1217;
+      --card: #181d25;
+      --border: #2a3240;
+      --text: #eef2f7;
+      --muted: #9aa5b5;
+      --accent: #cbf73e;
+      --male: #38bdf8;
+      --female: #f472b6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 28px 20px 60px;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .container { max-width: 1120px; margin: 0 auto; }
+    h1 { margin: 0 0 8px; font-size: 26px; }
+    .sub { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+    .quote {
+      background: #141922;
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #dbe3ee;
+      margin-bottom: 20px;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .btn {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 7px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn.active {
+      background: var(--accent);
+      color: #111;
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 19px;
+      margin: 28px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot-male { width: 10px; height: 10px; border-radius: 50%; background: var(--male); }
+    .dot-female { width: 10px; height: 10px; border-radius: 50%; background: var(--female); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .card.featured { border-color: rgba(203, 247, 62, 0.45); }
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .voice-name { font-size: 16px; font-weight: 700; }
+    .badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #232a36;
+      color: var(--muted);
+    }
+    .badge.star { background: rgba(203, 247, 62, 0.15); color: var(--accent); }
+    .meta { font-size: 13px; color: var(--muted); }
+    audio { width: 100%; height: 36px; }
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .copy-btn {
+      background: #232a36;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Demo Giọng Đọc VieNeu-TTS (25 giọng Nam &amp; Nữ)</h1>
+    <p class="sub">Bấm phát trực tiếp từng giọng để nghe thử. Chọn xong anh chỉ cần nhắn lại tên giọng hoặc chạy <code>preview_voices.bat</code> rồi gõ <code>c &lt;số&gt;</code>.</p>
+    <div class="quote"><strong>Câu đọc mẫu:</strong> "Xin chào, đây là giọng đọc thử nghiệm dùng cho video giải thích của bạn. Hôm nay chúng ta sẽ cùng khám phá câu chuyện đằng sau những con số thú vị này."</div>
+
+    <div class="filters">
+      <button class="btn active" data-region="all">Tất cả vùng miền (25)</button>
+      <button class="btn" data-region="Bắc">Miền Bắc</button>
+      <button class="btn" data-region="Trung">Miền Trung</button>
+      <button class="btn" data-region="Nam">Miền Nam</button>
+      <button class="btn" data-region="star">Nổi bật ⭐</button>
+    </div>
+
+    <div class="section-title"><span class="dot-male"></span>Giọng Nam (<span id="male-count">14</span>)</div>
+    <div class="grid" id="male-grid"></div>
+
+    <div class="section-title"><span class="dot-female"></span>Giọng Nữ (<span id="female-count">11</span>)</div>
+    <div class="grid" id="female-grid"></div>
+  </div>
+
+  <script>
+    const VOICES = [
+      { id: "Adam bựa", file: "Adam_bựa.wav", gender: "Nam", region: "Bắc", style: "Phong cách tự nhiên", star: true, num: 1 },
+      { id: "Trúc Ly", file: "Trúc_Ly.wav", gender: "Nữ", region: "Bắc", style: "Phong cách tự nhiên", star: true, num: 2 },
+      { id: "Thiện Minh", file: "Thiện_Minh.wav", gender: "Nam", region: "Bắc", style: "Phong cách kể chuyện", star: true, num: 3 },
+      { id: "Mai Anh", file: "Mai_Anh.wav", gender: "Nữ", region: "Bắc", style: "Phong cách tin tức", star: true, num: 4 },
+      { id: "Hải Đăng", file: "Hải_Đăng.wav", gender: "Nam", region: "Bắc", style: "Phong cách tự nhiên", star: true, num: 5 },
+      { id: "Thùy Dung", file: "Thùy_Dung.wav", gender: "Nữ", region: "Nam", style: "Phong cách tin tức", star: true, num: 6 },
+      { id: "Thiền Tâm Đức", file: "Thiền_Tâm_Đức.wav", gender: "Nam", region: "Bắc", style: "Phong cách kể chuyện", star: true, num: 7 },
+      { id: "Ngọc Huyền", file: "Ngọc_Huyền.wav", gender: "Nữ", region: "Bắc", style: "Giọng đọc tự nhiên", star: true, num: 8 },
+      { id: "Quang Sơn", file: "Quang_Sơn.wav", gender: "Nam", region: "Trung", style: "Phong cách tự nhiên", star: true, num: 9 },
+      { id: "Ngọc Trân", file: "Ngọc_Trân.wav", gender: "Nữ", region: "Trung", style: "Phong cách tự nhiên", star: true, num: 10 },
+      { id: "Minh Đức", file: "Minh_Đức.wav", gender: "Nam", region: "Bắc", style: "Phong cách tin tức", star: false, num: 11 },
+      { id: "Phạm Tuyên", file: "Phạm_Tuyên.wav", gender: "Nam", region: "Bắc", style: "Phong cách tự nhiên", star: false, num: 12 },
+      { id: "Thái Sơn", file: "Thái_Sơn.wav", gender: "Nam", region: "Nam", style: "Phong cách kể chuyện", star: false, num: 13 },
+      { id: "Xuân Vĩnh", file: "Xuân_Vĩnh.wav", gender: "Nam", region: "Bắc", style: "Phong cách tự nhiên", star: false, num: 14 },
+      { id: "Thanh Bình", file: "Thanh_Bình.wav", gender: "Nam", region: "Bắc", style: "Phong cách kể chuyện", star: false, num: 15 },
+      { id: "Ngọc Linh", file: "Ngọc_Linh.wav", gender: "Nữ", region: "Bắc", style: "Phong cách kể chuyện", star: false, num: 16 },
+      { id: "Đoan Trang", file: "Đoan_Trang.wav", gender: "Nữ", region: "Bắc", style: "Phong cách tự nhiên", star: false, num: 17 },
+      { id: "Thục Đoan", file: "Thục_Đoan.wav", gender: "Nữ", region: "Nam", style: "Phong cách kể chuyện", star: false, num: 18 },
+      { id: "Minh Triết", file: "Minh_Triết.wav", gender: "Nam", region: "Nam", style: "Phong cách tin tức", star: false, num: 19 },
+      { id: "Mỹ Duyên", file: "Mỹ_Duyên.wav", gender: "Nữ", region: "Nam", style: "Phong cách đọc truyện", star: false, num: 20 },
+      { id: "Quỳnh Anh", file: "Quỳnh_Anh.wav", gender: "Nữ", region: "Bắc", style: "Phong cách đọc truyện", star: false, num: 21 },
+      { id: "Đức Trí", file: "Đức_Trí.wav", gender: "Nam", region: "Nam", style: "Phong cách đọc truyện", star: false, num: 22 },
+      { id: "Kim Thanh", file: "Kim_Thanh.wav", gender: "Nữ", region: "Nam", style: "Phong cách đọc truyện", star: false, num: 23 },
+      { id: "Adam", file: "Adam.wav", gender: "Nam", region: "Nam", style: "Giọng đọc tự nhiên", star: false, num: 24 },
+      { id: "Quốc Tuấn", file: "Quốc_Tuấn.wav", gender: "Nam", region: "Bắc", style: "Phong cách tự nhiên", star: false, num: 25 }
+    ];
+
+    let activeRegion = "all";
+
+    function render() {
+      const maleGrid = document.getElementById("male-grid");
+      const femaleGrid = document.getElementById("female-grid");
+      maleGrid.innerHTML = "";
+      femaleGrid.innerHTML = "";
+
+      const filtered = VOICES.filter(v => {
+        if (activeRegion === "all") return true;
+        if (activeRegion === "star") return v.star;
+        return v.region === activeRegion;
+      });
+
+      let mCount = 0, fCount = 0;
+      for (const v of filtered) {
+        const card = document.createElement("div");
+        card.className = "card" + (v.star ? " featured" : "");
+        card.innerHTML = `
+          <div class="card-head">
+            <div class="voice-name">#${v.num} · ${v.id}</div>
+            <div class="badges">
+              ${v.star ? '<span class="badge star">⭐ Nổi bật</span>' : ''}
+              <span class="badge">Miền ${v.region}</span>
+            </div>
+          </div>
+          <div class="meta">${v.style}</div>
+          <audio controls preload="none" src="voice_samples/${encodeURIComponent(v.file)}"></audio>
+          <div class="actions">
+            <span>File: voice_samples/${v.file}</span>
+            <button class="copy-btn" data-id="${v.id}">Copy tên giọng</button>
+          </div>
+        `;
+        if (v.gender === "Nam") { maleGrid.appendChild(card); mCount++; }
+        else { femaleGrid.appendChild(card); fCount++; }
+      }
+
+      document.getElementById("male-count").textContent = mCount;
+      document.getElementById("female-count").textContent = fCount;
+
+      const audios = document.querySelectorAll("audio");
+      audios.forEach(a => {
+        a.addEventListener("play", () => {
+          audios.forEach(other => { if (other !== a) other.pause(); });
+        });
+      });
+
+      document.querySelectorAll(".copy-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          navigator.clipboard?.writeText(btn.dataset.id);
+          const orig = btn.textContent;
+          btn.textContent = "Đã copy!";
+          setTimeout(() => btn.textContent = orig, 1200);
+        });
+      });
+    }
+
+    document.querySelectorAll(".filters .btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filters .btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeRegion = btn.dataset.region;
+        render();
+      });
+    });
+
+    render();
+  </script>
+</body>
+</html>
