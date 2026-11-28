@@ -24,7 +24,7 @@ Nhịp: **4–6 s mỗi trang, 1 ý, 1 cụm nhấn vàng**. Xen **trang bản �
 
 | Vai trò | Mã |
 |---|---|
-| Nền giấy | `#E1E1DB`, phủ đa giác mờ (`#D6D6CF` / `#ECECE7`, blur 10–12 px, opacity .5) — không có viền |
+| Nền giấy | `#E1E1DB`, phủ 60–90 **mảnh đa giác sắc cạnh chồng nhau** (3–4 đỉnh, rộng 70–330 px; mảnh sáng trắng opacity .03–.08, mảnh tối đen .012–.035); KHÔNG làm mờ, KHÔNG viền. Template sinh bằng hàm `shards(seed, n)`, đổi seed mỗi vài trang như video mẫu |
 | Vàng nhấn (nền chữ, nhãn ngày, số) | `#F3C31B` |
 | Mực chữ / nhãn đen | `#0F0F0F` |
 | Nhãn trắng / viền polaroid | `#F9F9F9` / `#F9F3F3` |
@@ -32,7 +32,7 @@ Nhịp: **4–6 s mỗi trang, 1 ý, 1 cụm nhấn vàng**. Xen **trang bản �
 | Xanh (nhãn phe, ghim) | `#3F81BD` |
 | Băng keo | `#CFC9BD`, rộng ~150×56 px, xoay −38° đến −40° |
 | Thẻ ghi chú | kem `#F1EBCF`, chữ `#2B2A22`, tiêu đề mono có gạch chân |
-| Bản đồ | nền `#151515`, đất xám `#636363` (ảnh vệ tinh đen trắng làm mờ), biên giới mảnh trắng, vignette tối ở rìa |
+| Bản đồ | nền `#151515`, đất xám trung bình (~`#636363`) có **hạt địa hình** (ảnh vệ tinh đen trắng, làm mờ nhẹ), đường biên trắng mảnh 1,5 px opacity .45–.55, vignette tối ở rìa; vùng đất chiếm 40–60% khung |
 
 Chữ:
 - **Tiêu đề / số**: Barlow Condensed ExtraBold (`assets/fonts/BarlowCondensed-ExtraBold.ttf`), HOA, 110–132 px (tiêu đề), 150–170 px (số lớn), line-height 1.05.
@@ -43,7 +43,7 @@ Chữ:
 ## Thành phần (đã có trong template)
 `.tag` (k/w/y/r/b, nền đen/trắng/vàng/đỏ/xanh), `.hl` (nền vàng), `.pol` + `.tp` (polaroid + băng keo + `.cp` chú thích ảnh), `.note` (thẻ kem), `.chk` (danh sách ☒ viền đỏ), `.stamp` (dấu mộc đỏ nghiêng −8°), `.cut` (chân dung cắt viền trắng) + `.cname`, `.lbl` (địa danh trên bản đồ), `.mapbg` + vùng đỏ + ghim + đường chấm, `.bignum`.
 
-Ảnh: polaroid xoay ±1–2°, viền 16 px, bóng nhẹ; chú thích đáy trái nền đen mờ. **Ảnh tạo bằng AI phải ghi "ẢNH MINH HOẠ · TẠO BẰNG AI"** (như video mẫu); ảnh tư liệu ghi nguồn và năm.
+Ảnh: polaroid xoay ±1–2°, viền 20 px (đo từ video), cỡ ~862×688 cho ảnh lớn, bóng nhẹ; chú thích đáy trái nền đen mờ. **Ảnh tạo bằng AI phải ghi "ẢNH MINH HOẠ · TẠO BẰNG AI"** (như video mẫu); ảnh tư liệu ghi nguồn và năm.
 
 ## Chuyển động (trang tĩnh, vào bằng 0,3–0,7 s)
 - Ảnh polaroid: `x ±160`, `rotation ±5°` → 0, `power3.out`; băng keo `scale 0 → 1` ngay sau.
@@ -57,7 +57,7 @@ Chữ:
 1. Chia kịch bản thành trang 4–6 s, mỗi trang ghi sẵn: loại trang (giấy / bản đồ), cụm nhấn vàng, ảnh cần có.
 2. Giọng đọc và timing: theo `skills-v2/_shared/PIPELINE.md`; nhạc nền `data-volume` 0.08–0.10, giọng 1.0.
 3. Copy `template/index.html` vào project, nhân bản các khối `#p1`…`#p7` (đổi `data-start`, `data-duration`, id duy nhất), bám timing từng trang. Video dài: tách thành nhiều composition ~3 phút rồi ghép.
-4. Thay hộp polaroid giữ chỗ bằng ảnh thật; thay `.mapph` bằng ảnh vệ tinh đen trắng (`filter: grayscale(1) blur(6px)`), vẽ lại vùng đỏ theo polygon thật.
+4. Làm ảnh theo `image-prompts.md` (BẮT BUỘC trước khi dựng). Thay hộp polaroid giữ chỗ bằng ảnh thật; thay `.mapph` bằng ảnh vệ tinh đen trắng (`filter: grayscale(1) blur(6px)`), vẽ lại vùng đỏ theo polygon thật.
 5. `hyperframes lint` (0 lỗi) → `snapshot` ở giữa mỗi loại trang → render.
 
 ## Không làm
@@ -69,3 +69,11 @@ Chữ:
 
 ## Chưa có trong template
 Template chỉ có 7 trang mẫu (42 s): polaroid + số, bản đồ + ghim, câu hỏi giữa trang, checklist + mộc + thẻ kem, chân dung cắt, hai số lớn, polaroid phải. Chưa có: đồng hồ, thước giá / biểu đồ cột nhỏ, bản đồ thế giới, mẫu nhiều ghim đồng thời, khung phim tư liệu. Bản đồ và chân dung trong template là hình giữ chỗ. Chưa trích lời đọc và nhạc nền của video mẫu; nhịp 4–6 s ước lượng bằng mắt từ 60 giây đầu và các khung 20 s.
+
+## Vì sao kết quả có thể khác video mẫu (đối chiếu đã làm)
+Em đối chiếu template với khung gốc và sửa những chỗ đo được (nền mảnh sắc cạnh, viền polaroid 20 px, bản đồ có hạt địa hình). Chênh lệch còn lại:
+1. **Ảnh**: video mẫu dùng ảnh đen trắng thật hoặc ảnh AI. Template chỉ có hộp xám giữ chỗ. Cần làm ảnh theo `image-prompts.md` trước khi dựng.
+2. **Bản đồ**: nền địa hình trong template là hạt sinh bằng SVG, không phải ảnh vệ tinh thật; hình đất là hình giả định, không phải bán đảo Triều Tiên.
+3. **Chân dung cắt**: template chỉ có bóng người giữ chỗ.
+4. **Số trang**: template 7 trang; video mẫu có hàng trăm trang với nhiều bố cục (xem `reference/hc-sheet_*.jpg`). Khi gặp bố cục chưa có, Gemini phải ghép từ các thành phần có sẵn thay vì đổi phong cách.
+5. **Lời đọc, nhạc, SFX** chưa phân tích: nhịp cắt trong video thật bám giọng đọc.

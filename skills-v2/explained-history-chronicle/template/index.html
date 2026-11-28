@@ -16,8 +16,8 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
 #paper svg,.mapbg svg{position:absolute;inset:0;width:1920px;height:1080px}
 .mapbg{position:absolute;inset:0;background:var(--mapbg)}
 .mapbg:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(0,0,0,.6))}
-.mapph{position:absolute;left:340px;top:-60px;width:900px;height:1250px;background:linear-gradient(160deg,#747474,#3d3d3d 60%,#555);clip-path:polygon(38% 0,72% 6%,64% 30%,78% 44%,70% 58%,82% 76%,60% 100%,34% 92%,40% 74%,24% 62%,36% 46%,22% 30%,30% 14%);filter:blur(7px);opacity:.9}
-.mapph.dark{background:#2a2a2a}
+
+
 /* chữ */
 .h{font-family:"Barlow Cond";font-weight:800;text-transform:uppercase;line-height:1.08;color:var(--ink);letter-spacing:.5px}
 .h.white{color:var(--white)}
@@ -31,7 +31,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
 .tag.s{font-size:20px;letter-spacing:4px;padding:6px 14px}
 .lbl{position:absolute;background:var(--white);color:var(--ink);font-size:15px;letter-spacing:2px;padding:3px 9px}
 /* ảnh polaroid dán băng keo */
-.pol{position:absolute;background:var(--poly);padding:16px;box-shadow:0 22px 50px rgba(0,0,0,.28)}
+.pol{position:absolute;background:var(--poly);padding:20px;box-shadow:0 22px 50px rgba(0,0,0,.28)}
 .pol .im{position:relative;width:100%;height:100%;background:linear-gradient(135deg,#8a8a85,#2c2c2a);overflow:hidden}
 .pol .im:before{content:"ẢNH TƯ LIỆU / ẢNH MINH HOẠ — THAY BẰNG ẢNH THẬT";position:absolute;left:0;right:0;top:45%;text-align:center;font:700 20px "Plex Mono";letter-spacing:2px;color:rgba(255,255,255,.4);padding:0 30px}
 .pol .cp{position:absolute;left:0;bottom:0;background:rgba(15,15,15,.85);color:var(--white);font-size:15px;letter-spacing:2px;padding:5px 12px}
@@ -54,16 +54,13 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
 <div id="root" data-composition-id="root" data-start="0" data-duration="42" data-width="1920" data-height="1080">
 
   <div id="paper" class="page clip" data-start="0" data-duration="42" data-track-index="0">
-    <svg viewBox="0 0 1920 1080" preserveAspectRatio="none"><g fill="#d6d6cf" opacity=".5" style="filter:blur(10px)">
-      <polygon points="80,120 380,60 460,300 160,360"/><polygon points="760,40 1060,110 980,380 700,300"/><polygon points="1400,160 1720,60 1840,330 1480,400"/>
-      <polygon points="200,640 520,560 620,860 260,940"/><polygon points="900,700 1240,640 1320,980 960,1040"/><polygon points="1560,640 1840,700 1760,1000 1500,940"/></g>
-      <g fill="#ececE7" opacity=".6" style="filter:blur(12px)"><polygon points="420,380 700,420 620,640 380,600"/><polygon points="1180,300 1460,380 1380,600 1140,520"/><polygon points="60,420 220,400 260,560 90,580"/></g></svg>
+    <svg id="shards" viewBox="0 0 1920 1080" preserveAspectRatio="none"></svg>
   </div>
 
   <!-- P1 0-6: polaroid trái + nhãn ngày + số lớn có nền vàng -->
   <div id="p1" class="page clip" data-start="0" data-duration="6" data-track-index="1">
     <div class="tp" style="left:35px;top:210px;transform:rotate(-38deg)"></div>
-    <div class="pol" id="p1p" style="left:130px;top:230px;width:850px;height:710px;transform:rotate(-1.4deg)"><div class="im"><div class="cp mono">TRÊN TÀU MEREDITH VICTORY 12-1950 · HẢI QUÂN MỸ</div></div></div>
+    <div class="pol" id="p1p" style="left:120px;top:230px;width:862px;height:688px;transform:rotate(-1deg)"><div class="im"><div class="cp mono">TRÊN TÀU MEREDITH VICTORY 12-1950 · HẢI QUÂN MỸ</div></div></div>
     <div class="tp" style="left:880px;top:810px;width:170px;transform:rotate(-40deg)"></div>
     <div class="tag y mono" id="p1t" style="position:absolute;left:1120px;top:400px"></div>
     <div class="bignum" id="p1n" style="position:absolute;left:1100px;top:480px">~<span class="hl">7.158</span> NGƯỜI</div>
@@ -71,13 +68,27 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
 
   <!-- P2 6-12: trang bản đồ — vùng đỏ, ghim xanh, đường chấm, tiêu đề cuối khung -->
   <div id="p2" class="page clip" data-start="6" data-duration="6" data-track-index="1">
-    <div class="mapbg"><div class="mapph"></div>
-      <svg viewBox="0 0 1920 1080">
+    <div class="mapbg">
+      <svg viewBox="0 0 1920 1080" style="position:absolute;inset:0">
+        <defs>
+          <filter id="relief" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.011 0.016" numOctaves="5" seed="7" result="n"/>
+            <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.62  0 0 0 0 0.62  0 0 0 0 0.62  2.2 0 0 0 -0.55" result="a"/>
+            <feColorMatrix in="n" type="matrix" values="1.6 0 0 0 -0.35  1.6 0 0 0 -0.35  1.6 0 0 0 -0.35  0 0 0 1 0" result="g"/>
+            <feComposite in="g" in2="SourceAlpha" operator="in" result="gl"/>
+            <feGaussianBlur in="gl" stdDeviation="4"/>
+          </filter>
+          <clipPath id="land"><path d="M420 -20 L1060 -20 C1120 90 1030 200 1090 310 C1160 420 1130 480 1180 570 C1230 660 1150 780 1210 880 C1230 980 1120 1050 1040 1100 L520 1100 C580 1000 460 940 520 830 C580 720 400 660 470 560 C530 460 360 380 430 270 C470 170 380 90 420 -20Z"/></clipPath>
+        </defs>
+        <g clip-path="url(#land)"><rect width="1920" height="1080" fill="#383838"/><rect width="1920" height="1080" filter="url(#relief)" opacity=".5"/></g>
+        <path d="M520 -20 C555 90 500 170 520 260 C560 360 470 440 520 540 C560 640 480 700 560 780 C520 880 610 960 560 1100" fill="none" stroke="#e8e8e8" stroke-width="1.5" opacity=".55"/>
+        <path d="M1020 -20 C1000 200 1110 400 1120 560 C1100 760 1130 860 1020 1040" fill="none" stroke="#e8e8e8" stroke-width="1.5" opacity=".45"/>
+        <path d="M540 520 L1120 540" fill="none" stroke="#e8e8e8" stroke-width="1" opacity=".35"/>
         <polygon id="p2red" points="1010,330 1190,300 1250,420 1180,540 1060,560 980,460" fill="#990303" opacity="1"/>
         <defs><mask id="p2m"><path id="p2mp" d="M900 290 C905 360 888 460 880 640" fill="none" stroke="#fff" stroke-width="30" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></mask></defs>
         <path d="M900 290 C905 360 888 460 880 640" fill="none" stroke="#dfeeff" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 18" mask="url(#p2m)"/>
       </svg>
-      <svg id="p2pin" style="position:absolute;left:870px;top:230px;width:60px;height:70px" viewBox="0 0 60 70"><path d="M5 5 H55 V40 L30 66 L5 40Z" fill="#3F81BD" stroke="#fff" stroke-width="4"/><circle cx="30" cy="24" r="8" fill="#fff"/></svg>
+      <svg id="p2pin" style="position:absolute;left:870px;top:230px;width:60px;height:70px" viewBox="0 0 60 70"><path d="M5 5 H55 V40 L30 66 L5 40Z" fill="#3F81BD" stroke="#fff" stroke-width="4"/><rect x="25" y="14" width="10" height="16" rx="2" fill="#fff"/><circle cx="30" cy="12" r="5" fill="#fff"/></svg>
     </div>
     <div class="tag y mono s" style="position:absolute;left:30px;top:30px">12 - 1950</div>
     <div class="tag y mono" id="p2t" style="position:absolute;left:660px;top:48px;font-size:26px;letter-spacing:5px">25 - 12 - 1950 · GIÁNG SINH</div>
@@ -129,6 +140,9 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
   <audio id="s4" src="assets/sfx_hit.wav" data-start="32" data-duration="1.5" data-track-index="13" data-volume="0.4"></audio>
 </div>
 <script>
+/* nền giấy: mảnh đa giác sắc cạnh, chồng nhau, độ tương phản ±3–7% (mẫu có 60–90 mảnh, đổi seed mỗi vài trang) */
+function shards(seed,n){let s=seed;const r=()=>{s=(s*1664525+1013904223)%4294967296;return s/4294967296};const g=document.getElementById("shards");let h="";for(let i=0;i<n;i++){const cx=r()*1920,cy=r()*1080,sz=70+r()*260,k=3+Math.floor(r()*2);let pts=[];for(let j=0;j<k;j++){const a=(j/k)*6.283+r()*1.1,d=sz*(0.5+r()*0.6);pts.push((cx+Math.cos(a)*d).toFixed(0)+","+(cy+Math.sin(a)*d).toFixed(0))}const light=r()>.45;h+=`<polygon points="${pts.join(" ")}" fill="${light?"#fff":"#000"}" opacity="${(light?0.03+r()*.05:0.012+r()*.022).toFixed(3)}"/>`}g.innerHTML=h}
+shards(20260101,70);
 /* nhãn gõ từng chữ: giữ nguyên chữ gốc để lint/snapshot đọc được */
 function typeInit(id,text){const el=document.getElementById(id);el.textContent="";[...text].forEach(c=>{const s=document.createElement("span");s.textContent=c;el.appendChild(s)});return[...el.children]}
 const TXT={p1t:"SÁNG 23 - 12 - 1950"};
