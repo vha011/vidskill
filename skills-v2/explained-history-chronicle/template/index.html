@@ -35,6 +35,10 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
 .pol .im{position:relative;width:100%;height:100%;background:linear-gradient(135deg,#8a8a85,#2c2c2a);overflow:hidden}
 .pol .im:before{content:"ẢNH TƯ LIỆU / ẢNH MINH HOẠ — THAY BẰNG ẢNH THẬT";position:absolute;left:0;right:0;top:45%;text-align:center;font:700 20px "Plex Mono";letter-spacing:2px;color:rgba(255,255,255,.4);padding:0 30px}
 .pol .cp{position:absolute;left:0;bottom:0;background:rgba(15,15,15,.85);color:var(--white);font-size:15px;letter-spacing:2px;padding:5px 12px}
+.pol .im img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.12);transform-origin:50% 50%}
+.pol .im:has(img):before{display:none}
+.pol .im .cr{position:absolute;right:0;top:0;background:rgba(15,15,15,.7);color:#ddd;font-size:11px;letter-spacing:1.5px;padding:3px 8px}
+.mapbg .lbl{z-index:2}
 .tp{position:absolute;width:150px;height:56px;background:var(--tape);opacity:.9}
 /* thẻ ghi chú kem, checklist, dấu mộc */
 .note{position:absolute;background:var(--cream);color:var(--noteink);padding:20px 26px;box-shadow:0 14px 34px rgba(0,0,0,.25);width:420px}
@@ -60,7 +64,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
   <!-- P1 0-6: polaroid trái + nhãn ngày + số lớn có nền vàng -->
   <div id="p1" class="page clip" data-start="0" data-duration="6" data-track-index="1">
     <div class="tp" style="left:35px;top:210px;transform:rotate(-38deg)"></div>
-    <div class="pol" id="p1p" style="left:120px;top:230px;width:862px;height:688px;transform:rotate(-1deg)"><div class="im"><div class="cp mono">TRÊN TÀU MEREDITH VICTORY 12-1950 · HẢI QUÂN MỸ</div></div></div>
+    <div class="pol" id="p1p" style="left:120px;top:230px;width:862px;height:688px;transform:rotate(-1deg)"><div class="im"><!--asset:p1--><!--/asset:p1--><div class="cp mono">TRÊN TÀU MEREDITH VICTORY 12-1950 · HẢI QUÂN MỸ</div></div></div>
     <div class="tp" style="left:880px;top:810px;width:170px;transform:rotate(-40deg)"></div>
     <div class="tag y mono" id="p1t" style="position:absolute;left:1120px;top:400px"></div>
     <div class="bignum" id="p1n" style="position:absolute;left:1100px;top:480px">~<span class="hl">7.158</span> NGƯỜI</div>
@@ -68,31 +72,10 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
 
   <!-- P2 6-12: trang bản đồ — vùng đỏ, ghim xanh, đường chấm, tiêu đề cuối khung -->
   <div id="p2" class="page clip" data-start="6" data-duration="6" data-track-index="1">
-    <div class="mapbg">
-      <svg viewBox="0 0 1920 1080" style="position:absolute;inset:0">
-        <defs>
-          <filter id="relief" x="0" y="0" width="100%" height="100%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.011 0.016" numOctaves="5" seed="7" result="n"/>
-            <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.62  0 0 0 0 0.62  0 0 0 0 0.62  2.2 0 0 0 -0.55" result="a"/>
-            <feColorMatrix in="n" type="matrix" values="1.6 0 0 0 -0.35  1.6 0 0 0 -0.35  1.6 0 0 0 -0.35  0 0 0 1 0" result="g"/>
-            <feComposite in="g" in2="SourceAlpha" operator="in" result="gl"/>
-            <feGaussianBlur in="gl" stdDeviation="4"/>
-          </filter>
-          <clipPath id="land"><path d="M420 -20 L1060 -20 C1120 90 1030 200 1090 310 C1160 420 1130 480 1180 570 C1230 660 1150 780 1210 880 C1230 980 1120 1050 1040 1100 L520 1100 C580 1000 460 940 520 830 C580 720 400 660 470 560 C530 460 360 380 430 270 C470 170 380 90 420 -20Z"/></clipPath>
-        </defs>
-        <g clip-path="url(#land)"><rect width="1920" height="1080" style="fill:var(--land)"/><rect width="1920" height="1080" filter="url(#relief)" opacity=".5"/></g>
-        <path d="M520 -20 C555 90 500 170 520 260 C560 360 470 440 520 540 C560 640 480 700 560 780 C520 880 610 960 560 1100" fill="none" stroke="#e8e8e8" stroke-width="1.5" opacity=".55"/>
-        <path d="M1020 -20 C1000 200 1110 400 1120 560 C1100 760 1130 860 1020 1040" fill="none" stroke="#e8e8e8" stroke-width="1.5" opacity=".45"/>
-        <path d="M540 520 L1120 540" fill="none" stroke="#e8e8e8" stroke-width="1" opacity=".35"/>
-        <polygon id="p2red" points="1010,330 1190,300 1250,420 1180,540 1060,560 980,460" style="fill:var(--redmap)" opacity="1"/>
-        <defs><mask id="p2m"><path id="p2mp" d="M900 290 C905 360 888 460 880 640" fill="none" stroke="#fff" stroke-width="30" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></mask></defs>
-        <path d="M900 290 C905 360 888 460 880 640" fill="none" stroke="#dfeeff" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 18" mask="url(#p2m)"/>
-      </svg>
-      <svg id="p2pin" style="position:absolute;left:870px;top:230px;width:60px;height:70px" viewBox="0 0 60 70"><path d="M5 5 H55 V40 L30 66 L5 40Z" style="fill:var(--blue)" stroke="#fff" stroke-width="4"/><rect x="25" y="14" width="10" height="16" rx="2" fill="#fff"/><circle cx="30" cy="12" r="5" fill="#fff"/></svg>
+    <div class="mapbg"><!--asset:p2--><!--/asset:p2-->
     </div>
     <div class="tag y mono s" style="position:absolute;left:30px;top:30px">12 - 1950</div>
     <div class="tag y mono" id="p2t" style="position:absolute;left:660px;top:48px;font-size:26px;letter-spacing:5px">25 - 12 - 1950 · GIÁNG SINH</div>
-    <div class="lbl mono" style="left:1040px;top:410px">HƯNG NAM</div>
     <div class="h white" id="p2h" style="position:absolute;left:0;right:0;text-align:center;top:800px;font-size:110px">CẢ HAI <span class="hl" style="color:var(--ink)">ĐỀU MUỐN ĐÁNH</span></div>
   </div>
 
@@ -130,7 +113,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
     <div class="h" id="p7h" style="position:absolute;left:60px;top:330px;width:840px;text-align:center;font-size:112px;white-space:nowrap">CÒN NHỚ<br><span class="hl">CÁI GHẾ TRỐNG</span> ?</div>
     <div style="position:absolute;left:60px;top:690px;width:840px;text-align:center"><span class="tag k mono" id="p7t" style="font-size:30px;letter-spacing:6px">LIÊN XÔ CÓ QUYỀN PHỦ QUYẾT</span></div>
     <div class="tp" style="left:870px;top:180px;transform:rotate(-38deg)"></div>
-    <div class="pol" id="p7p" style="left:970px;top:220px;width:800px;height:620px;transform:rotate(1.2deg)"><div class="im"><div class="cp mono">ẢNH MINH HOẠ · TẠO BẰNG AI</div></div></div>
+    <div class="pol" id="p7p" style="left:970px;top:220px;width:800px;height:620px;transform:rotate(1.2deg)"><div class="im"><!--asset:p7--><!--/asset:p7--><div class="cp mono">HỘI ĐỒNG BẢO AN LHQ · 1950</div></div></div>
     <div class="tp" style="left:1620px;top:800px;transform:rotate(-40deg)"></div>
   </div>
 
@@ -150,18 +133,27 @@ const p1t=typeInit("p1t",TXT.p1t);
 const tl=gsap.timeline({paused:true});
 const fadeIn=(sel,t,d=.25)=>tl.from(sel,{opacity:0,duration:d},t);
 const rise=(sel,t,y=34,d=.5)=>tl.from(sel,{y,opacity:0,duration:d,ease:"power3.out"},t);
+/* ảnh/bản đồ luôn trôi chậm (Ken Burns) để không có khung đứng yên; bỏ qua nếu chưa có ảnh */
+const kb=(sel,t,d,from=1,to=1.09)=>{if(document.querySelector(sel))tl.fromTo(sel,{scale:from},{scale:to,duration:d,ease:"none"},t)};
+/* số đếm lên, giữ dấu chấm nghìn kiểu Việt */
+const countUp=(sel,t,to,d=1.2)=>{const el=document.querySelector(sel);if(!el)return;const o={v:0};
+  tl.to(o,{v:to,duration:d,ease:"power2.out",onUpdate:()=>{el.textContent=Math.round(o.v).toLocaleString("de-DE")}},t)};
 /* P1 */
 tl.from("#p1p",{x:-160,rotation:-5,opacity:0,duration:.7,ease:"power3.out"},.15)
   .from("#p1 .tp",{scale:0,opacity:0,duration:.3,stagger:.12},.7)
   .from(p1t,{opacity:0,duration:.01,stagger:.045},.9)
   .from("#p1n",{x:60,opacity:0,duration:.55,ease:"power3.out"},1.7);
-/* P2 */
+kb("#p1p .im img",0,6);
+countUp("#p1n .hl",1.7,7158,1.3);
+/* P2 — bản đồ thật từ fetch_assets.py: vùng đỏ .hl, ghim .pin, nhãn .lbl, đường #p2-route-mask */
 fadeIn("#p2 .mapbg",6,.3);
-tl.from("#p2red",{opacity:0,duration:.5},6.6).to("#p2red",{opacity:.5,duration:1.2},7.4)
-  .from("#p2pin",{y:-30,opacity:0,duration:.4,ease:"back.out(2)"},7.2)
-  .to("#p2mp",{strokeDashoffset:0,duration:1.4,ease:"power1.inOut"},7.5)
-  .from("#p2 .tag.y.s,#p2t",{opacity:0,duration:.3},6.4).from("#p2 .lbl",{opacity:0,duration:.3},8)
-  .from("#p2h",{y:40,opacity:0,duration:.5,ease:"power3.out"},9);
+kb("#p2 .mapbg",6,6,1,1.06);
+tl.from("#p2 .mapbg .hl",{opacity:0,duration:.5},6.6).to("#p2 .mapbg .hl",{opacity:.6,duration:1.2},7.4)
+  .from("#p2 .mapbg .pin",{y:-30,opacity:0,duration:.4,ease:"back.out(2)",stagger:.5},7.2)
+  .from("#p2 .mapbg .lbl",{opacity:0,duration:.3,stagger:.5},7.6)
+  .from("#p2 .tag.y.s,#p2t",{opacity:0,duration:.3},6.4)
+  .from("#p2h",{y:40,opacity:0,duration:.5,ease:"power3.out"},9.4);
+if(document.querySelector("#p2-route-mask"))tl.to("#p2-route-mask",{strokeDashoffset:0,duration:1.6,ease:"power1.inOut"},8);
 /* P3 */
 rise("#p3h",12.2,36);tl.from("#p3s",{opacity:0,scale:.9,duration:.4,ease:"power2.out"},13.2);
 /* P4 */
@@ -174,8 +166,14 @@ tl.from("#p5c",{x:120,opacity:0,duration:.6,ease:"power3.out"},24.2).from("#p5 .
   .from("#p5t",{opacity:0,x:-30,duration:.4},24.5).from("#p5h",{y:40,opacity:0,duration:.55,ease:"power3.out"},25);
 /* P6 */
 rise("#p6a",30.2,40);rise("#p6b",31.1,40);tl.from("#p6t",{opacity:0,scale:.9,duration:.35},32.2);
+countUp("#p6a .hl",30.2,17500,1.4);
+/* trang chỉ có chữ: trôi rất chậm để không có khung đứng yên (qa_video bắt > 3,5 s) */
+tl.to("#p3h",{scale:1.04,duration:5,ease:"none"},12.8);
+tl.to("#p5c",{x:-24,duration:5,ease:"none"},24.9);
+tl.to("#p6a,#p6b",{scale:1.04,duration:4.6,ease:"none"},31.4);
 /* P7 */
 rise("#p7h",36.2,36);tl.from("#p7t",{opacity:0,duration:.4},37.2)
   .from("#p7p",{x:140,rotation:5,opacity:0,duration:.65,ease:"power3.out"},36.3).from("#p7 .tp",{scale:0,opacity:0,duration:.3,stagger:.12},36.9);
+kb("#p7p .im img",36,6);
 window.__timelines=window.__timelines||{};window.__timelines["root"]=tl;
 </script></body></html>

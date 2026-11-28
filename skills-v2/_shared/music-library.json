@@ -1,0 +1,12 @@
+{
+  "_note": "Nhạc CC BY 4.0 của Kevin MacLeod (incompetech.com). BẮT BUỘC ghi công trong mô tả video (mix_audio.py tự viết music_credits.txt). Vai trò gán theo tên bài và đo năng lượng/độ sáng bằng ffmpeg; nên nghe lại và đổi nếu không hợp chủ đề. Muốn dùng nhạc của mình: --music role=đường/dẫn.mp3",
+  "base_url": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/",
+  "license": "Creative Commons: By Attribution 4.0 License (http://creativecommons.org/licenses/by/4.0/)",
+  "roles": {
+    "hook":    {"desc": "mở đầu, căng, bí ẩn - giữ người xem 15 s đầu", "tracks": ["Crypto", "Investigations", "Gathering Darkness"]},
+    "build":   {"desc": "thân bài, có nhịp đẩy, không lấn lời", "tracks": ["Static Motion", "Covert Affair", "Industrial Cinematic"]},
+    "climax":  {"desc": "cao trào / tiết lộ / con số lớn", "tracks": ["Impact Prelude", "Volatile Reaction", "Movement Proposition"]},
+    "resolve": {"desc": "kết, suy ngẫm, câu hỏi cuối", "tracks": ["Stay the Course", "Long Note Two", "Lightless Dawn"]}
+  },
+  "start": {"Volatile Reaction": 4, "Impact Prelude": 2, "Long Note Two": 8, "Lightless Dawn": 10}
+}

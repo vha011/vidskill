@@ -1,0 +1,5 @@
+[
+ {"id":"p1","kind":"photo","query":"SS Meredith Victory Hungnam evacuation 1950","page":"P1 0-6s","caption":"TRÊN TÀU MEREDITH VICTORY 12-1950 · HẢI QUÂN MỸ"},
+ {"id":"p2","kind":"map","highlight":["PRK"],"focus":["PRK","KOR"],"pins":[{"lon":127.62,"lat":39.83,"label":"HƯNG NAM"},{"lon":129.04,"lat":35.10,"label":"PUSAN"}],"route":[[127.62,39.83],[129.04,35.10]],"page":"P2 6-12s"},
+ {"id":"p7","kind":"photo","query":"United Nations Security Council 1950","page":"P7 36-42s","caption":"HỘI ĐỒNG BẢO AN LHQ · 1950"}
+]

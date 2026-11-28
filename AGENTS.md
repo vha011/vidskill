@@ -24,7 +24,7 @@ Khi người dùng yêu cầu làm video (hoặc mở repo và nói "bắt đầ
 > Em làm video theo các lựa chọn sau, anh chọn giúp (trả lời kiểu "A, chronicle, sepia-archive, Thùy Dung, 3 phút"):
 >
 > **1. Cách làm hình** (mặc định A)
-> - **A — Chỉ đồ họa động:** dựng hoàn toàn từ template (chữ, bản đồ, polaroid, biểu đồ…), chạy 100% trên máy, ra video luôn.
+> - **A — Đồ họa động + ảnh/bản đồ thật:** dựng từ template; em tự tìm ảnh tư liệu tự do (Wikimedia, NASA), vẽ bản đồ từ ranh giới thật, trộn nhạc theo hồi (mở – cao trào – kết), ra video luôn kèm danh sách asset (`ASSETS.md`) để anh thay ảnh nào muốn.
 > - **B — Đồ họa + cảnh phim AI:** như A, thêm khoảng cứ 25–30 giây một clip 5–8 giây do video-AI tạo (có SFX, không nhạc, không giọng). Em giao file prompt đánh số 1. 2. 3. để anh chạy batch; anh lưu clip vào một thư mục (tên bắt đầu bằng số thứ tự) và đưa đường dẫn thư mục đó, em tự ghép đúng vị trí, chuẩn hóa clip và render bản cuối. Em render bản A trước để xem nhịp. Chỉ dùng cho preset ngang 16:9.
 >
 > **2. Preset** (xem danh sách ở mục 2; gợi ý theo chủ đề: lịch sử dài → `explained-history-chronicle`, hồ sơ tư liệu → `explained-history-dossier`, kinh tế vĩ mô → `explained-fdi-timeline`, tài chính doanh nghiệp → `explained-data-finance`, bản đồ/địa chính trị → `explained-geo-map`, điều tra → `explained-investigative`, kinh doanh → `explained-gym-business`)
@@ -112,7 +112,8 @@ Mọi video đều phải thực hiện tuần tự qua 4 bước khép kín sau
    - `assets/gsap.min.js`
    - `assets/*.wav` (SFX: whoosh, click, ping, hit)
    - `assets/fonts/` (Inter.ttf, BeVietnamPro-*.ttf, Roboto.ttf, IBMPlexMono-*.ttf, BarlowCondensed-*.ttf)
-   - Nhạc nền `assets/bg_music.wav`
+   - Nhạc: không copy; `mix_audio.py` tự tải nhạc CC BY theo hồi (xem `skills-v2/_shared/music-library.json`) hoặc dùng file nhạc của người dùng (`--music build=đường/dẫn.mp3`)
+   - Ảnh/bản đồ: `fetch_assets.py` theo `assets.json` (xem `skills-v2/_shared/PIPELINE.md` bước 5b)
 3. Phân chia kịch bản thành các phân đoạn (Beats/Scenes) tương ứng với từng mốc nội dung (mỗi phân đoạn từ 5 – 8 giây).
 
 ### Bước 2: Sinh giọng đọc AI & Đo thời lượng thực tế (Audio Sync)
@@ -137,8 +138,7 @@ Chạy script Python bằng trình thông dịch của VieNeu-TTS:
 1. Lấy khung mẫu từ `vidskill/skills-v2/<preset>/template/index.html`.
 2. Tạo file cấu hình `hyperframes.json` (ghi rõ `width`, `height`, `fps: 30`, `duration`).
 3. **Quy tắc Audio**:
-   - Nhạc nền `bg_music.wav` **bắt buộc giảm âm lượng (ducking)**: `data-volume="0.08"` đến `0.10` để giọng nói luôn nổi bật.
-   - Voiceover gán `data-volume="1.0"`.
+   - **Giọng + nhạc trộn sẵn bằng `skills-v2/_shared/scripts/mix_audio.py`** → một file `assets/mix.wav` (nhạc theo 4 hồi, tự hạ dưới giọng khi có lời, −14 LUFS), gắn bằng một thẻ `<audio id="mix" ... data-volume="1">`. Không dùng một vòng nhạc 30 s cho cả video. Ghi công nhạc (`music_credits.txt`) khi bàn giao.
    - Mỗi clip âm thanh / hình ảnh chồng lớp **phải có `data-track-index` riêng biệt**, không được trùng nhau.
 4. **Quy tắc Phụ đề chân trang (Captions)**:
    - Đối với video dọc (9:16): Triển khai dạng **Karaoke Word-by-Word Runner**. Từng từ `<span class="w">` nhảy sáng màu Lime `#CBF73E` kết hợp phóng to `scale: 1.18x` theo đúng thời gian nói thực tế; không hiển thị huy hiệu model thừa.
@@ -156,6 +156,7 @@ Chạy script Python bằng trình thông dịch của VieNeu-TTS:
    npx hyperframes render video-projects/<ten-du-an> --output ../output/<ten-video>.mp4
    ```
 3. **Trích xuất ảnh kiểm tra**: Dùng FFmpeg trích xuất lưới 2×2 (4 phân cảnh) vào `<ROOT>/output/<ten-video>-qa.jpg` để đối soát trước khi bàn giao.
+4. **Kiểm tra thành phẩm**: `python skills-v2/_shared/scripts/qa_video.py <ROOT>/output/<ten-video>.mp4 --project <thư-mục-dự-án>` phải ĐẠT trước khi bàn giao.
 
 ---
 

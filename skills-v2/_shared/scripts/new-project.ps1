@@ -35,6 +35,8 @@ Copy-Item (Join-Path $Here "_shared\fonts\*.ttf") (Join-Path $Dest "assets\fonts
 Copy-Item (Join-Path $Here "_shared\audio\*.wav") (Join-Path $Dest "assets")
 Copy-Item (Join-Path $Kit "examples\starter\meta.json") $Dest
 Copy-Item (Join-Path $Kit "examples\starter\hyperframes.json") $Dest
+$AssetSpec = Join-Path $Here "$Skill\template\assets.json"
+if (Test-Path $AssetSpec) { Copy-Item $AssetSpec (Join-Path $Dest "assets.json") }
 
 if ($Theme) {
   $utf8 = New-Object System.Text.UTF8Encoding($false)
