@@ -12,7 +12,7 @@ Bản cũ (`SKILL.md`, `README_CAI_DAT_MAY_MOI.md`, `setup_all.bat`, `README.zip
 | Lịch sử kinh tế / chính sách theo năm | `explained-fdi-timeline/` | fdi vn.mp4 | Đầy đủ |
 | Điều tra kinh doanh một chuỗi/thị trường | `explained-gym-business/` | gym center.mp4 | Đầy đủ (thiếu tường thumbnail) |
 | Lịch sử / chiến dịch, ngang 16:9, nền TỐI, hồ sơ tư liệu (5–6 trang) | `explained-history-dossier/` | lichsu-vietnam.mp4 | Đầy đủ 5 trang (thiếu đợt II–III) |
-| Lịch sử dài, ngang 16:9, nền GIẤY SÁNG, nhịp 4–6 s/trang, bản đồ vệ tinh + polaroid | `explained-history-chronicle/` | film Triều Tiên (30:39) | 7 trang mẫu; thiếu đồng hồ, biểu đồ nhỏ, bản đồ thế giới |
+| Lịch sử dài, ngang 16:9, nền GIẤY SÁNG, nhịp 4–6 s/trang, bản đồ vệ tinh + polaroid | `explained-history-chronicle/` | trieu-tien-chronicle.mp4 (30:39) | 7 trang mẫu; thiếu đồng hồ, biểu đồ nhỏ, bản đồ thế giới |
 | Motion graphics ngắn | `motion-graphics/` | chưa có | Khung hướng dẫn |
 | Phim ngắn / kể chuyện | `cinematic-movie/` | chưa có | Khung hướng dẫn |
 
