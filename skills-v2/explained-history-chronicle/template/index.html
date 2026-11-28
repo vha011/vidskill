@@ -42,12 +42,12 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
 .tp{position:absolute;width:150px;height:56px;background:var(--tape);opacity:.9}
 /* thẻ ghi chú kem, checklist, dấu mộc */
 .note{position:absolute;background:var(--cream);color:var(--noteink);padding:20px 26px;box-shadow:0 14px 34px rgba(0,0,0,.25);width:420px}
-.note .t{font-size:22px;letter-spacing:3px;text-align:center;border-bottom:2px solid var(--noteink);padding-bottom:8px}
-.note .b{font:400 20px/1.5 "Plex Mono";margin-top:12px}
+.note .t{font-size:28px;letter-spacing:3px;text-align:center;border-bottom:2px solid var(--noteink);padding-bottom:8px}
+.note .b{font:400 28px/1.45 "Plex Mono";margin-top:12px}
 .chk{position:absolute;font-size:26px;letter-spacing:3px;color:var(--ink)}
 .chk div{margin:14px 0;display:flex;align-items:center;gap:16px}
-.chk i{display:inline-block;width:26px;height:26px;border:3px solid var(--red);position:relative}
-.chk i.x:before,.chk i.x:after{content:"";position:absolute;left:-3px;top:10px;width:26px;height:3px;background:var(--red)}
+.chk i{display:inline-block;width:.85em;height:.85em;border:.1em solid var(--red);position:relative;flex:none}
+.chk i.x:before,.chk i.x:after{content:"";position:absolute;left:-.1em;top:.28em;width:.85em;height:.1em;background:var(--red)}
 .chk i.x:before{transform:rotate(45deg)}.chk i.x:after{transform:rotate(-45deg)}
 .stamp{position:absolute;border:4px solid var(--red);color:var(--red);font-size:30px;letter-spacing:5px;padding:4px 16px;transform:rotate(-8deg);opacity:.85}
 /* chân dung cắt, viền trắng */
@@ -87,10 +87,11 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
 
   <!-- P4 18-24: checklist + dấu mộc + thẻ ghi chú kem -->
   <div id="p4" class="page clip" data-start="18" data-duration="6" data-track-index="1">
-    <div style="position:absolute;left:230px;top:210px"><span class="tag k mono" id="p4t">5 KHOANG HÀNG</span></div>
-    <div class="note" id="p4n" style="left:1120px;top:200px"><div class="t mono">LỆNH CỦA LARUE</div><div class="b">Dỡ gần hết hàng xuống.<br>Nhận nhiều người nhất có thể.</div></div>
-    <div class="chk mono" id="p4c" style="left:300px;top:500px"><div><i class="x" id="p4c1"></i>THỨC ĂN</div><div><i class="x" id="p4c2"></i>NƯỚC SẠCH</div><div><i class="x" id="p4c3"></i>BÁC SĨ</div></div>
-    <div class="stamp mono" id="p4s" style="left:560px;top:620px">THỦY LÔI</div>
+    <div class="tag k mono" id="p4t" style="position:absolute;left:180px;top:150px">LỆNH SƠ TÁN · 12-1950</div>
+    <div class="bignum" id="p4h" style="position:absolute;left:170px;top:220px"><span class="hl">5</span> KHOANG HÀNG</div>
+    <div class="note" id="p4n" style="left:1180px;top:190px;width:560px;transform:rotate(1.5deg)"><div class="t mono">LỆNH CỦA LARUE</div><div class="b">Dỡ gần hết hàng xuống.<br>Nhận nhiều người nhất có thể.</div></div>
+    <div class="chk mono" id="p4c" style="left:190px;top:520px;font-size:46px"><div><i class="x" id="p4c1"></i>THỨC ĂN</div><div><i class="x" id="p4c2"></i>NƯỚC SẠCH</div><div><i class="x" id="p4c3"></i>BÁC SĨ</div></div>
+    <div class="stamp mono" id="p4s" style="left:640px;top:700px;font-size:52px;padding:8px 26px;border-width:6px">THỦY LÔI</div>
   </div>
 
   <!-- P5 24-30: chân dung cắt + nhãn đỏ + tiêu đề + ghi chú -->
@@ -157,7 +158,7 @@ if(document.querySelector("#p2-route-mask"))tl.to("#p2-route-mask",{strokeDashof
 /* P3 */
 rise("#p3h",12.2,36);tl.from("#p3s",{opacity:0,scale:.9,duration:.4,ease:"power2.out"},13.2);
 /* P4 */
-tl.from("#p4t",{opacity:0,x:-30,duration:.4},18.2).from("#p4n",{opacity:0,y:-30,rotation:2,duration:.5,ease:"power3.out"},18.6)
+rise("#p4h",18.4,40);tl.from("#p4t",{opacity:0,x:-30,duration:.4},18.2).from("#p4n",{opacity:0,y:-30,rotation:2,duration:.5,ease:"power3.out"},18.6)
   .from("#p4c",{opacity:0,duration:.3},19.2)
   .from("#p4c1,#p4c2,#p4c3",{scale:0,duration:.25,stagger:.5,ease:"back.out(2.5)"},19.6)
   .from("#p4s",{scale:2.2,opacity:0,duration:.25,ease:"power4.in"},21.6);
@@ -171,6 +172,7 @@ countUp("#p6a .hl",30.2,17500,1.4);
 tl.to("#p3h",{scale:1.04,duration:5,ease:"none"},12.8);
 tl.to("#p5c",{x:-24,duration:5,ease:"none"},24.9);
 tl.to("#p6a,#p6b",{scale:1.04,duration:4.6,ease:"none"},31.4);
+tl.to("#p4n",{rotation:-0.5,y:12,duration:4.7,ease:"none"},19.2).to("#p4h",{x:18,duration:5,ease:"none"},18.9);
 /* P7 */
 rise("#p7h",36.2,36);tl.from("#p7t",{opacity:0,duration:.4},37.2)
   .from("#p7p",{x:140,rotation:5,opacity:0,duration:.65,ease:"power3.out"},36.3).from("#p7 .tp",{scale:0,opacity:0,duration:.3,stagger:.12},36.9);

@@ -91,12 +91,15 @@ def main():
         src = "ước lượng từ âm thanh"
     good = sum(1 for g in gaps if g >= 0.6)
     ratio = good / len(gaps) if gaps else 0
-    rep.append(f"Nghỉ giữa câu ({src}): {len(gaps)} khoảng, {good} khoảng ≥ 0,6 s ({ratio:.0%})"
-               + (f", đoạn đọc liền dài nhất {longest:.1f} s" if longest else ""))
-    if ratio < 0.7:
-        fails.append(f"đọc dồn: chỉ {ratio:.0%} khoảng nghỉ ≥ 0,6 s → dùng build_voiceover.py (nghỉ 0,7/1,3/1,5 s)")
-    if longest > 15:
-        fails.append(f"đọc liền {longest:.1f} s không nghỉ → tách câu / thêm nghỉ")
+    if not gaps:
+        rep.append(f"Nghỉ giữa câu ({src}): không có giọng đọc nhiều câu — bỏ qua kiểm tra nhịp")
+    else:
+        rep.append(f"Nghỉ giữa câu ({src}): {len(gaps)} khoảng, {good} khoảng ≥ 0,6 s ({ratio:.0%})"
+                   + (f", đoạn đọc liền dài nhất {longest:.1f} s" if longest else ""))
+        if ratio < 0.7:
+            fails.append(f"đọc dồn: chỉ {ratio:.0%} khoảng nghỉ ≥ 0,6 s → dùng build_voiceover.py (nghỉ 0,7/1,3/1,5 s)")
+        if longest > 15:
+            fails.append(f"đọc liền {longest:.1f} s không nghỉ → tách câu / thêm nghỉ")
 
     fr = freezes(a.video)
     rep.append(f"Hình đứng yên > 3,5 s: {len(fr)} đoạn" +

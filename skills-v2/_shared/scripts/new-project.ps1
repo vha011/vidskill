@@ -20,7 +20,8 @@ function Get-Themes { if (Test-Path $ThemeDir) { (Get-ChildItem $ThemeDir -Filte
 if ($Theme -eq "list") { Get-Themes; exit 0 }
 if (-not $Slug) { throw "Thiếu slug" }
 $Template = Join-Path $Here "$Skill\template\index.html"
-if (-not (Test-Path $Template)) { throw "Không có template cho $Skill" }
+$Story = Join-Path $Here "$Skill\template\storyboard.json"
+if (-not (Test-Path $Template) -and -not (Test-Path $Story)) { throw "Không có template cho $Skill" }
 $Dest = Join-Path $Kit "video-projects\$Slug"
 if (Test-Path $Dest) { throw "$Dest đã tồn tại" }
 if ($Theme) {
@@ -29,7 +30,8 @@ if ($Theme) {
 }
 
 New-Item -ItemType Directory -Force -Path (Join-Path $Dest "assets\fonts"), $Out | Out-Null
-Copy-Item $Template (Join-Path $Dest "index.html")
+if (Test-Path $Template) { Copy-Item $Template (Join-Path $Dest "index.html") }
+if (Test-Path $Story) { Copy-Item $Story (Join-Path $Dest "storyboard.json") }
 Copy-Item (Join-Path $Here "_shared\gsap.min.js") (Join-Path $Dest "assets")
 Copy-Item (Join-Path $Here "_shared\fonts\*.ttf") (Join-Path $Dest "assets\fonts")
 Copy-Item (Join-Path $Here "_shared\audio\*.wav") (Join-Path $Dest "assets")

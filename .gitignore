@@ -1,3 +1,4 @@
 voice_samples/
 voice_choice.txt
 __pycache__/
+.env

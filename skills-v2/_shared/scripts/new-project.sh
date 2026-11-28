@@ -16,12 +16,13 @@ if [ "$THEME" = "list" ]; then
   ls "$HERE/$SKILL/themes" 2>/dev/null | sed 's/\.css$//' || true; exit 0
 fi
 [ -n "$SLUG" ] || { echo "thiếu slug"; exit 1; }
-[ -f "$HERE/$SKILL/template/index.html" ] || { echo "Không có template cho $SKILL"; exit 1; }
+[ -f "$HERE/$SKILL/template/index.html" ] || [ -f "$HERE/$SKILL/template/storyboard.json" ] || { echo "Không có template cho $SKILL"; exit 1; }
 DEST="$KIT/video-projects/$SLUG"
 [ ! -e "$DEST" ] || { echo "$DEST đã tồn tại"; exit 1; }
 
 mkdir -p "$DEST/assets/fonts" "$OUT"
-cp "$HERE/$SKILL/template/index.html" "$DEST/index.html"
+[ -f "$HERE/$SKILL/template/index.html" ] && cp "$HERE/$SKILL/template/index.html" "$DEST/index.html"
+[ -f "$HERE/$SKILL/template/storyboard.json" ] && cp "$HERE/$SKILL/template/storyboard.json" "$DEST/storyboard.json"
 cp "$HERE/_shared/gsap.min.js" "$DEST/assets/"
 cp "$HERE"/_shared/fonts/*.ttf "$DEST/assets/fonts/"
 cp "$HERE"/_shared/audio/*.wav "$DEST/assets/"
