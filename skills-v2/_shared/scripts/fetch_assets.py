@@ -12,6 +12,8 @@ assets.json (mỗi mục = 1 chỗ trong template có marker <!--asset:ID--><!--
      "route": [[-80.19, 25.76], [-82.38, 23.13]], "page": "P2 6-12s"}
   ]
   photo: tìm Wikimedia Commons (ảnh tự do: PD / CC0 / CC BY / CC BY-SA) và NASA Images (PD).
+         "url": "https://..." = tải đúng ảnh đã chọn (kèm "license", "author", "page_url" để ghi công).
+         Dự án chưa có index.html (preset ghép card): chỉ tải ảnh, cards.py build tự gắn.
          "file": "đường/dẫn.jpg" = dùng ảnh của người dùng, không tải.
   map  : vẽ từ Natural Earth (ranh giới quốc gia thật, PD), mã quốc gia ISO-3 (VNM, USA, CUB...).
 
@@ -95,6 +97,12 @@ def fetch_photo(item, proj):
     if item.get("file"):
         shutil.copyfile(item["file"], dest)
         return {"status": "USER", "file": dest, "license": "của người dùng", "source": item["file"], "author": ""}
+    if item.get("url"):
+        # ảnh đã chọn sẵn (vd. ảnh của demo): tải đúng file, không tìm kiếm
+        open(dest, "wb").write(get(item["url"], binary=True))
+        return {"status": "OK", "file": dest, "license": item.get("license", ""), "author": item.get("author", ""),
+                "source": "Wikimedia Commons" if "wikimedia" in item["url"] else item["url"],
+                "page": item.get("page_url", item["url"]), "title": item.get("title", "")}
     src = item.get("source", "auto")
     cands = []
     try:
@@ -241,6 +249,8 @@ def build_map(item, proj):
 
 def patch(index_html, aid, content):
     pat = re.compile(rf"(<!--asset:{re.escape(aid)}-->).*?(<!--/asset:{re.escape(aid)}-->)", re.S)
+    if index_html is None:
+        return None, True
     if not pat.search(index_html):
         print(f"  {aid}: KHÔNG thấy marker <!--asset:{aid}--> trong index.html - chưa gắn")
         return index_html, False
@@ -266,7 +276,8 @@ def main():
     proj, spec = sys.argv[1], sys.argv[2]
     items = json.load(open(spec, encoding="utf-8"))
     idx_path = os.path.join(proj, "index.html")
-    page = open(idx_path, encoding="utf-8").read()
+    # preset ghép card (vox-cards) chưa có index.html: chỉ tải ảnh, cards.py build tự gắn theo storyboard
+    page = open(idx_path, encoding="utf-8").read() if os.path.exists(idx_path) else None
     rows, credits = [], []
     for it in items:
         print(f"- {it['id']} ({it['kind']})")
@@ -281,13 +292,14 @@ def main():
                 img = (f'<img src="assets/img/{it["id"]}.jpg" alt="">'
                        f'<div class="cr mono">{html.escape(short_credit(r))}</div>')
                 page, placed = patch(page, it["id"], img)
-                if placed and it.get("caption"):
+                if placed and page is not None and it.get("caption"):
                     page = set_caption(page, it["id"], it["caption"])
         r["placed"] = placed
         rows.append((it, r))
         if r["status"] in ("OK",):
             credits.append(f"{it['id']}: {r.get('title', '')} — {r.get('author', '')} — {r['license']} — {r.get('page', r.get('source', ''))}")
-    open(idx_path, "w", encoding="utf-8").write(page)
+    if page is not None:
+        open(idx_path, "w", encoding="utf-8").write(page)
 
     md = ["# Danh sách asset hình ảnh", "",
           "Thay ảnh: chép file mới đè lên đúng tên trong cột *File* (giữ tên), hoặc sửa `assets.json` thêm "
