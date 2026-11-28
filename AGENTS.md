@@ -5,12 +5,31 @@
 
 ---
 
+## 🚀 0. KHỞI ĐỘNG TRÊN MÁY MỚI (AI ĐỌC TRƯỚC KHI LÀM BẤT CỨ GÌ)
+
+`<ROOT>` = **thư mục cha của repo này** (nơi chứa `vidskill/`). Không có đường dẫn cố định; tự xác định bằng `cd ..` từ thư mục repo.
+
+1. Kiểm tra môi trường: tồn tại `<ROOT>/herk-edit-kit/node_modules` và `<ROOT>/VieNeu-TTS/.venv`?
+2. Nếu **thiếu** → chạy `setup_all.bat` ở gốc repo (Windows). Script tự cài Git/Node/Python/FFmpeg qua winget nếu thiếu, clone `herk-edit-kit` + `VieNeu-TTS` vào `<ROOT>`, `npm install`, tạo `.venv`, cài PyTorch + VieNeu-TTS, đăng ký skill. Lần đầu có thể mất 10–20 phút và tải model giọng đọc. Nếu vừa cài công cụ mới mà lệnh chưa nhận, mở lại terminal rồi chạy lại script (chạy lại an toàn).
+3. Tạo dự án từ preset bằng script (Git Bash/WSL/macOS/Linux):
+   `bash skills-v2/_shared/scripts/new-project.sh <preset> <slug> ../herk-edit-kit`
+   Script copy template, font, SFX, `gsap.min.js` và `meta.json`/`hyperframes.json` mẫu vào `video-projects/<slug>`.
+4. Giọng đọc: dùng `<ROOT>/VieNeu-TTS/.venv/Scripts/python.exe` (Linux/macOS: `.venv/bin/python`).
+
+### Mẫu câu lệnh người dùng (copy/paste)
+
+> Đọc `AGENTS.md`. Dùng preset **<tên preset>** làm video giải thích về **<chủ đề>**, thời lượng **<~N giây/phút>**, giọng **<Thùy Dung | Minh Đức | Trúc Ly>**. Kịch bản: <dán kịch bản hoặc "tự viết từ nguồn …">. Xuất ra `renders/<ten-video>.mp4`.
+
+AI phải: (a) tra bảng ở mục 2 để chọn preset và tỉ lệ khung; (b) đọc `skills-v2/<preset>/SKILL.md` + `template/index.html` + ảnh trong thư mục reference của preset; (c) chạy đủ 4 bước ở mục 3; (d) lint 0 errors trước khi render; (e) bàn giao đường dẫn MP4 + ảnh lưới kiểm tra 2×2. Nếu thiếu thông tin (chủ đề, thời lượng, giọng), chỉ hỏi những mục đó rồi làm tiếp.
+
+---
+
 ## 🗺️ 1. BẢN ĐỒ CẤU TRÚC THƯ MỤC HỆ THỐNG
 
 Thư mục làm việc chính của người dùng là `vidskill`. Hai hệ sinh thái phụ trợ (`herk-edit-kit` và `VieNeu-TTS`) nằm ở thư mục cha cùng cấp:
 
 ```
-F:\2.sources\d.explainedvideo\
+<ROOT>/   (thư mục CHA của repo vidskill; ví dụ F:\2.sources\d.explainedvideo)
 ├── vidskill\                           <-- [WORKSHOP & KHO PRESETS] Thư mục làm việc hiện tại
 │   ├── AGENTS.md                       <-- File này (Chỉ dẫn AI)
 │   ├── skills-v2\                      <-- Kho Preset Templates chuẩn hóa
@@ -67,7 +86,7 @@ Mọi video đều phải thực hiện tuần tự qua 4 bước khép kín sau
 
 ### Bước 1: Khởi tạo dự án & Soạn kịch bản (Script Breakdown)
 1. Tạo thư mục dự án mới trong:
-   `F:\2.sources\d.explainedvideo\herk-edit-kit\video-projects\<ten-du-an>\`
+   `<ROOT>/herk-edit-kit/video-projects/<ten-du-an>/`
 2. Tạo thư mục `assets/` bên trong và copy tài nguyên dùng chung từ `vidskill/skills-v2/_shared/`:
    - `assets/gsap.min.js`
    - `assets/*.wav` (SFX: whoosh, click, ping, hit)
@@ -77,11 +96,11 @@ Mọi video đều phải thực hiện tuần tự qua 4 bước khép kín sau
 
 ### Bước 2: Sinh giọng đọc AI & Đo thời lượng thực tế (Audio Sync)
 Chạy script Python bằng trình thông dịch của VieNeu-TTS:
-- **Executable**: `F:\2.sources\d.explainedvideo\VieNeu-TTS\.venv\Scripts\python.exe`
+- **Executable**: `<ROOT>/VieNeu-TTS/.venv/Scripts/python.exe`
 - **Cách gọi model**:
   ```python
   import sys, wave, os
-  sys.path.insert(0, r"F:\2.sources\d.explainedvideo\VieNeu-TTS\src")
+  sys.path.insert(0, r"<ROOT>/VieNeu-TTS/src")
   from vieneu import Vieneu
 
   vieneu = Vieneu()
@@ -106,12 +125,12 @@ Chạy script Python bằng trình thông dịch của VieNeu-TTS:
 ### Bước 4: Kiểm tra Linter & Render Video
 1. **Kiểm tra chuẩn HyperFrames** (phải đạt 0 errors):
    ```bash
-   cd "F:\2.sources\d.explainedvideo\herk-edit-kit"
+   cd "<ROOT>/herk-edit-kit"
    npx hyperframes lint video-projects/<ten-du-an>
    ```
 2. **Kết xuất video hoàn thiện**:
    ```bash
-   cd "F:\2.sources\d.explainedvideo\herk-edit-kit"
+   cd "<ROOT>/herk-edit-kit"
    npx hyperframes render video-projects/<ten-du-an> --output renders/<ten-video>.mp4
    ```
 3. **Trích xuất ảnh kiểm tra**: Dùng FFmpeg trích xuất lưới 2×2 (4 phân cảnh) để đối soát chất lượng trước khi bàn giao.
@@ -120,7 +139,7 @@ Chạy script Python bằng trình thông dịch của VieNeu-TTS:
 
 ## 🚫 4. NGUYÊN TẮC CỐT LÕI (DO'S & DON'TS)
 
-- **TUÂN THỦ PRESET GỐC**: Làm theo template có sẵn trong `skills-v2/` và đối chiếu ảnh trong `reference/`. Không tự ý vẽ lại layout, không đổi bảng màu hoặc font chữ ngoài quy định.
+- **TUÂN THỦ PRESET GỐC**: Làm theo template có sẵn trong `skills-v2/` và đối chiếu ảnh trong `skills-v2/<preset>/reference/` (nếu có). Không tự ý vẽ lại layout, không đổi bảng màu hoặc font chữ ngoài quy định.
 - **TỈ LỆ KHUNG HÌNH BẤT DI BẤT DỊCH**:
   + `explained-history-dossier`, `explained-history-chronicle`, `animated-story-ai`: Bắt buộc ngang **16:9** (1920×1080).
   + Tất cả các preset kinh tế, tài chính, bản đồ, UGC khác: Bắt buộc dọc **9:16** (1080×1920).
